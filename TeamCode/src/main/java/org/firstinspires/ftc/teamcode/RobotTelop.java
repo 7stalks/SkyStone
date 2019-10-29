@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class RobotTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
-    int counter       = 0;                     // Servo mid position
+//    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
+    public int counter              = 0;                     // Servo mid position
 
     @Override
     public void runOpMode() {
 
-        robot.init(hardwareMap);
+//        robot.init(hardwareMap);
         telemetry.addData("Say", "Hi Steve");    //
         telemetry.update();
 
@@ -29,7 +29,7 @@ public class RobotTelop extends LinearOpMode {
             telemetry.update();
 
             // Pace this loop so servo speed is reasonable.
-            sleep(1000);
+            sleep(100);
 
             counter += 1;
 
