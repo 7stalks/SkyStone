@@ -3,20 +3,22 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.motion.ClampMovement;
+import org.firstinspires.ftc.teamcode.motion.LeverMovement;
+
 
 @TeleOp(name="Basic Example", group="Robot")
 public class RobotTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
+    RobotHardware robot      = new RobotHardware();     // Use a Pushbot's hardware
+    LeverMovement leverMovement = new LeverMovement();
+    ClampMovement clampMovement = new ClampMovement();
 
     private void moveRobot(float x_direction, float y_direction) {
         // Do something
     }
 
-    private void moveLeverArm(float distance) {
-        // Do something
-    }
 
     private void moveClampRotator(float distance) {
         // Do something
@@ -36,6 +38,7 @@ public class RobotTelop extends LinearOpMode {
 
         robot.init(hardwareMap, telemetry);
 
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -51,15 +54,17 @@ public class RobotTelop extends LinearOpMode {
             }
 
             if (gamepad2.left_stick_y != 0 ) {
-                moveLeverArm(gamepad2.left_stick_y);
+                leverMovement.moveLeverArm(robot, gamepad1.left_stick_y);
+            } else {
+                leverMovement.leverArmStay2(robot);
             }
 
             if (gamepad2.right_stick_y != 0 ) {
-                moveClampRotator(gamepad2.right_stick_y);
+                clampMovement.moveClampRotator(robot, gamepad2.right_stick_y);
             }
 
             if (gamepad2.left_bumper || gamepad2.right_bumper ) {
-                setClamp(gamepad2.left_bumper, gamepad2.right_bumper);
+                clampMovement.setClamp(robot, gamepad2.left_bumper, gamepad2.right_bumper);
             }
 
 
