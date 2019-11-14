@@ -11,22 +11,14 @@ import org.firstinspires.ftc.teamcode.motion.LeverMovement;
 public class RobotTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot      = new RobotHardware();     // Use a Pushbot's hardware
-    LeverMovement leverMovement = new LeverMovement();
-    ClampMovement clampMovement = new ClampMovement();
+    public RobotHardware robot      = new RobotHardware();     // Use a Pushbot's hardware
+    private LeverMovement leverMovement = new LeverMovement();
+    private ClampMovement clampMovement = new ClampMovement();
 
     private void moveRobot(float x_direction, float y_direction) {
         // Do something
     }
 
-
-    private void moveClampRotator(float distance) {
-        // Do something
-    }
-
-    private void setClamp(boolean open, boolean close) {
-        // Do something
-    }
 
     private void moveKicker(float distance) {
         // Do something
