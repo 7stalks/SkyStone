@@ -32,7 +32,7 @@ public class LeverArm {
                 robot.leverArm.setPower(-.02);
             }
             else if (position <= robot.ARM_UP_DISTANCE) {
-                robot.leverArm.setPower(.35);
+                robot.leverArm.setPower(.4);
             }
         }
         if (distance < -.5) {
@@ -40,10 +40,10 @@ public class LeverArm {
                 robot.leverArm.setPower(0);
             }
             else if (position <= 700) {
-                robot.leverArm.setPower(.02);
+                robot.leverArm.setPower(.012);
             }
             else if (position >= 100) {
-                robot.leverArm.setPower(-.35);
+                robot.leverArm.setPower(-.4);
             }
         }
         wanted = robot.leverArm.getCurrentPosition();
