@@ -10,16 +10,17 @@ public class AutoRedBrick extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
+        robot.init(hardwareMap, telemetry);
         waitForStart();
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
-        sleep(1500);
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(-1);
-        sleep(2000);
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
-        sleep(3000);
+        robot.leftDrive.setPower(-.4);
+        robot.rightDrive.setPower(-.4);
+        sleep(1200);
+        robot.leftDrive.setPower(-.4);
+        robot.rightDrive.setPower(.4);
+        sleep(1100);
+        robot.leftDrive.setPower(-.4);
+        robot.rightDrive.setPower(-.4);
+        sleep(2300);
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
 
