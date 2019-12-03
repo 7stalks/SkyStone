@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-<<<<<<< Updated upstream
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
-    int noSpeed=0
+    int noSpeed=0;
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX) {
 
         if (leftStickY > .4 || leftStickY < -.4) {
@@ -57,4 +56,3 @@ public class HansonTelep extends LinearOpMode {
 }
 
 
-}
