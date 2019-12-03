@@ -1,28 +1,39 @@
 package org.firstinspires.ftc.teamcode;
 
+<<<<<<< Updated upstream
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.robot.Robot;
 
 @TeleOp(name = "HansonTelep")
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
+    int noSpeed=0
+    public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX) {
 
-    public void tankDrive(double leftStick, double rightStick) {
-
-
-        if (leftStick > .4 || leftStick < -.4) {
-            robot.leftDrive.setPower(leftStick);
+        if (leftStickY > .4 || leftStickY < -.4) {
+            robot.RightFront.setPower(leftStickY);
+            robot.LeftFront.setPower(leftStickY);
+            robot.RightBack.setPower(leftStickY);
+            robot.LeftBack.setPower(leftStickY);
         }
-        if (rightStick > .4 || rightStick < -.4) {
-            robot.rightDrive.setPower(rightStick);
+        if (leftStickX > .4 || leftStickX < -.4) {
+            robot.LeftFront.setPower(leftStickX);
+            robot.RightFront.setPower(-leftStickX);
+            robot.LeftBack.setPower(-leftStickX);
+            robot.RightBack.setPower(leftStickX);
         }
-        if (rightStick < .4 && rightStick > -.4) {
-            robot.rightDrive.setPower(0);
+        if (leftStickX < .4 && leftStickX > -.4 || leftStickY < .4 && leftStickY > -.4) {
+            robot.LeftFront.setPower(noSpeed);
+            robot.RightFront.setPower(noSpeed);
+            robot.LeftBack.setPower(noSpeed);
+            robot.RightBack.setPower(noSpeed);
         }
-        if (leftStick < .4 && leftStick > -.4) {
-            robot.leftDrive.setPower(0);
+        if (rightStickX < .4 || rightStickX > .4) {
+            robot.LeftFront.setPower(rightStickX);
+            robot.RightFront.setPower(rightStickX);
+            robot.LeftBack.setPower(-rightStickX);
+            robot.RightBack.setPower(-rightStickX);
         }
     }
     @Override
@@ -37,10 +48,13 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Status:", "Started");
             telemetry.update();
 
-            if (gamepad1.left_stick_y != 0 || gamepad1.right_stick_y != 0) {
-                tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y);
+            if (gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x !=0) {
+                mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
             }
         }
     }
+}
+
+
 }

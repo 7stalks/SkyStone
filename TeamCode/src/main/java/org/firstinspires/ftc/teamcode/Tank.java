@@ -10,13 +10,13 @@ public class Tank extends LinearOpMode {
 
     public void tankDrive(double left,double right) throws InterruptedException {
         if (gamepad1.left_stick_y >= .1 || gamepad1.left_stick_y <= -.1) {
-            robot.leftDrive.setPower(left / 2);
+            robot.LeftFront.setPower(left / 2);
         }
         if (gamepad1.right_stick_y >= .1 || gamepad1.right_stick_y <= -.1) {
-            robot.rightDrive.setPower(right / 2);
+            robot.RightFront.setPower(right / 2);
         }
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
+        robot.LeftFront.setPower(0);
+        robot.RightFront.setPower(0);
     }
 
     @Override

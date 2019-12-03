@@ -43,8 +43,8 @@ public class RobotTelop extends LinearOpMode {
                 tank_drive.drive_train(robot, gamepad1.left_stick_y, gamepad1.right_stick_y);
             }
             else {
-                robot.leftDrive.setPower(0);
-                robot.rightDrive.setPower(0);
+                robot.LeftFront.setPower(0);
+                robot.RightFront.setPower(0);
             }
 
             if (gamepad1.right_trigger > 0 ) {

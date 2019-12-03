@@ -13,17 +13,17 @@ public class AutoBlueBrick extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, telemetry);
         waitForStart();
-        robot.leftDrive.setPower(-.4);
-        robot.rightDrive.setPower(-.4);
+        robot.LeftFront.setPower(-.4);
+        robot.RightFront.setPower(-.4);
         sleep(1200);
-        robot.leftDrive.setPower(.4);
-        robot.rightDrive.setPower(-.4);
+        robot.LeftFront.setPower(.4);
+        robot.RightFront.setPower(-.4);
         sleep(1100);
-        robot.leftDrive.setPower(-.4);
-        robot.rightDrive.setPower(-.4);
+        robot.LeftFront.setPower(-.4);
+        robot.RightFront.setPower(-.4);
         sleep(2300);
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
+        robot.LeftFront.setPower(0);
+        robot.RightFront.setPower(0);
 
     }
 
