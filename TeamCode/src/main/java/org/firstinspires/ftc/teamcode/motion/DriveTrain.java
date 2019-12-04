@@ -4,19 +4,22 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class DriveTrain {
 
-    public void drive_train(RobotHardware robot, double leftStick, double rightStick) {
+    public void drive_train(RobotHardware robot, double leftStickX, double leftStickY, double rightStickX) {
 
-        if (leftStick > .4 || leftStick < -.4) {
-            robot.LeftFront.setPower(leftStick/2);
+        if (leftStickX > .4 || leftStickX < -.4) {
+            robot.LeftFront.setPower(leftStickX/2);
         }
-        if (rightStick > .4 || rightStick < -.4) {
-            robot.RightFront.setPower(rightStick/2);
+        if (rightStickX > .4 || rightStickX < -.4) {
+            robot.RightFront.setPower(rightStickX/2);
         }
-        if (rightStick < .4 && rightStick > -.4) {
+        if (rightStickX < .4 && rightStickX > -.4) {
             robot.RightFront.setPower(0);
         }
-        if (leftStick < .4 && leftStick > -.4) {
+        if (leftStickX < .4 && leftStickX > -.4) {
             robot.LeftFront.setPower(0);
         }
     }
+
+
 }
+//useless lol

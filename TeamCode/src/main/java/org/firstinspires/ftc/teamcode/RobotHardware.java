@@ -26,6 +26,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class RobotHardware {
     /* Public OpMode members. */
+
     public DcMotor  LeftFront;
     public DcMotor  RightFront;
     public DcMotor  LeftBack;
@@ -44,10 +45,14 @@ public class RobotHardware {
     public static final double CLAMP_CLOSE_DISTANCE = 0.75;
     public static final double CLAMP_ROTATOR_BEGINNING_SERVO = 0;
     public static final double KICKER_START = 0;
+    public static final double MAXMOTORSPEED = 1;
+    public static final double STICK_THRES = 0.4;
+
 
     /* local OpMode members. */
     HardwareMap hardwareMap     =  null;
     private ElapsedTime period  = new ElapsedTime();
+
 
     /* Constructor */
     public RobotHardware(){
@@ -62,7 +67,7 @@ public class RobotHardware {
 
         // Define and Initialize Motor
         try {
-            LeftFront = hardwareMap.get(DcMotor.class, "left_front");
+            LeftFront = hardwareMap.get(DcMotor.class, "LeftFront");
             LeftFront.setDirection(DcMotor.Direction.FORWARD);
             LeftFront.setPower(0);
             LeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -73,35 +78,35 @@ public class RobotHardware {
         }
 
         try {
-            RightFront = hardwareMap.get(DcMotor.class, "right_front");
+            RightFront = hardwareMap.get(DcMotor.class, "RightFront");
             RightFront.setDirection(DcMotor.Direction.REVERSE);
             RightFront.setPower(0);
             RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: right_front identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Motor: right_front not plugged in");    //
-            LeftFront = null;
+            RightFront = null;
         }
         try {
-            LeftBack = hardwareMap.get(DcMotor.class, "left_back");
+            LeftBack = hardwareMap.get(DcMotor.class, "LeftBack");
             LeftBack.setDirection(DcMotor.Direction.FORWARD);
             LeftBack.setPower(0);
             LeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: left_back identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Motor: left_back not plugged in");    //
-            LeftFront = null;
+            LeftBack = null;
         }
 
         try {
-            RightBack = hardwareMap.get(DcMotor.class, "right_back");
+            RightBack = hardwareMap.get(DcMotor.class, "RightBack");
             RightBack.setDirection(DcMotor.Direction.REVERSE);
             RightBack.setPower(0);
             RightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: right_back identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Motor: right_back not plugged in");    //
-            LeftFront = null;
+            RightBack = null;
         }
 
         try {

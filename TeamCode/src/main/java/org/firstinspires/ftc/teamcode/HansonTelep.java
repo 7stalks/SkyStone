@@ -10,29 +10,29 @@ public class HansonTelep extends LinearOpMode {
     int noSpeed=0;
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX) {
 
-        if (leftStickY > .4 || leftStickY < -.4) {
+        if (leftStickY > robot.STICK_THRES || leftStickY < -robot.STICK_THRES) {
             robot.RightFront.setPower(leftStickY);
             robot.LeftFront.setPower(leftStickY);
             robot.RightBack.setPower(leftStickY);
             robot.LeftBack.setPower(leftStickY);
         }
-        if (leftStickX > .4 || leftStickX < -.4) {
-            robot.LeftFront.setPower(leftStickX);
-            robot.RightFront.setPower(-leftStickX);
-            robot.LeftBack.setPower(-leftStickX);
-            robot.RightBack.setPower(leftStickX);
+        if (leftStickX > robot.STICK_THRES || leftStickX < -robot.STICK_THRES) {
+            robot.LeftFront.setPower(-leftStickX);
+            robot.RightFront.setPower(leftStickX);
+            robot.LeftBack.setPower(leftStickX);
+            robot.RightBack.setPower(-leftStickX);
         }
-        if (leftStickX < .4 && leftStickX > -.4 || leftStickY < .4 && leftStickY > -.4) {
+        if (leftStickX < robot.STICK_THRES && leftStickX > -robot.STICK_THRES || leftStickY < robot.STICK_THRES && leftStickY > -robot.STICK_THRES || rightStickX < robot.STICK_THRES && rightStickX > -robot.STICK_THRES) {
             robot.LeftFront.setPower(noSpeed);
             robot.RightFront.setPower(noSpeed);
             robot.LeftBack.setPower(noSpeed);
             robot.RightBack.setPower(noSpeed);
         }
-        if (rightStickX < .4 || rightStickX > .4) {
-            robot.LeftFront.setPower(rightStickX);
-            robot.RightFront.setPower(rightStickX);
-            robot.LeftBack.setPower(-rightStickX);
-            robot.RightBack.setPower(-rightStickX);
+        if (rightStickX < robot.STICK_THRES || rightStickX > robot.STICK_THRES) {
+            robot.LeftFront.setPower(-rightStickX);
+            robot.RightFront.setPower(-rightStickX);
+            robot.LeftBack.setPower(rightStickX);
+            robot.RightBack.setPower(rightStickX);
         }
     }
     @Override
@@ -49,10 +49,7 @@ public class HansonTelep extends LinearOpMode {
 
             if (gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x !=0) {
                 mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-
             }
         }
     }
 }
-
-
