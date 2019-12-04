@@ -44,10 +44,6 @@ public class HansonTelep extends LinearOpMode {
     // mecanumDrive though
     public void mecanumSpeed (boolean incSpeed, boolean decSpeed) {
     }
-
-    // Delete mecanumLoseSpeed
-    public void mecanumLoseSpeed (boolean decSpeed) {
-    }
     @Override
     public void runOpMode() {
 
@@ -62,10 +58,17 @@ public class HansonTelep extends LinearOpMode {
 
             if (gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x !=0) {
                 mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            telemetry.addData("Y Value:", gamepad1.left_stick_y);
+            telemetry.addData("X Value", gamepad1.left_stick_x);
+            telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
+            telemetry.update();
             }
             if ((gamepad1.dpad_up=true ) || (gamepad1.dpad_down=true)) {
                 mecanumSpeed(gamepad1.dpad_up, gamepad1.dpad_up);
+
             }
+
+
         }
     }
 }
