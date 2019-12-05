@@ -9,24 +9,26 @@ public class HansonTelep extends LinearOpMode {
     RobotHardware robot = new RobotHardware();
 
     // Please move to RobotHardware
-    int noSpeed=0;
-    double leftY = gamepad1.left_stick_y - 2/3;
-    double leftX = gamepad1.left_stick_x - 2/3;
-    double rightX = gamepad1.right_stick_x - .5;
-    // Have mecanumDrive be a function of (mecanumSpeed*leftstickx, etc)? Let mecanumSpeed be a double
-    public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX) {
 
+    // Have mecanumDrive be a function of (mecanumSpeed*leftstickx, etc)? Let mecanumSpeed be a double
+    public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
+                             boolean incSpeed, boolean decSpeed) {
+        int noSpeed=0;
+        double Speed = .5;
+        float leftY;
+        float leftX;
+        double rightX = .5;
         if (leftStickY >= robot.STICK_THRES || leftStickY <= -robot.STICK_THRES) {
-            robot.RightFront.setPower(leftY);
-            robot.LeftFront.setPower(leftY);
-            robot.RightBack.setPower(leftY);
-            robot.LeftBack.setPower(leftY);
+            robot.RightFront.setPower(Speed);
+            robot.LeftFront.setPower(Speed);
+            robot.RightBack.setPower(Speed);
+            robot.LeftBack.setPower(Speed);
         }
         else if (leftStickX >= robot.STICK_THRES || leftStickX <= -robot.STICK_THRES) {
-            robot.LeftFront.setPower(-leftX);
-            robot.RightFront.setPower(leftX);
-            robot.LeftBack.setPower(leftX);
-            robot.RightBack.setPower(-leftX);
+            robot.LeftFront.setPower(-Speed);
+            robot.RightFront.setPower(Speed);
+            robot.LeftBack.setPower(Speed);
+            robot.RightBack.setPower(-Speed);
         }
         else if (rightStickX >= robot.STICK_THRES || rightStickX <= -robot.STICK_THRES) {
             robot.LeftFront.setPower(rightX);
@@ -40,39 +42,16 @@ public class HansonTelep extends LinearOpMode {
             robot.LeftBack.setPower(noSpeed);
             robot.RightBack.setPower(noSpeed);
         }
-    }
-
+        if (gamepad1.dpad_up || Speed < 1) {
+            Speed = Speed + .1;
+        }
+        if (gamepad1.dpad_down || Speed > 0) {
+            Speed = Speed + .1;
+        }
     // Turn this into a double and put it into mecanumDrive's input (be sure to define it before
     // mecanumDrive though
-    public void mecanumSpeed (boolean incSpeed, boolean decSpeed) {
-        if (incSpeed==true) {
-            leftX = leftX + 1/3;
-            leftY = leftY + 1/3;
-        }
-        if (decSpeed==true) {
-            leftX = leftX - 1/3;
-            leftY = leftY - 1/3;
-        }
-        if (leftX >= 1) {
-            leftX=1;
-            telemetry.addData("SpeedX:", "Max");
-            telemetry.update();
-        }
-        if (leftX <= -1) {
-            leftX=-1;
-            telemetry.addData("SpeedX:", "Max");
-            telemetry.update();
-        }
-        if (leftY >= 1) {
-            leftY=1;
-            telemetry.addData("SpeedY:", "Max");
-            telemetry.update();
-        }
-        if (leftY <= -1) {
-            leftY=-1;
-            telemetry.addData("SpeedY:", "Min");
-            telemetry.update();
-        }
+
+
     }
     @Override
     public void runOpMode() {
@@ -86,16 +65,14 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Status:", "Started");
             telemetry.update();
 
-            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
             telemetry.addData("Y Value:", gamepad1.left_stick_y);
             telemetry.addData("X Value", gamepad1.left_stick_x);
             telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
             telemetry.update();
 
-            if ((gamepad1.dpad_up==true ) || (gamepad1.dpad_down==true)) {
-                mecanumSpeed(gamepad1.dpad_up, gamepad1.dpad_down);
 
             }
         }
     }
-}
+
