@@ -10,8 +10,8 @@ public class HansonTelep extends LinearOpMode {
 
     // Please move to RobotHardware
     int noSpeed=0;
-    double leftY = gamepad1.left_stick_y - .75;
-    double leftX = gamepad1.left_stick_x - .75;
+    double leftY = gamepad1.left_stick_y - 2/3;
+    double leftX = gamepad1.left_stick_x - 2/3;
     double rightX = gamepad1.right_stick_x - .5;
     // Have mecanumDrive be a function of (mecanumSpeed*leftstickx, etc)? Let mecanumSpeed be a double
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX) {
@@ -46,12 +46,12 @@ public class HansonTelep extends LinearOpMode {
     // mecanumDrive though
     public void mecanumSpeed (boolean incSpeed, boolean decSpeed) {
         if (incSpeed==true) {
-            leftX = leftX + .25;
-            leftY = leftY + .25;
+            leftX = leftX + 1/3;
+            leftY = leftY + 1/3;
         }
         if (decSpeed==true) {
-            leftX = leftX - .25;
-            leftY = leftY - .25;
+            leftX = leftX - 1/3;
+            leftY = leftY - 1/3;
         }
         if (leftX >= 1) {
             leftX=1;
