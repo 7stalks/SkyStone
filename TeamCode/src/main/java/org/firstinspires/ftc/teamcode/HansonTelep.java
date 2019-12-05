@@ -7,11 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
-
-    // Please move to RobotHardware
     int noSpeed=0;
-
-    // Have mecanumDrive be a function of (mecanumSpeed*leftstickx, etc)? Let mecanumSpeed be a double
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX) {
 
         if (leftStickY > robot.STICK_THRES || leftStickY < -robot.STICK_THRES) {
