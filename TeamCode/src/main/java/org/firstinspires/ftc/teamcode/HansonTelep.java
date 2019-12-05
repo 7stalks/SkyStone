@@ -55,11 +55,19 @@ public class HansonTelep extends LinearOpMode {
         }
         if (leftX >= 1) {
             leftX=1;
-            telemetry.addData("Speed:", "Max");
+            telemetry.addData("SpeedX:", "Max");
+        }
+        if (leftX <= -1) {
+            leftX=-1;
+            telemetry.addData("SpeedX:", "Max");
+        }
+        if (leftY >= 1) {
+            leftY=1;
+            telemetry.addData("SpeedY:", "Max");
         }
         if (leftY <= -1) {
-            leftY=1;
-            telemetry.addData("Speed:", "Min");
+            leftY=-1;
+            telemetry.addData("SpeedY:", "Min");
         }
     }
     @Override
