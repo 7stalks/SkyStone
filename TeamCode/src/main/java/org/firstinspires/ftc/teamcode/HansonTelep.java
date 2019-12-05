@@ -56,18 +56,22 @@ public class HansonTelep extends LinearOpMode {
         if (leftX >= 1) {
             leftX=1;
             telemetry.addData("SpeedX:", "Max");
+            telemetry.update();
         }
         if (leftX <= -1) {
             leftX=-1;
             telemetry.addData("SpeedX:", "Max");
+            telemetry.update();
         }
         if (leftY >= 1) {
             leftY=1;
             telemetry.addData("SpeedY:", "Max");
+            telemetry.update();
         }
         if (leftY <= -1) {
             leftY=-1;
             telemetry.addData("SpeedY:", "Min");
+            telemetry.update();
         }
     }
     @Override
@@ -92,8 +96,6 @@ public class HansonTelep extends LinearOpMode {
                 mecanumSpeed(gamepad1.dpad_up, gamepad1.dpad_down);
 
             }
-
-
         }
     }
 }
