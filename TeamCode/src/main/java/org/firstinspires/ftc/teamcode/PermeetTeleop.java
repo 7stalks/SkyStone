@@ -5,23 +5,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 
-@TeleOp(name="Permeet's First TeleOp", group="Permeet")
-public class PermeetTeleop extends LinearOpMode{
+public class PermeetTeleop {
 
     RobotHardware robot = new RobotHardware();
     Kicker kicker = new Kicker();
+    double POS;
 
-    @Override
-    public void runOpMode(){
+    public void Kicker (gamepad1.right_trigger){
         robot.init(hardwareMap, telemetry);
         telemetry.addData( "Hi there ", "Permeet" );
         telemetry.update();
 
-        waitForStart();
-        while (opModeIsActive()){
+            POS = robot.kicker.getPosition();
+            telemetry.addData("%.2d",POS);
+            telemetry.update();
 
             if (gamepad1.right_trigger > 0 ) {
-                kicker.moveKicker(robot,gamepad1.right_trigger);
+                robot.kicker.setPosition(robot.KICKER_PRESS);
 
             } else {
                 robot.kicker.setPosition(robot.KICKER_START);
@@ -30,4 +30,4 @@ public class PermeetTeleop extends LinearOpMode{
 
         }
     }
-}
+

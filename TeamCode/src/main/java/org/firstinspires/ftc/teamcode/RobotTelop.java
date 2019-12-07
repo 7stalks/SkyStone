@@ -49,9 +49,6 @@ public class RobotTelop extends LinearOpMode {
 
             if (gamepad1.right_trigger > 0 ) {
                 kicker.moveKicker(robot,gamepad1.right_trigger);
-
-            } else {
-                robot.kicker.setPosition(robot.KICKER_START);
             }
 
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
