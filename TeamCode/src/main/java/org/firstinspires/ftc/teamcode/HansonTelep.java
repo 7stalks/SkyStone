@@ -19,22 +19,28 @@ public class HansonTelep extends LinearOpMode {
         float leftX;
         double rightX = .5;
         if (leftStickY >= robot.STICK_THRES || leftStickY <= -robot.STICK_THRES) {
-            robot.RightFront.setPower(Speed);
-            robot.LeftFront.setPower(Speed);
-            robot.RightBack.setPower(Speed);
-            robot.LeftBack.setPower(Speed);
+            robot.RightFront.setPower(Speed * leftStickY);
+            robot.LeftFront.setPower(Speed * leftStickY);
+            robot.RightBack.setPower(Speed * leftStickY);
+            robot.LeftBack.setPower(Speed * leftStickY);
         }
-        else if (leftStickX >= robot.STICK_THRES || leftStickX <= -robot.STICK_THRES) {
-            robot.LeftFront.setPower(-Speed);
-            robot.RightFront.setPower(Speed);
-            robot.LeftBack.setPower(Speed);
-            robot.RightBack.setPower(-Speed);
+        if (leftStickX >= robot.STICK_THRES || leftStickX <= -robot.STICK_THRES) {
+            robot.LeftFront.setPower(-Speed * leftStickX);
+            robot.RightFront.setPower(Speed * leftStickX);
+            robot.LeftBack.setPower(Speed * leftStickX);
+            robot.RightBack.setPower(-Speed * leftStickX);
         }
-        else if (rightStickX >= robot.STICK_THRES || rightStickX <= -robot.STICK_THRES) {
+        if (rightStickX >= robot.STICK_THRES || rightStickX <= -robot.STICK_THRES) {
             robot.LeftFront.setPower(rightX);
             robot.RightFront.setPower(-rightX);
             robot.LeftBack.setPower(rightX);
             robot.RightBack.setPower(-rightX);
+        }
+        if (gamepad1.dpad_up && Speed < 1) {
+            Speed = Speed + .1;
+        }
+        if (gamepad1.dpad_down && Speed > 0) {
+            Speed = Speed + .1;
         }
         else {
             robot.LeftFront.setPower(noSpeed);
@@ -42,10 +48,10 @@ public class HansonTelep extends LinearOpMode {
             robot.LeftBack.setPower(noSpeed);
             robot.RightBack.setPower(noSpeed);
         }
-        if (gamepad1.dpad_up || Speed < 1) {
+        if (gamepad1.dpad_up && Speed < 1) {
             Speed = Speed + .1;
         }
-        if (gamepad1.dpad_down || Speed > 0) {
+        if (gamepad1.dpad_down && Speed > 0) {
             Speed = Speed + .1;
         }
     // Turn this into a double and put it into mecanumDrive's input (be sure to define it before
