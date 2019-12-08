@@ -14,39 +14,45 @@ public class HansonTelep extends LinearOpMode {
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
     double r = Math.hypot (leftStickX, leftStickY);
+    double speedVal = .5;
     double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-    final double LFarquaad = r*Math.cos(robotAngle) + rightStickX;
-    final double LBridget = r*Math.sin(robotAngle) + rightStickX;
-    final double RFrancisco = r*Math.sin(robotAngle) - rightStickX;
-    final double RBoomer = r*Math.cos(robotAngle) - rightStickX;
     final double stickThres = .25;
     final double noSpeed = 0;
-    final double modSpeed = 2/3;
-    final double slowSpeed =  1/3;
-    final double fastasfrickSpeed = 1;
+
     if (leftStickX >= stickThres || leftStickX <= -stickThres
             || leftStickY >= stickThres || leftStickY <= -stickThres
-            || rightStickX >= stickThres || rightStickX <= - stickThres) {
-        robot.LeftFront.setPower (modSpeed * LFarquaad);
-        robot.LeftBack.setPower (modSpeed * LBridget);
-        robot.RightFront.setPower (modSpeed * RFrancisco);
-        robot.RightBack.setPower (modSpeed * RBoomer);
+            || rightStickX >= stickThres || rightStickX <= - stickThres
+            || (incSpeed)
+            || (decSpeed)) {
+        if ((incSpeed == true)) {
+            speedVal = speedVal + .25;
+        }
+        if ((decSpeed == true) && speedVal >= .25) {
+            speedVal = speedVal - .25;
+        }
+        if (speedVal >= 1) {
+            speedVal = 1;
+        }
+        if (speedVal <= .25) {
+            speedVal = .25;
+        }
+        final double LFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
+        final double LBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
+        final double RFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
+        final double RBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
+        robot.LeftFront.setPower (LFarquaad);
+        robot.LeftBack.setPower (LBridget);
+        robot.RightFront.setPower (RFrancisco);
+        robot.RightBack.setPower (RBoomer);
+
     }
-        if (leftStickX >= stickThres || leftStickX <= -stickThres
-                || leftStickY >= stickThres || leftStickY <= -stickThres
-                || rightStickX >= stickThres || rightStickX <= - stickThres
-                && incSpeed == true) {
-            robot.LeftFront.setPower (fastasfrickSpeed * LFarquaad);
-            robot.LeftBack.setPower (fastasfrickSpeed * LBridget);
-            robot.RightFront.setPower (fastasfrickSpeed * RFrancisco);
-            robot.RightBack.setPower (fastasfrickSpeed * RBoomer);
-            }
     else {
         robot.LeftFront.setPower (noSpeed);
         robot.LeftBack.setPower (noSpeed);
         robot.RightFront.setPower (noSpeed);
         robot.RightBack.setPower (noSpeed);
     }
+
     }
     @Override
     public void runOpMode() {
