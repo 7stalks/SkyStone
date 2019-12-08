@@ -46,7 +46,7 @@ public class RobotHardware {
     public static final double CLAMP_ROTATOR_BEGINNING_SERVO = 0;
     public static final double KICKER_START = 0;
     public static final double MAXMOTORSPEED = 1;
-    public static final double STICK_THRES = 0.6;
+    public static final double stickThres = 0.25;
 
 
     /* local OpMode members. */

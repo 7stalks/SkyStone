@@ -15,24 +15,26 @@ public class HansonTelep extends LinearOpMode {
                              boolean incSpeed, boolean decSpeed) {
     double r = Math.hypot (leftStickX, leftStickY);
     double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-    final double LFarquaad = Math.cos(robotAngle) + rightStickX;
-    final double LBridget = Math.sin(robotAngle) + rightStickX;
-    final double RFrancisco = Math.sin(robotAngle) - rightStickX;
-    final double RBoomer = Math.cos(robotAngle) - rightStickX;
-
-
-    if (leftStickX >= .4 || leftStickX <= -.4
-            || leftStickY >= .4 || leftStickY <= -.4
-            || rightStickX >=.4 || rightStickX <= -.4) {
+    final double LFarquaad = r*Math.cos(robotAngle) + rightStickX;
+    final double LBridget = r*Math.sin(robotAngle) + rightStickX;
+    final double RFrancisco = r*Math.sin(robotAngle) - rightStickX;
+    final double RBoomer = r*Math.cos(robotAngle) - rightStickX;
+    final double stickThres = .25;
+    final double noSpeed = 0;
+    if (leftStickX >= stickThres || leftStickX <= -stickThres
+            || leftStickY >= stickThres || leftStickY <= -stickThres
+            || rightStickX >= stickThres || rightStickX <= - stickThres) {
         robot.LeftFront.setPower (LFarquaad);
         robot.LeftBack.setPower (LBridget);
         robot.RightFront.setPower (RFrancisco);
         robot.RightBack.setPower (RBoomer);
     }
-    // Turn this into a double and put it into mecanumDrive's input (be sure to define it before
-    // mecanumDrive though
-
-
+    else {
+        robot.LeftFront.setPower (noSpeed);
+        robot.LeftBack.setPower (noSpeed);
+        robot.RightFront.setPower (noSpeed);
+        robot.RightBack.setPower (noSpeed);
+    }
     }
     @Override
     public void runOpMode() {
