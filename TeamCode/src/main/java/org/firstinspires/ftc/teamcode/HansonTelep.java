@@ -24,10 +24,10 @@ public class HansonTelep extends LinearOpMode {
             || rightStickX >= stickThres || rightStickX <= - stickThres
             || (incSpeed)
             || (decSpeed)) {
-        if ((incSpeed == true)) {
+        if ((incSpeed)) {
             speedVal = speedVal + .25;
         }
-        if ((decSpeed == true) && speedVal >= .25) {
+        if ((decSpeed) && speedVal >= .25) {
             speedVal = speedVal - .25;
         }
         if (speedVal >= 1) {
