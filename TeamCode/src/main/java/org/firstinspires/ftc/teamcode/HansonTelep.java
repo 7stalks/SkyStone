@@ -21,14 +21,26 @@ public class HansonTelep extends LinearOpMode {
     final double RBoomer = r*Math.cos(robotAngle) - rightStickX;
     final double stickThres = .25;
     final double noSpeed = 0;
+    final double modSpeed = 2/3;
+    final double slowSpeed =  1/3;
+    final double fastasfrickSpeed = 1;
     if (leftStickX >= stickThres || leftStickX <= -stickThres
             || leftStickY >= stickThres || leftStickY <= -stickThres
             || rightStickX >= stickThres || rightStickX <= - stickThres) {
-        robot.LeftFront.setPower (LFarquaad);
-        robot.LeftBack.setPower (LBridget);
-        robot.RightFront.setPower (RFrancisco);
-        robot.RightBack.setPower (RBoomer);
+        robot.LeftFront.setPower (modSpeed * LFarquaad);
+        robot.LeftBack.setPower (modSpeed * LBridget);
+        robot.RightFront.setPower (modSpeed * RFrancisco);
+        robot.RightBack.setPower (modSpeed * RBoomer);
     }
+        if (leftStickX >= stickThres || leftStickX <= -stickThres
+                || leftStickY >= stickThres || leftStickY <= -stickThres
+                || rightStickX >= stickThres || rightStickX <= - stickThres
+                && incSpeed == true) {
+            robot.LeftFront.setPower (fastasfrickSpeed * LFarquaad);
+            robot.LeftBack.setPower (fastasfrickSpeed * LBridget);
+            robot.RightFront.setPower (fastasfrickSpeed * RFrancisco);
+            robot.RightBack.setPower (fastasfrickSpeed * RBoomer);
+            }
     else {
         robot.LeftFront.setPower (noSpeed);
         robot.LeftBack.setPower (noSpeed);
