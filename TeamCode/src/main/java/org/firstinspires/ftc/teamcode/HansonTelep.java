@@ -7,21 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
-
+    double speedVal = .5;
+    final double stickThres = .25;
+    final double noSpeed = 0;
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
     double r = Math.hypot (leftStickX, leftStickY);
-
-    // move speedVal outside of mecanumDrive so that it doesn't keep resetting to .5
-    double speedVal = .5;
     double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-
-    // move stickThres to RobotHardware
-    final double stickThres = .25;
-
-    // move noSpeed to RobotHardware
-    final double noSpeed = 0;
-
     if (leftStickX >= stickThres || leftStickX <= -stickThres
             || leftStickY >= stickThres || leftStickY <= -stickThres
             || rightStickX >= stickThres || rightStickX <= - stickThres
@@ -29,12 +21,12 @@ public class HansonTelep extends LinearOpMode {
             || (decSpeed)) {
 
         // can change to: if ((incSpeed == true) && speedVal <= .75)
-        if ((incSpeed == true)) {
+        if ((incSpeed)) {
             speedVal = speedVal + .25;
         }
 
         // can change to: if ((decSpeed == true) && speedVal >= .5)
-        if ((decSpeed == true) && speedVal >= .25) {
+        if ((decSpeed) && speedVal > .25) {
             speedVal = speedVal - .25;
         }
 
