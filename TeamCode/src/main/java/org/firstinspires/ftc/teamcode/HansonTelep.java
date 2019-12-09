@@ -7,19 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
-
+    double speedVal = .5;
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
+
     double r = Math.hypot (leftStickX, leftStickY);
-
-    // move speedVal outside of mecanumDrive so that it doesn't keep resetting to .5
-    double speedVal = .5;
     double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-
-    // move stickThres to RobotHardware
     final double stickThres = .25;
-
-    // move noSpeed to RobotHardware
     final double noSpeed = 0;
 
     if (leftStickX >= stickThres || leftStickX <= -stickThres
@@ -30,7 +24,7 @@ public class HansonTelep extends LinearOpMode {
         if ((incSpeed)) {
             speedVal = speedVal + .25;
         }
-        if ((decSpeed) && speedVal >= .25) {
+        if ((decSpeed) && speedVal > .25) {
             speedVal = speedVal - .25;
         }
         if (speedVal >= 1) {
@@ -74,12 +68,10 @@ public class HansonTelep extends LinearOpMode {
             telemetry.update();
 
             mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
-            telemetry.addData("Y Value:", gamepad1.left_stick_y);
-            telemetry.addData("X Value", gamepad1.left_stick_x);
-            telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
+            telemetry.addData ("y","%.2f", gamepad1.left_stick_y);
+            telemetry.addData("x","%.2f", gamepad1.left_stick_x);
+            telemetry.addData("Rotate Value:","%.2f", gamepad1.right_stick_x);
             telemetry.update();
-
-
             }
         }
     }
