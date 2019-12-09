@@ -8,15 +8,18 @@ public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
 
-    // Please move to RobotHardware
-
-    // Have mecanumDrive be a function of (mecanumSpeed*leftstickx, etc)? Let mecanumSpeed be a double
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
     double r = Math.hypot (leftStickX, leftStickY);
+
+    // move speedVal outside of mecanumDrive so that it doesn't keep resetting to .5
     double speedVal = .5;
     double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
+
+    // move stickThres to RobotHardware
     final double stickThres = .25;
+
+    // move noSpeed to RobotHardware
     final double noSpeed = 0;
 
     if (leftStickX >= stickThres || leftStickX <= -stickThres
@@ -46,6 +49,10 @@ public class HansonTelep extends LinearOpMode {
         robot.RightBack.setPower (RBoomer);
 
     }
+
+    // I may be crazy, but I personally haven't seen the stick move (eliminating the need for stick
+    // thres), and the trig allows it to equal setPower to 0. Something to maybe test, it would
+    // delete some functions, make code simpler, etc
     else {
         robot.LeftFront.setPower (noSpeed);
         robot.LeftBack.setPower (noSpeed);
