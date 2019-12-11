@@ -7,62 +7,56 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
-
-    // Please move to RobotHardware
-
-    // Have mecanumDrive be a function of (mecanumSpeed*leftstickx, etc)? Let mecanumSpeed be a double
+    double speedVal = .5;
+    final double stickThres = .25;
+    final double noSpeed = 0;
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
-        int noSpeed=0;
-        double Speed = .4;
-        double rightRotX = .5;
+    double r = Math.hypot (leftStickX, leftStickY);
+    double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
+    if (leftStickX >= stickThres || leftStickX <= -stickThres
+            || leftStickY >= stickThres || leftStickY <= -stickThres
+            || rightStickX >= stickThres || rightStickX <= - stickThres
+            || (incSpeed)
+            || (decSpeed)) {
 
-        if ((gamepad1.dpad_up = true) && Speed < 1) {
-            Speed = Speed + .2;
-        }
-        if ((gamepad1.dpad_down = true) && Speed > 0) {
-            Speed = Speed - .2;
-        }
-        if (leftStickY >= robot.STICK_THRES || leftStickY <= -robot.STICK_THRES) {
-            robot.RightFront.setPower(Speed * leftStickY);
-            robot.LeftFront.setPower(Speed * leftStickY);
-            robot.RightBack.setPower(Speed * leftStickY);
-            robot.LeftBack.setPower(Speed * leftStickY);
-        }
-        if (leftStickX >= robot.STICK_THRES || leftStickX <= -robot.STICK_THRES) {
-            robot.LeftFront.setPower(-Speed * leftStickX);
-            robot.RightFront.setPower(Speed * leftStickX);
-            robot.LeftBack.setPower(Speed * leftStickX);
-            robot.RightBack.setPower(-Speed * leftStickX);
-        }
-        if (rightStickX >= robot.STICK_THRES || rightStickX <= -robot.STICK_THRES) {
-            robot.LeftFront.setPower(rightRotX);
-            robot.RightFront.setPower(-rightRotX);
-            robot.LeftBack.setPower(rightRotX);
-            robot.RightBack.setPower(-rightRotX);
-        }
-        else {
-            robot.LeftFront.setPower(noSpeed);
-            robot.RightFront.setPower(noSpeed);
-            robot.LeftBack.setPower(noSpeed);
-            robot.RightBack.setPower(noSpeed);
+        // can change to: if ((incSpeed == true) && speedVal <= .75)
+        if ((incSpeed)) {
+            speedVal = speedVal + .25;
         }
 
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double RightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + RightX;
-        final double v2 = r * Math.sin(robotAngle) - RightX;
-        final double v3 = r * Math.sin(robotAngle) + RightX;
-        final double v4 = r * Math.cos(robotAngle) - RightX;
+        // can change to: if ((decSpeed == true) && speedVal >= .5)
+        if ((decSpeed) && speedVal > .25) {
+            speedVal = speedVal - .25;
+        }
 
-        robot.LeftFront.setPower(v1);
-        robot.RightFront.setPower(v2);
-        robot.LeftBack.setPower(v3);
-        robot.RightBack.setPower(v4);
-    // Turn this into a double and put it into mecanumDrive's input (be sure to define it before
-    // mecanumDrive though
+        // can delete these two if you follow the above two
+        if (speedVal >= 1) {
+            speedVal = 1;
+        }
+        if (speedVal <= .25) {
+            speedVal = .25;
+        }
+        final double LFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
+        final double LBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
+        final double RFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
+        final double RBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
+        robot.LeftFront.setPower (LFarquaad);
+        robot.LeftBack.setPower (LBridget);
+        robot.RightFront.setPower (RFrancisco);
+        robot.RightBack.setPower (RBoomer);
 
+    }
+
+    // I may be crazy, but I personally haven't seen the stick move (eliminating the need for stick
+    // thres), and the trig allows it to equal setPower to 0. Something to maybe test, it would
+    // delete some functions, make code simpler, etc
+    else {
+        robot.LeftFront.setPower (noSpeed);
+        robot.LeftBack.setPower (noSpeed);
+        robot.RightFront.setPower (noSpeed);
+        robot.RightBack.setPower (noSpeed);
+    }
 
     }
     @Override

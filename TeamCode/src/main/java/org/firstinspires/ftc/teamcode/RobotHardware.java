@@ -49,6 +49,7 @@ public class RobotHardware {
     public static final double STICK_THRES = 0.6;
     public static final double KICKER_PRESS = 1;
 
+
     /* local OpMode members. */
     HardwareMap hardwareMap     =  null;
     private ElapsedTime period  = new ElapsedTime();
