@@ -26,8 +26,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class RobotHardware {
     /* Public OpMode members. */
-    public DcMotor  leftDrive;
-    public DcMotor  rightDrive;
+
+    public DcMotor  LeftFront;
+    public DcMotor  RightFront;
+    public DcMotor  LeftBack;
+    public DcMotor  RightBack;
     public DcMotor  leverArm;
 
     public Servo    clampRotator;
@@ -42,11 +45,14 @@ public class RobotHardware {
     public static final double CLAMP_CLOSE_DISTANCE = 0.75;
     public static final double CLAMP_ROTATOR_BEGINNING_SERVO = 0;
     public static final double KICKER_START = 0;
+    public static final double MAXMOTORSPEED = 1;
+    public static final double STICK_THRES = 0.6;
     public static final double KICKER_PRESS = 1;
 
     /* local OpMode members. */
     HardwareMap hardwareMap     =  null;
     private ElapsedTime period  = new ElapsedTime();
+
 
     /* Constructor */
     public RobotHardware(){
@@ -61,25 +67,46 @@ public class RobotHardware {
 
         // Define and Initialize Motor
         try {
-            leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-            leftDrive.setDirection(DcMotor.Direction.FORWARD);
-            leftDrive.setPower(0);
-            leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            telemetry.addData("Status", "Motor: left_drive identified");    //
+            LeftFront = hardwareMap.get(DcMotor.class, "LeftFront");
+            LeftFront.setDirection(DcMotor.Direction.FORWARD);
+            LeftFront.setPower(0);
+            LeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            telemetry.addData("Status", "Motor: left_front identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Motor: left_drive not plugged in");    //
-            leftDrive = null;
+            telemetry.addData("Warning", "Motor: left_front not plugged in");    //
+            LeftFront = null;
         }
 
         try {
-            rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-            rightDrive.setDirection(DcMotor.Direction.REVERSE);
-            rightDrive.setPower(0);
-            rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            telemetry.addData("Status", "Motor: right_drive identified");    //
+            RightFront = hardwareMap.get(DcMotor.class, "RightFront");
+            RightFront.setDirection(DcMotor.Direction.REVERSE);
+            RightFront.setPower(0);
+            RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            telemetry.addData("Status", "Motor: right_front identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Motor: right_drive not plugged in");    //
-            leftDrive = null;
+            telemetry.addData("Warning", "Motor: right_front not plugged in");    //
+            RightFront = null;
+        }
+        try {
+            LeftBack = hardwareMap.get(DcMotor.class, "LeftBack");
+            LeftBack.setDirection(DcMotor.Direction.FORWARD);
+            LeftBack.setPower(0);
+            LeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            telemetry.addData("Status", "Motor: left_back identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Motor: left_back not plugged in");    //
+            LeftBack = null;
+        }
+
+        try {
+            RightBack = hardwareMap.get(DcMotor.class, "RightBack");
+            RightBack.setDirection(DcMotor.Direction.REVERSE);
+            RightBack.setPower(0);
+            RightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            telemetry.addData("Status", "Motor: right_back identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Motor: right_back not plugged in");    //
+            RightBack = null;
         }
 
         try {
@@ -113,7 +140,7 @@ public class RobotHardware {
 
         try {
             kicker = hardwareMap.get(Servo.class, "kicker");
-            kicker.setPosition(MID_SERVO);
+            kicker.setPosition(KICKER_START);
             telemetry.addData("Status", "Servo: kicker identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: kicker not plugged in");    //
