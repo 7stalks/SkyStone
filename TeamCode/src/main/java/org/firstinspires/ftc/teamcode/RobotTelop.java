@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.motion.Clamp;
-import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.DriveTrain;
+import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 
@@ -48,7 +48,10 @@ public class RobotTelop extends LinearOpMode {
             }
 
             if (gamepad1.right_trigger > 0 ) {
-                kicker.moveKicker(robot,gamepad1.right_trigger);
+                kicker.GerritKickerMove(robot);
+            }
+            else {
+                robot.kicker.setPosition(-1);
             }
 
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
