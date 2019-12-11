@@ -20,11 +20,9 @@ public class RobotTelop extends LinearOpMode {
     Kicker kicker = new Kicker();
 
     private void moveRobot(float x_direction, float y_direction) {
-        // Do something
     }
 
     private void moveKicker(float distance) {
-        // Do something
     }
 
 

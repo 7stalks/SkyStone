@@ -10,6 +10,7 @@ public class HansonTelep extends LinearOpMode {
     double speedVal = .5;
     final double stickThres = .25;
     final double noSpeed = 0;
+
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
     double r = Math.hypot (leftStickX, leftStickY);
@@ -37,15 +38,20 @@ public class HansonTelep extends LinearOpMode {
         if (speedVal <= .25) {
             speedVal = .25;
         }
-        final double LFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
-        final double LBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
-        final double RFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
-        final double RBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
-        robot.LeftFront.setPower (LFarquaad);
-        robot.LeftBack.setPower (LBridget);
-        robot.RightFront.setPower (RFrancisco);
-        robot.RightBack.setPower (RBoomer);
-
+        final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
+        final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
+        final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
+        final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
+        robot.RightFront.setPower (RFarquaad);
+        robot.RightBack.setPower (RBridget);
+        robot.LeftFront.setPower (LFrancisco);
+        robot.LeftBack.setPower (LBoomer);
+        telemetry.addLine("im working power on");
+        telemetry.addData("RFarquaad", RFarquaad);
+        telemetry.addData("LFrancisco", LFrancisco);
+        telemetry.addData("LBoomer", LBoomer);
+        telemetry.addData("RBridget", RBridget);
+        telemetry.update();
     }
 
     // I may be crazy, but I personally haven't seen the stick move (eliminating the need for stick
@@ -56,6 +62,7 @@ public class HansonTelep extends LinearOpMode {
         robot.LeftBack.setPower (noSpeed);
         robot.RightFront.setPower (noSpeed);
         robot.RightBack.setPower (noSpeed);
+        telemetry.addLine("im working power off");
     }
 
     }
@@ -75,10 +82,7 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Y Value:", gamepad1.left_stick_y);
             telemetry.addData("X Value", gamepad1.left_stick_x);
             telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
-            telemetry.update();
-
-
             }
         }
     }
-
+//ur dumb lol

@@ -38,7 +38,7 @@ public class RobotHardware {
     public Servo    kicker;
 
     public static final double MID_SERVO = 0.5;
-    public static final double CLAMP_OPEN_DISTANCE       =  0.6 ;
+    public static final double CLAMP_OPEN_DISTANCE       =  0.4 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
     public static final double ARM_UP_DISTANCE  = 1600 ;
@@ -110,7 +110,7 @@ public class RobotHardware {
         }
 
         try {
-            leverArm = hardwareMap.get(DcMotor.class, "lever_arm");
+            leverArm = hardwareMap.get(DcMotor.class, "leverArm");
             leverArm.setPower(0);
             telemetry.addData("Status", "Motor: lever_arm identified");    //
         } catch (IllegalArgumentException err) {
