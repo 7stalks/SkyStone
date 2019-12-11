@@ -4,7 +4,9 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class Kicker {
 
-    public void moveKicker(RobotHardware robot,double distance){
-        robot.kicker.setPosition(distance);
+    public void KickerMove(RobotHardware robot) {
+
+        robot.KickerServo.setPosition(1);
+
     }
 }
