@@ -51,7 +51,6 @@ public class RobotTelop extends LinearOpMode {
             else {
                 robot.KickerServo.setPosition(-1);
             }
-
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
                 lever_arm.leverArmStay(robot);
             }
