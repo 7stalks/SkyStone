@@ -42,16 +42,18 @@ public class RobotHardware {
     public Servo KickerServo;
 
     public static final double MID_SERVO = 0.5;
-    public static final double CLAMP_OPEN_DISTANCE       =  0.4 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
-    public static final double ARM_UP_DISTANCE  = 1600 ;
+    public static final double CLAMP_OPEN_DISTANCE =  0.4 ;
+    public static final double ARM_UP_POWER =  0.45 ;
+    public static final double ARM_DOWN_POWER = -0.45 ;
+    public static final double ARM_UP_DISTANCE = 1600 ;
     public static final double CLAMP_CLOSE_DISTANCE = 0.75;
     public static final double CLAMP_ROTATOR_BEGINNING_SERVO = 0;
     public static final double KICKER_START = 0;
     public static final double MAXMOTORSPEED = 1;
     public static final double STICK_THRES = 0.6;
     public static final double KICKER_PRESS = 1;
+    public static final double stickThres = .25;
+    public static final double noSpeed = 0;
 
 
 

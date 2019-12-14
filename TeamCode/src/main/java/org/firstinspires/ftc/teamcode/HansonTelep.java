@@ -7,62 +7,60 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
-    double speedVal = .5;
+    double speedVal         = .5;
     final double stickThres = .25;
-    final double noSpeed = 0;
+    final double noSpeed    = 0;
 
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
-    double r = Math.hypot (leftStickX, leftStickY);
-    double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-    if (leftStickX >= stickThres || leftStickX <= -stickThres
+
+        double r = Math.hypot (leftStickX, leftStickY);
+        double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
+
+        if (leftStickX >= stickThres || leftStickX <= -stickThres
             || leftStickY >= stickThres || leftStickY <= -stickThres
             || rightStickX >= stickThres || rightStickX <= - stickThres
             || (incSpeed)
             || (decSpeed)) {
 
-        // can change to: if ((incSpeed == true) && speedVal <= .75)
-        if ((incSpeed)) {
+            if ((incSpeed)) {
             speedVal = speedVal + .25;
-        }
-
-        // can change to: if ((decSpeed == true) && speedVal >= .5)
-        if ((decSpeed) && speedVal > .25) {
+            }
+            if ((decSpeed) && speedVal > .25) {
             speedVal = speedVal - .25;
-        }
-
-        // can delete these two if you follow the above two
-        if (speedVal >= 1) {
+            }
+            if (speedVal >= 1) {
             speedVal = 1;
-        }
-        if (speedVal <= .25) {
+            }
+            if (speedVal <= .25) {
             speedVal = .25;
+            }
+
+            final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
+            final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
+            final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
+            final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
+            robot.RightFront.setPower (RFarquaad);
+            robot.RightBack.setPower (RBridget);
+            robot.LeftFront.setPower (LFrancisco);
+            robot.LeftBack.setPower (LBoomer);
+            telemetry.addLine("im working power on");
+            telemetry.addData("RFarquaad", RFarquaad);
+            telemetry.addData("LFrancisco", LFrancisco);
+            telemetry.addData("LBoomer", LBoomer);
+            telemetry.addData("RBridget", RBridget);
+            telemetry.update();
         }
-        final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
-        final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
-        final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
-        final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
-        robot.RightFront.setPower (RFarquaad);
-        robot.RightBack.setPower (RBridget);
-        robot.LeftFront.setPower (LFrancisco);
-        robot.LeftBack.setPower (LBoomer);
-        telemetry.addLine("im working power on");
-        telemetry.addData("RFarquaad", RFarquaad);
-        telemetry.addData("LFrancisco", LFrancisco);
-        telemetry.addData("LBoomer", LBoomer);
-        telemetry.addData("RBridget", RBridget);
-        telemetry.update();
+
+        else {
+            robot.LeftFront.setPower (noSpeed);
+            robot.LeftBack.setPower (noSpeed);
+            robot.RightFront.setPower (noSpeed);
+            robot.RightBack.setPower (noSpeed);
+            telemetry.addLine("im working power off");
+        }
     }
 
-    else {
-        robot.LeftFront.setPower (noSpeed);
-        robot.LeftBack.setPower (noSpeed);
-        robot.RightFront.setPower (noSpeed);
-        robot.RightBack.setPower (noSpeed);
-        telemetry.addLine("im working power off");
-    }
-
-    }
     @Override
     public void runOpMode() {
 
