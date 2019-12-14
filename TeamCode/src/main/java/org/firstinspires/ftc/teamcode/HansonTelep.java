@@ -82,6 +82,7 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Y Value:", gamepad1.left_stick_y);
             telemetry.addData("X Value", gamepad1.left_stick_x);
             telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
+            telemetry.update();
             }
         }
     }
