@@ -52,6 +52,7 @@ public class MecanumDrive {
             robot.RightFront.setPower (noSpeed);
             robot.RightBack.setPower (noSpeed);
             telemetry.addLine("im working power off");
+            telemetry.update();
         }
     }
 }
