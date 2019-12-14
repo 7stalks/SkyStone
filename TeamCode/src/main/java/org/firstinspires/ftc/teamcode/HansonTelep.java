@@ -54,9 +54,6 @@ public class HansonTelep extends LinearOpMode {
         telemetry.update();
     }
 
-    // I may be crazy, but I personally haven't seen the stick move (eliminating the need for stick
-    // thres), and the trig allows it to equal setPower to 0. Something to maybe test, it would
-    // delete some functions, make code simpler, etc
     else {
         robot.LeftFront.setPower (noSpeed);
         robot.LeftBack.setPower (noSpeed);

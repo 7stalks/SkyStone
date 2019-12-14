@@ -38,7 +38,8 @@ public class RobotTelop extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x !=0) {
-                tank_drive.drive_train(robot, gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+                HansonTelep.mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad2.right_stick_x,
+                        gamepad1.dpad_up, gamepad1.dpad_down);
             }
             else {
                 robot.LeftFront.setPower(0);
@@ -51,7 +52,6 @@ public class RobotTelop extends LinearOpMode {
             else {
                 robot.KickerServo.setPosition(-1);
             }
-
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
                 lever_arm.leverArmStay(robot);
             }

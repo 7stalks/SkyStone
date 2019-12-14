@@ -143,9 +143,9 @@ public class RobotHardware {
             leverArm = hardwareMap.get(DcMotor.class, "leverArm");
             leverArm.setPower(0);
             leverArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            telemetry.addData("Status", "Motor: lever_arm identified");    //
+            telemetry.addData("Status", "Motor: leverArm identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Motor: lever_arm not plugged in");    //
+            telemetry.addData("Warning", "Motor: leverArm not plugged in");    //
             leverArm = null;
 
         }
@@ -196,7 +196,7 @@ public class RobotHardware {
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "camera_1");
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "left_camera");
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
         telemetry.addData("Status", "Vuforia Initialized");
 
