@@ -1,19 +1,21 @@
 package org.firstinspires.ftc.teamcode.motion;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
+
 
 public class MecanumDrive {
 
     double speedVal = .5;
 
-    public void mecanumDrive(RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
+    public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
 
         double r = Math.hypot (leftStickX, leftStickY);
         double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
 
-        if (leftStickX >= stickThres || leftStickX <= -stickThres
-                || leftStickY >= stickThres || leftStickY <= -stickThres
-                || rightStickX >= stickThres || rightStickX <= - stickThres
+        if (leftStickX >= robot.stickThres || leftStickX <= -robot.stickThres
+                || leftStickY >= robot.stickThres || leftStickY <= -robot.stickThres
+                || rightStickX >= robot.stickThres || rightStickX <= -robot.stickThres
                 || (incSpeed)
                 || (decSpeed)) {
 
@@ -47,10 +49,10 @@ public class MecanumDrive {
         }
 
         else {
-            robot.LeftFront.setPower (noSpeed);
-            robot.LeftBack.setPower (noSpeed);
-            robot.RightFront.setPower (noSpeed);
-            robot.RightBack.setPower (noSpeed);
+            robot.LeftFront.setPower (robot.noSpeed);
+            robot.LeftBack.setPower (robot.noSpeed);
+            robot.RightFront.setPower (robot.noSpeed);
+            robot.RightBack.setPower (robot.noSpeed);
             telemetry.addLine("im working power off");
             telemetry.update();
         }

@@ -99,7 +99,7 @@ public class RobotHardware {
 
         // Define and Initialize Motor
         try {
-            LeftFront = hardwareMap.get(DcMotor.class, "LeftFront");
+            LeftFront = hardwareMap.get(DcMotor.class, "left_front");
             LeftFront.setDirection(DcMotor.Direction.FORWARD);
             LeftFront.setPower(0);
             LeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -110,7 +110,7 @@ public class RobotHardware {
         }
 
         try {
-            RightFront = hardwareMap.get(DcMotor.class, "RightFront");
+            RightFront = hardwareMap.get(DcMotor.class, "right_front");
             RightFront.setDirection(DcMotor.Direction.REVERSE);
             RightFront.setPower(0);
             RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -120,7 +120,7 @@ public class RobotHardware {
             RightFront = null;
         }
         try {
-            LeftBack = hardwareMap.get(DcMotor.class, "LeftBack");
+            LeftBack = hardwareMap.get(DcMotor.class, "left_back");
             LeftBack.setDirection(DcMotor.Direction.FORWARD);
             LeftBack.setPower(0);
             LeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -131,7 +131,7 @@ public class RobotHardware {
         }
 
         try {
-            RightBack = hardwareMap.get(DcMotor.class, "RightBack");
+            RightBack = hardwareMap.get(DcMotor.class, "right_back");
             RightBack.setDirection(DcMotor.Direction.REVERSE);
             RightBack.setPower(0);
             RightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -142,7 +142,7 @@ public class RobotHardware {
         }
 
         try {
-            leverArm = hardwareMap.get(DcMotor.class, "leverArm");
+            leverArm = hardwareMap.get(DcMotor.class, "lever_arm");
             leverArm.setPower(0);
             leverArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             telemetry.addData("Status", "Motor: leverArm identified");    //

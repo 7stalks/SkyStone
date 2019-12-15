@@ -4,11 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.motion.Clamp;
-import org.firstinspires.ftc.teamcode.motion.DriveTrain;
-// Also delete the drivetrain import
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
-import org.firstinspires.ftc.teamcode.motion.MecanumDrive
+import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 @TeleOp(name="RobotTeleop:)", group="Robot")
 public class RobotTelop extends LinearOpMode {
@@ -17,17 +15,8 @@ public class RobotTelop extends LinearOpMode {
     RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
     LeverArm lever_arm = new LeverArm();
     Clamp clamp = new Clamp();
-    DriveTrain tank_drive = new DriveTrain();
-    // Delete drivetrain later, Ryan!
-    MecanumDrive mecanumDrive = new MecanumDrive();
+    MecanumDrive mecanum_drive = new MecanumDrive();
     Kicker kicker = new Kicker();
-
-    private void moveRobot(float x_direction, float y_direction) {
-    }
-
-    private void moveKicker(float distance) {
-    }
-    // And delete the above two functions too?
 
     @Override
     public void runOpMode() {
@@ -41,7 +30,7 @@ public class RobotTelop extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x !=0) {
-                MecanumDrive.mecanumDrive(robot, gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad2.right_stick_x,
+                mecanum_drive.mecanumDrive(telemetry, robot, gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad2.right_stick_x,
                         gamepad1.dpad_up, gamepad1.dpad_down);
                 // Might need to put speedVal above "while (opModeIsActive())"
                 // Might also want to add "dpad_up" and "dpad_down" into the if statement
@@ -61,11 +50,9 @@ public class RobotTelop extends LinearOpMode {
             if (gamepad2.left_bumper || gamepad2.right_bumper) {
                 clamp.setClamp(robot, gamepad2.left_bumper, gamepad2.right_bumper);
             }
-
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
             }
         }
     }
 }
-// bobby is a butthole
