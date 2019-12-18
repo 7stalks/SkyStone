@@ -20,8 +20,8 @@ public class GerritTelop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            
-               leverArm.setPower(gamepad1.left_stick_y);
+
+            leverArm.setPower(.3 * gamepad1.left_stick_y);
         }
     }
 }
