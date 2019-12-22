@@ -2,26 +2,28 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 @TeleOp(name="GerritTelop")
-
 public class GerritTelop extends LinearOpMode {
 
-    public DcMotor leverArm;
+    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
+    LeverArm lever_arm = new LeverArm();
+    int counter       = 0;
 
     @Override
-
     public void runOpMode() {
 
-        leverArm = hardwareMap.get(DcMotor.class, "lever_arm");
-        leverArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.init(hardwareMap, telemetry);
 
         waitForStart();
 
-        while (opModeIsActive()) {
 
-            leverArm.setPower(.3 * gamepad1.left_stick_y);
+        while (opModeIsActive()) {
+            telemetry.addData("Counter", counter);
+            lever_arm.moveLeverArmTest(robot, telemetry, gamepad2.left_stick_y);
+            counter += 1;
         }
     }
 }

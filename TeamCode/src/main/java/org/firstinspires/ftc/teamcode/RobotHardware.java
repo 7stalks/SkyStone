@@ -143,8 +143,8 @@ public class RobotHardware {
 
         try {
             leverArm = hardwareMap.get(DcMotor.class, "lever_arm");
-            leverArm.setPower(0);
             leverArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leverArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             telemetry.addData("Status", "Motor: leverArm identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Motor: leverArm not plugged in");    //
@@ -196,23 +196,31 @@ public class RobotHardware {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "left_camera");
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        telemetry.addData("Status", "Vuforia Initialized");
-
+        try {
+            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+            parameters.vuforiaLicenseKey = VUFORIA_KEY;
+            parameters.cameraName = hardwareMap.get(WebcamName.class, "left_camera");
+            vuforia = ClassFactory.getInstance().createVuforia(parameters);
+            telemetry.addData("Status", "Vuforia Initialized");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: Vuforia not enabled");    //
+            vuforia = null;
+        }
     }
 
 
     private void initTFOD(Telemetry telemetry) {
         /* Initialize Tensor Flow Object Detection */
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.8;
-        tensorFlowEngine = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tensorFlowEngine.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-        telemetry.addData("Status", "Tensor Flow Object Detection Initialized");
+        if (vuforia != null) {
+            int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                    "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+            tfodParameters.minimumConfidence = 0.8;
+            tensorFlowEngine = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+            tensorFlowEngine.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+            telemetry.addData("Status", "Tensor Flow Object Detection Initialized");
+        } else {
+            telemetry.addData("Status", "Tensor Flow Object Detection not Initialized");
+        }
     }
 }

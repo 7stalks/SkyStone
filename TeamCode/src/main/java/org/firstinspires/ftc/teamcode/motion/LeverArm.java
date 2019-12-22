@@ -7,44 +7,63 @@ public class LeverArm {
 
     int position;
     int wanted;
+    int Encoder;
 
-    public void leverArmStay(RobotHardware robot){
+    public void leverArmStay(RobotHardware robot, Telemetry telemetry) {
         position = robot.leverArm.getCurrentPosition();
-        if (position > wanted) {
-            robot.leverArm.setPower(-.35);
+        if(position > wanted) {
+            robot.leverArm.setPower(-.05);
+            telemetry.addData("stay %.2d", wanted);
+            telemetry.addData("Position %.2d", position);
+            telemetry.update();
         }
-        else if (position < wanted) {
-            robot.leverArm.setPower(.35);
+        if(position < wanted) {
+            robot.leverArm.setPower(.05);
+            telemetry.addData("stay %.2d", wanted);
+            telemetry.addData("Position %.2d", position);
+            telemetry.update();
         }
     }
 
+    public void moveLeverArmTest(RobotHardware robot, Telemetry telemetry, double distance) {
+        telemetry.addData("Distance %.2d", distance);
+        Encoder = robot.leverArm.getCurrentPosition();
+        telemetry.addData("Encoder %.2d", Encoder);
+        robot.leverArm.setPower(distance * .50);
+        telemetry.update();
+    }
+
     public void moveLeverArm(RobotHardware robot, Telemetry telemetry, double distance){
-        telemetry.addData("Value %.2d", distance);
+        telemetry.addData("Distance %.2d", distance);
         position = robot.leverArm.getCurrentPosition();
-        telemetry.addData("position%.2d", position);
+        telemetry.addData("Position %.2d", position);
         telemetry.update();
 
         if (distance > .5) {
+            telemetry.addData("Distance > .5 %.2d", distance);
             if (position >= robot.ARM_UP_DISTANCE) {
+                telemetry.addData("Position %.2d", position);
                 robot.leverArm.setPower(0);
-            }
-            else if (position >= 900) {
-                robot.leverArm.setPower(-.02);
+                telemetry.update();
             }
             else if (position <= robot.ARM_UP_DISTANCE) {
-                robot.leverArm.setPower(.4);
+                telemetry.addData("Position < %.2d", position);
+                robot.leverArm.setPower(.25);
+                telemetry.update();
+
             }
         }
         if (distance < -.5) {
+            telemetry.addData("Distance < -.5 %.2d", distance);
             if (position <= 100) {
+                telemetry.addData("Position < 100 %.2d", position);
                 robot.leverArm.setPower(0);
             }
-            else if (position <= 700) {
-                robot.leverArm.setPower(.012);
-            }
             else if (position >= 100) {
-                robot.leverArm.setPower(-.4);
+                telemetry.addData("Position > 100 %.2d", position);
+                robot.leverArm.setPower(-.25);
             }
+            telemetry.update();
         }
         wanted = robot.leverArm.getCurrentPosition();
     }

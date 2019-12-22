@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
@@ -42,7 +43,7 @@ public class RobotTelop extends LinearOpMode {
                 robot.KickerServo.setPosition(-1);
             }
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
-                lever_arm.leverArmStay(robot);
+                lever_arm.leverArmStay(robot, telemetry);
             }
             if (gamepad2.left_stick_y > .5 || gamepad2.left_stick_y < -.5) {
                 lever_arm.moveLeverArm(robot, telemetry, -gamepad2.left_stick_y);
