@@ -8,22 +8,22 @@ import org.firstinspires.ftc.teamcode.motion.LeverArm;
 @TeleOp(name="GerritTelop")
 public class GerritTelop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
     LeverArm lever_arm = new LeverArm();
+    int counter       = 0;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
+
         robot.init(hardwareMap, telemetry);
+
         waitForStart();
 
-        while (opModeIsActive()) {
 
-            if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
-                lever_arm.leverArmStay(robot);
-            }
-            if (gamepad2.left_stick_y > .5 || gamepad2.left_stick_y < -.5) {
-                lever_arm.moveLeverArm(robot, telemetry, -gamepad2.left_stick_y);
-            }
+        while (opModeIsActive()) {
+            telemetry.addData("Counter", counter);
+            lever_arm.moveLeverArmTest(robot, telemetry, gamepad2.left_stick_y);
+            counter += 1;
         }
     }
 }
