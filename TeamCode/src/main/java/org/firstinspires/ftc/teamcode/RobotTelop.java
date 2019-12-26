@@ -49,7 +49,7 @@ public class RobotTelop extends LinearOpMode {
                 kicker.KickerMove(robot);
             }
             else {
-                robot.KickerServo.setPosition(-1);
+                robot.KickerServo.setPosition(0);
             }
 
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
