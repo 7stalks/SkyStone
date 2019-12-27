@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.motion.LeverArm;
 @TeleOp(name="GerritTelop")
 public class GerritTelop extends LinearOpMode {
 
-    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
+    RobotHardware robot      = new RobotHardware(true);   // Use a Pushbot's hardware
     LeverArm lever_arm = new LeverArm();
     int counter       = 0;
 

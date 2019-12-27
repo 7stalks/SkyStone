@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
     @TeleOp(name = "Test", group = "Robot")
     public class TestMotors extends LinearOpMode {
-        RobotHardware robot = new RobotHardware();
+        RobotHardware robot = new RobotHardware(true);
 
         @Override
         public void runOpMode() {

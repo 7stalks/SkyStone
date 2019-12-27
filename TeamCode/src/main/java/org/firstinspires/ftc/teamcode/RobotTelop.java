@@ -4,27 +4,32 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
+import java.util.List;
+
 @TeleOp(name="RobotTeleop:)", group="Robot")
 public class RobotTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot      = new RobotHardware();   // Use a Pushbot's hardware
+    RobotHardware robot = new RobotHardware(false);   // Use a Pushbot's hardware
     LeverArm lever_arm = new LeverArm();
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
     Kicker kicker = new Kicker();
 
-    boolean rightCamera = false;
-
     @Override
     public void runOpMode() {
 
-        robot.init(hardwareMap, telemetry, rightCamera);
+        robot.init(hardwareMap, telemetry);
+
+        if (robot.tensorFlowEngine != null) {
+            robot.tensorFlowEngine.activate();
+        }
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -32,13 +37,14 @@ public class RobotTelop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            if (gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x !=0) {
-                mecanum_drive.mecanumDrive(telemetry, robot, gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad2.right_stick_x,
-                        gamepad1.dpad_up, gamepad1.dpad_down);
-                // Might need to put speedVal above "while (opModeIsActive())"
-                // Might also want to add "dpad_up" and "dpad_down" into the if statement
-            }
-            if (gamepad1.right_trigger > 0 ) {
+            mecanum_drive.mecanumDrive(
+                    telemetry, robot,
+                    gamepad1.left_stick_y, gamepad1.left_stick_x,
+                    gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
+            // Might need to put speedVal above "while (opModeIsActive())"
+            // Might also want to add "dpad_up" and "dpad_down" into the if statement
+            //}
+            if (gamepad1.right_trigger > 0) {
                 kicker.KickerMove(robot);
             }
             else {
@@ -56,6 +62,29 @@ public class RobotTelop extends LinearOpMode {
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
             }
+            if (robot.tensorFlowEngine != null) {
+                List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    // step through the list of recognitions and display boundary info.
+                    int i = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                recognition.getLeft(), recognition.getTop());
+                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                recognition.getRight(), recognition.getBottom());
+                    }
+                    telemetry.update();
+                }
+
+            }
+
+        }
+
+        if (robot.tensorFlowEngine != null) {
+            robot.tensorFlowEngine.shutdown();
         }
     }
 }
+

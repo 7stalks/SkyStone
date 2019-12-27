@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.motion.Kicker;
 @TeleOp(name = "PermeetTelop")
 public class PermeetTelop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(true);
     Kicker kicker = new Kicker();
 
     @Override

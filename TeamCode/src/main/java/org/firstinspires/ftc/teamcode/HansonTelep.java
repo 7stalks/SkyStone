@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "HansonTelep")
 public class HansonTelep extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(true);
     double speedVal         = .5;
     final double stickThres = .25;
     final double noSpeed    = 0;

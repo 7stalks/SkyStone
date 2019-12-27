@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.motion.Clamp;
 @TeleOp(name = "RyanTeleop")
 public class RyanTeleop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(true);
     Clamp clamp = new Clamp();
 
     @Override

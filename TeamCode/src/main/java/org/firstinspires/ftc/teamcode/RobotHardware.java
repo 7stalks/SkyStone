@@ -57,7 +57,6 @@ public class RobotHardware {
     public static final double noSpeed = 0;
 
 
-
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -75,6 +74,8 @@ public class RobotHardware {
      */
     private VuforiaLocalizer vuforia;
 
+    public boolean rightCamera;
+
     /**
      * {@link #tensorFlowEngine} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
@@ -88,13 +89,17 @@ public class RobotHardware {
 
 
     /* Constructor */
-    public RobotHardware(){
-        // False CameraDirection = left_camera
-        // True CameraDirection  = right_camera
+    public RobotHardware(boolean right_camera){
+    if (right_camera) {
+        rightCamera = true;
+    }
+    else {
+        rightCamera = false;
+    }
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hardware_map, Telemetry telemetry, boolean rightCamera) {
+    public void init(HardwareMap hardware_map, Telemetry telemetry) {
 
         // Save reference to Hardware map
         hardwareMap = hardware_map;
