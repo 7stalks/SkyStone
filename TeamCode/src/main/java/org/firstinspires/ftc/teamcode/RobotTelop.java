@@ -19,10 +19,12 @@ public class RobotTelop extends LinearOpMode {
     MecanumDrive mecanum_drive = new MecanumDrive();
     Kicker kicker = new Kicker();
 
+    boolean rightCamera = false;
+
     @Override
     public void runOpMode() {
 
-        robot.init(hardwareMap, telemetry);
+        robot.init(hardwareMap, telemetry, rightCamera);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

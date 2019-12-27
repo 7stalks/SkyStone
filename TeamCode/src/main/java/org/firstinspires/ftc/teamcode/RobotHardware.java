@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -88,11 +89,12 @@ public class RobotHardware {
 
     /* Constructor */
     public RobotHardware(){
-
+        // False CameraDirection = left_camera
+        // True CameraDirection  = right_camera
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hardware_map, Telemetry telemetry) {
+    public void init(HardwareMap hardware_map, Telemetry telemetry, boolean rightCamera) {
 
         // Save reference to Hardware map
         hardwareMap = hardware_map;
@@ -180,7 +182,7 @@ public class RobotHardware {
             KickerServo = null;
         }
 
-        initVuforia(telemetry);
+        initVuforia(telemetry, rightCamera);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTFOD(telemetry);
@@ -192,14 +194,21 @@ public class RobotHardware {
 
     }
 
-    private void initVuforia(Telemetry telemetry) {
+    private void initVuforia(Telemetry telemetry, boolean rightCamera) {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
         try {
             VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
             parameters.vuforiaLicenseKey = VUFORIA_KEY;
-            parameters.cameraName = hardwareMap.get(WebcamName.class, "left_camera");
+
+            if (rightCamera) {
+                parameters.cameraName = hardwareMap.get(WebcamName.class, "right_camera");
+            }
+            else {
+                parameters.cameraName = hardwareMap.get(WebcamName.class, "left_camera");
+            }
+
             vuforia = ClassFactory.getInstance().createVuforia(parameters);
             telemetry.addData("Status", "Vuforia Initialized");
         } catch (IllegalArgumentException err) {
