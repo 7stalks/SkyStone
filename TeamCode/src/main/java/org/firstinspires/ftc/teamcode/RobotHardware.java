@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -12,15 +14,17 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+
 
 /**
  * This is NOT an opmode.
- *
+ * <p>
  * This class can be used to define all the specific hardware for a single robot.
- *
+ * <p>
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
- *
+ * <p>
  * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
  * Motor channel:  Lever:                    "lever_arm"
@@ -32,21 +36,25 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 public class RobotHardware {
     /* Public OpMode members. */
 
-    public DcMotor  LeftFront;
-    public DcMotor  RightFront;
-    public DcMotor  LeftBack;
-    public DcMotor  RightBack;
-    public DcMotor  leverArm;
+    public DcMotor LeftFront;
+    public DcMotor RightFront;
+    public DcMotor LeftBack;
+    public DcMotor RightBack;
+    public DcMotor leverArm;
 
-    public Servo    clampRotator;
-    public Servo    clamp;
+    public Servo clampRotator;
+    public Servo clamp;
     public Servo KickerServo;
 
+    public ColorSensor colorSensor;
+    public BNO055IMU imu;
+
+
     public static final double MID_SERVO = 0.5;
-    public static final double CLAMP_OPEN_DISTANCE =  0.4 ;
-    public static final double ARM_UP_POWER =  0.45 ;
-    public static final double ARM_DOWN_POWER = -0.45 ;
-    public static final double ARM_UP_DISTANCE = 1600 ;
+    public static final double CLAMP_OPEN_DISTANCE = 0.4;
+    public static final double ARM_UP_POWER = 0.45;
+    public static final double ARM_DOWN_POWER = -0.45;
+    public static final double ARM_UP_DISTANCE = 1600;
     public static final double CLAMP_CLOSE_DISTANCE = 0.75;
     public static final double CLAMP_ROTATOR_BEGINNING_SERVO = 0;
     public static final double KICKER_START = 0;
@@ -73,7 +81,6 @@ public class RobotHardware {
      * localization engine.
      */
     private VuforiaLocalizer vuforia;
-
     public boolean rightCamera;
 
     /**
@@ -84,18 +91,18 @@ public class RobotHardware {
 
 
     /* local OpMode members. */
-    HardwareMap hardwareMap     =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hardwareMap = null;
+    private ElapsedTime period = new ElapsedTime();
 
 
     /* Constructor */
-    public RobotHardware(boolean right_camera){
-    if (right_camera) {
-        rightCamera = true;
-    }
-    else {
-        rightCamera = false;
-    }
+    public RobotHardware(boolean right_camera) {
+
+        if (right_camera) {
+            rightCamera = true;
+        } else {
+            rightCamera = false;
+        }
     }
 
     /* Initialize standard Hardware interfaces */
@@ -180,11 +187,27 @@ public class RobotHardware {
 
         try {
             KickerServo = hardwareMap.get(Servo.class, "kicker");
-            KickerServo.setPosition(KICKER_START);
+            KickerServo.setPosition(MID_SERVO);
             telemetry.addData("Status", "Servo: kicker identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: kicker not plugged in");    //
             KickerServo = null;
+        }
+
+        try {
+            colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
+            telemetry.addData("Status", "sensor: color sensor identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "sensor: color sensor not plugged in");    //
+            colorSensor = null;
+        }
+
+        try {
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+            telemetry.addData("Status", "sensor: imu identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "sensor: imu not plugged in");    //
+            imu = null;
         }
 
         initVuforia(telemetry, rightCamera);
@@ -209,8 +232,7 @@ public class RobotHardware {
 
             if (rightCamera) {
                 parameters.cameraName = hardwareMap.get(WebcamName.class, "right_camera");
-            }
-            else {
+            } else {
                 parameters.cameraName = hardwareMap.get(WebcamName.class, "left_camera");
             }
 
