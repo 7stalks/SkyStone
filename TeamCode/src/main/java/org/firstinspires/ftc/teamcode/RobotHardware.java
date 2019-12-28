@@ -64,6 +64,22 @@ public class RobotHardware {
     public static final double stickThres = .25;
     public static final double noSpeed = 0;
 
+    private static final float mmPerInch        = 25.4f;
+    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
+
+    // Constant for Stone Target
+    public static final float stoneZ = 2.00f * mmPerInch;
+
+    // Constants for the center support targets
+    public static final float bridgeZ = 6.42f * mmPerInch;
+    public static final float bridgeY = 23 * mmPerInch;
+    public static final float bridgeX = 5.18f * mmPerInch;
+    public static final float bridgeRotY = 59;                                 // Units are degrees
+    public static final float bridgeRotZ = 180;
+
+    // Constants for perimeter targets
+    public static final float halfField = 72 * mmPerInch;
+    public static final float quadField  = 36 * mmPerInch;
 
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -80,7 +96,7 @@ public class RobotHardware {
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
-    private VuforiaLocalizer vuforia;
+    public VuforiaLocalizer vuforia;
     public boolean rightCamera;
 
     /**
@@ -243,7 +259,6 @@ public class RobotHardware {
             vuforia = null;
         }
     }
-
 
     private void initTFOD(Telemetry telemetry) {
         /* Initialize Tensor Flow Object Detection */
