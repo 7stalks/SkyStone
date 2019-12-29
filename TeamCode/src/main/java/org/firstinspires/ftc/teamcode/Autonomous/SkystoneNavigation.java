@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables; //
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public class SkystoneNavigation {
 
-    RobotHardware robot = new RobotHardware(false);
+
 
     public boolean targetVisible = false;
     public OpenGLMatrix lastLocation = null;
@@ -52,31 +52,27 @@ public class SkystoneNavigation {
     public static final float halfField = 72 * mmPerInch;
     public static final float quadField  = 36 * mmPerInch;
 
-    public VuforiaTrackables targetsSkyStone = robot.vuforia.loadTrackablesFromAsset("Skystone");
-
-    VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
-    VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
-    VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
-    VuforiaTrackable redFrontBridge = targetsSkyStone.get(3);
-    VuforiaTrackable blueFrontBridge = targetsSkyStone.get(4);
-    VuforiaTrackable red1 = targetsSkyStone.get(5);
-    VuforiaTrackable red2 = targetsSkyStone.get(6);
-    VuforiaTrackable front1 = targetsSkyStone.get(7);
-    VuforiaTrackable front2 = targetsSkyStone.get(8);
-    VuforiaTrackable blue1 = targetsSkyStone.get(9);
-    VuforiaTrackable blue2 = targetsSkyStone.get(10);
-    VuforiaTrackable rear1 = targetsSkyStone.get(11);
-    VuforiaTrackable rear2 = targetsSkyStone.get(12);
-
-    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-
-    public void TrackableListing() {
-        // Creates a convenient array list
-        allTrackables.addAll(targetsSkyStone);
-    }
+    public List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+    public VuforiaTrackables targetsSkyStone;
 
     // Omitted the "this." from robot.vuforia.loadTrackablesFromAsset("Skystone");
     public void skystoneNavigationInit(RobotHardware robot) {
+
+        targetsSkyStone = robot.vuforia.loadTrackablesFromAsset("Skystone");
+
+        VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
+        VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
+        VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
+        VuforiaTrackable redFrontBridge = targetsSkyStone.get(3);
+        VuforiaTrackable blueFrontBridge = targetsSkyStone.get(4);
+        VuforiaTrackable red1 = targetsSkyStone.get(5);
+        VuforiaTrackable red2 = targetsSkyStone.get(6);
+        VuforiaTrackable front1 = targetsSkyStone.get(7);
+        VuforiaTrackable front2 = targetsSkyStone.get(8);
+        VuforiaTrackable blue1 = targetsSkyStone.get(9);
+        VuforiaTrackable blue2 = targetsSkyStone.get(10);
+        VuforiaTrackable rear1 = targetsSkyStone.get(11);
+        VuforiaTrackable rear2 = targetsSkyStone.get(12);
 
         // Creating convenient names
         stoneTarget.setName("Stone Target");
@@ -93,12 +89,11 @@ public class SkystoneNavigation {
         rear1.setName("Rear Perimeter 1");
         rear2.setName("Rear Perimeter 2");
 
-        TrackableListing();
+        allTrackables.addAll(targetsSkyStone);
 
         stoneTarget.setLocation(OpenGLMatrix
                 .translation(0, 0, stoneZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
 
         //Set the position of the bridge support targets with relation to origin (center of field)
         blueFrontBridge.setLocation(OpenGLMatrix
