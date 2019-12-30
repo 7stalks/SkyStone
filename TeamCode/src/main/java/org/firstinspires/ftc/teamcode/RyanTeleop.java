@@ -14,8 +14,8 @@ public class RyanTeleop extends LinearOpMode {
     RobotHardware robot = new RobotHardware(true);
     MecanumDrive mecanum_drive = new MecanumDrive();
 
-    private void mecanumLeft() {
-        mecanum_drive.mecanumDrive(telemetry, robot, 0, -.75, 0, false, false);
+    private void mecanumLeft(double power) {
+        mecanum_drive.mecanumDrive(telemetry, robot, 0, -power, 0, false, false);
     }
 
     private void mecanumNaught() {
@@ -34,7 +34,7 @@ public class RyanTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            mecanumLeft();
+            mecanumLeft(.75);
             sleep(2000);
             mecanumNaught();
 
