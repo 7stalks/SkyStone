@@ -40,7 +40,7 @@ public class MecanumDrive {
             robot.RightBack.setPower (RBridget);
             robot.LeftFront.setPower (LFrancisco);
             robot.LeftBack.setPower (LBoomer);
-            telemetry.addLine("im working power on");
+//            telemetry.addLine("im working power on");
             telemetry.addData("RFarquaad", RFarquaad);
             telemetry.addData("LFrancisco", LFrancisco);
             telemetry.addData("LBoomer", LBoomer);

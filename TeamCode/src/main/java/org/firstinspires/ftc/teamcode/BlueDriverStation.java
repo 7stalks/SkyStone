@@ -52,20 +52,14 @@ public class BlueDriverStation extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
+        skystoneNav.skystoneNavigationInit(robot);
 
         // Navigation Init
         waitForStart();
+        skystoneNav.targetsSkyStone.activate();
 
         while (opModeIsActive()) {
-            telemetry.addData("TFOD", "..");
-            robot.tensorFlowEngine.activate();
-            telemetry.update();
-            sleep(5000);
-            robot.tensorFlowEngine.deactivate();
-            telemetry.addData("NAV", "..");
-            getNavStuff();
-            telemetry.update();
-            sleep(5000);
+            skystoneNav.SkystoneNavigation(telemetry);
         }
     }
 }

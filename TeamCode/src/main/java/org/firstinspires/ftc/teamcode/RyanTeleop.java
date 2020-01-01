@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
 
-@TeleOp(name = "RyanTeleop")
+@Autonomous(name = "RyanTeleop")
 public class RyanTeleop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
 
     private void mecanumLeft(double power) {
@@ -32,11 +32,11 @@ public class RyanTeleop extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        mecanumLeft(.9);
+        sleep(750);
+        mecanumNaught();
 
-            mecanumLeft(.75);
-            sleep(2000);
-            mecanumNaught();
+        while (opModeIsActive()) {
 
             if (robot.tensorFlowEngine != null) {
                 List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
@@ -44,13 +44,19 @@ public class RyanTeleop extends LinearOpMode {
                     telemetry.addData("# Object Detected", updatedRecognitions.size());
                     // step through the list of recognitions and display boundary info.
                     int i = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT)
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                   for (Recognition recognition : updatedRecognitions) {
+                             telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
                         telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
                                 recognition.getLeft(), recognition.getTop());
                         telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                 recognition.getRight(), recognition.getBottom());
+                        if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
+                            telemetry.addLine("YAHOO!!");
+                            double bottom = recognition.getBottom();
+                            double top = recognition.getTop();
+                            double right = recognition.getRight();
+                            double left = recognition.getLeft();
+                        }
                     }
                     telemetry.update();
                 }
