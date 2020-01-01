@@ -12,7 +12,7 @@ import java.util.List;
 public class StevenTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot      = new RobotHardware(true);   // Use a Pushbot's hardware
+    RobotHardware robot      = new RobotHardware(false);   // Use a Pushbot's hardware
     int counter       = 0;                     // Servo mid position
 
     @Override
