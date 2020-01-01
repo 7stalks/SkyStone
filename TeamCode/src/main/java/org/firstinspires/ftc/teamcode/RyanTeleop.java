@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
@@ -13,14 +14,6 @@ public class RyanTeleop extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
-
-    private void mecanumLeft(double power) {
-        mecanum_drive.mecanumDrive(telemetry, robot, 0, -power, 0, false, false);
-    }
-
-    private void mecanumNaught() {
-        mecanum_drive.mecanumDrive(telemetry, robot, 0, 0, 0, false, false);
-    }
 
     private void recognitionTelemetry() {
         
@@ -36,9 +29,12 @@ public class RyanTeleop extends LinearOpMode {
 
         waitForStart();
 
-        mecanumLeft(.9);
-        sleep(750);
-        mecanumNaught();
+//        mecanum.mecanumLeft(9);
+//        sleep(1250);
+//        mecanum.mecanumNaught();
+//        sleep(250);
+//        mecanum.mecanumBackward(9);
+//        sleep(400);
 
         while (opModeIsActive()) {
 
@@ -50,10 +46,6 @@ public class RyanTeleop extends LinearOpMode {
                     int i = 0;
                    for (Recognition recognition : updatedRecognitions) {
                              telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
                         if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
                             telemetry.addLine("YAHOO!!");
                             telemetry.addData("Height:", recognition.getHeight());
@@ -63,6 +55,10 @@ public class RyanTeleop extends LinearOpMode {
                             if (areaRatio >= .9) {
                                 telemetry.addLine("Nailed it!");
                             }
+                        } else {
+//                            sleep(250);
+//                            mecanum.mecanumForward(3);
+//                            sleep(150);
                         }
                     }
                     telemetry.update();

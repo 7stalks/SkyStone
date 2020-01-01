@@ -7,8 +7,29 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 public class AutonomousMecanum {
 
-    public void mecanumLeft(MecanumDrive mecanum_drive, Telemetry telemetry, RobotHardware robot, LinearOpMode runOpMode, long inches) {
-        mecanum_drive.mecanumDrive(telemetry, robot, 0, -.9, 0, false, false);
-        runOpMode.sleep(500*inches);
+    RobotHardware robot;
+    Telemetry telemetry;
+    MecanumDrive mecanum_drive;
+
+    public AutonomousMecanum(RobotHardware robob, Telemetry telemetryhard, MecanumDrive mecanumFly) {
+        robot = robob;
+        telemetry = telemetryhard;
+        mecanum_drive = mecanumFly;
+    }
+
+    public void mecanumLeft(double power) {
+        mecanum_drive.mecanumDrive(telemetry, robot, 0, -power, 0, false, false);
+    }
+
+    public void mecanumNaught() {
+        mecanum_drive.mecanumDrive(telemetry, robot, 0, 0, 0, false, false);
+    }
+
+    public void mecanumBack(double power) {
+        mecanum_drive.mecanumDrive(telemetry, robot, power, 0, 0, false, false);
+    }
+
+    public void mecanumFront(double power) {
+        mecanum_drive.mecanumDrive(telemetry, robot, -power, 0, 0, false, false);
     }
 }
