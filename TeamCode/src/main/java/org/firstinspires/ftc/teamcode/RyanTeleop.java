@@ -22,6 +22,10 @@ public class RyanTeleop extends LinearOpMode {
         mecanum_drive.mecanumDrive(telemetry, robot, 0, 0, 0, false, false);
     }
 
+    private void recognitionTelemetry() {
+        
+    }
+
     @Override
     public void runOpMode() {
 
@@ -52,10 +56,13 @@ public class RyanTeleop extends LinearOpMode {
                                 recognition.getRight(), recognition.getBottom());
                         if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
                             telemetry.addLine("YAHOO!!");
-                            double bottom = recognition.getBottom();
-                            double top = recognition.getTop();
-                            double right = recognition.getRight();
-                            double left = recognition.getLeft();
+                            telemetry.addData("Height:", recognition.getHeight());
+                            telemetry.addData("Width:", recognition.getWidth());
+                            float areaRatio = ((recognition.getWidth()*recognition.getHeight())/(recognition.getImageHeight()*recognition.getImageWidth()));
+                            telemetry.addData("Stone area over image area:", areaRatio);
+                            if (areaRatio >= .9) {
+                                telemetry.addLine("Nailed it!");
+                            }
                         }
                     }
                     telemetry.update();
