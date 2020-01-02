@@ -41,11 +41,11 @@ public class MecanumDrive {
             robot.LeftFront.setPower (LFrancisco);
             robot.LeftBack.setPower (LBoomer);
 //            telemetry.addLine("im working power on");
-            telemetry.addData("RFarquaad", RFarquaad);
-            telemetry.addData("LFrancisco", LFrancisco);
-            telemetry.addData("LBoomer", LBoomer);
-            telemetry.addData("RBridget", RBridget);
-            telemetry.update();
+//            telemetry.addData("RFarquaad", RFarquaad);
+//            telemetry.addData("LFrancisco", LFrancisco);
+//            telemetry.addData("LBoomer", LBoomer);
+//            telemetry.addData("RBridget", RBridget);
+//            telemetry.update();
         }
 
         else {
@@ -53,8 +53,8 @@ public class MecanumDrive {
             robot.LeftBack.setPower (robot.noSpeed);
             robot.RightFront.setPower (robot.noSpeed);
             robot.RightBack.setPower (robot.noSpeed);
-            telemetry.addLine("im working power off");
-            telemetry.update();
+//            telemetry.addLine("im working power off");
+//            telemetry.update();
         }
     }
 

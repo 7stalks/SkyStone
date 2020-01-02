@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
@@ -25,24 +26,7 @@ public class BlueDriverStation extends LinearOpMode {
     boolean skystone = false;
     boolean skystoneArea = false;
     float areaRatio;
-
-    public void getNavStuff() {
-        skystoneNav.skystoneNavigationInit(robot);
-        skystoneNav.targetsSkyStone.activate();
-        skystoneNav.SkystoneNavigation(telemetry);
-        skystoneNav.targetsSkyStone.deactivate();
-    }
-
-    public void getTFODStuff() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.8;
-        tensorFlowEngine = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, robot.vuforia);
-        tensorFlowEngine.loadModelFromAsset(robot.TFOD_MODEL_ASSET, robot.LABEL_FIRST_ELEMENT,
-                robot.LABEL_SECOND_ELEMENT);
-        telemetry.addData("Status", "Tensor Flow Object Detection Initialized");
-    }
+    double HorAngle;
 
     public void checkForStones(List<Recognition> updatedRecognitions) {
         if (updatedRecognitions != null) {
@@ -69,9 +53,41 @@ public class BlueDriverStation extends LinearOpMode {
         }
     }
 
+    public void moveToSkystone(List<Recognition> updatedRecognitions) {
+        if (updatedRecognitions != null) {
+            for (Recognition recognition : updatedRecognitions)
+                if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT)
+                    HorAngle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+            telemetry.addData("HorizontalAngle:", HorAngle);
+                    if (HorAngle >= 1) {
+                        mecanum.mecanumFront(.4);
+                    } else if (HorAngle <= -1) {
+                        mecanum.mecanumBack(.4);
+                    }
+        }
+    }
+
     public void grabSkystone() {
         telemetry.addLine("I should be grabbing the skystone now");
         telemetry.update();
+    }
+
+    public void SkyStoneTFOD() {
+        if (robot.tensorFlowEngine != null) {
+            sleep(50);
+            List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
+            checkForStones(updatedRecognitions);
+            if (skystoneArea) {
+                mecanum.mecanumNaught();
+                grabSkystone();
+                robot.tensorFlowEngine.deactivate();
+            } else if (skystone) {
+                mecanum.mecanumNaught();
+                moveToSkystone(updatedRecognitions);
+            } else {
+                mecanum.mecanumFront(.55);
+            }
+        }
     }
 
     public void runOpMode() throws InterruptedException {
@@ -84,28 +100,15 @@ public class BlueDriverStation extends LinearOpMode {
         mecanum.mecanumLeft(.9);
         sleep(1250);
         mecanum.mecanumNaught();
-        sleep(150);
+        sleep(100);
         mecanum.mecanumBack(.9);
-        sleep(800);
+        sleep(900);
         mecanum.mecanumNaught();
+        sleep(100);
 
         while (opModeIsActive()) {
 
-            if (robot.tensorFlowEngine != null) {
-                List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
-                checkForStones(updatedRecognitions);
-                if (skystone && skystoneArea) {
-                    mecanum.mecanumNaught();
-                    grabSkystone();
-                    robot.tensorFlowEngine.deactivate();
-                } else if (skystone && !skystoneArea) {
-                    mecanum.mecanumLeft(.4);
-                }
-                else {
-                    mecanum.mecanumBack(.9);
-                    sleep(400);
-                }
-            }
+            SkyStoneTFOD();
         }
     }
 }
