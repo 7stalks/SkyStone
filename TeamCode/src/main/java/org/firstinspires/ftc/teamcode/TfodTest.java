@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 import java.util.List;
 
 
-@Autonomous(name = "RyanTeleop")
-public class RyanTeleop extends LinearOpMode {
+@Autonomous(name = "TfodTest")
+public class TfodTest extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
@@ -32,7 +32,7 @@ public class RyanTeleop extends LinearOpMode {
                     skystone = true;
                     areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
                     telemetry.addData("Stone area over image area:", areaRatio);
-                    if (areaRatio >= .9) {
+                    if (areaRatio >= .975) {
                         telemetry.addLine("Moving in!");
                         skystoneArea = true;
                     }
@@ -40,24 +40,26 @@ public class RyanTeleop extends LinearOpMode {
                     telemetry.addData("HorizontalAngle:", HorAngle);
                 }
             }
-            telemetry.update();
         }
     }
 
     public void moveToSkystone() {
-        if (HorAngle > -2 && HorAngle < 2) {
-            mecanum.mecanumLeft(.9);
+        if (-1.5 <= HorAngle && HorAngle <= 1.5) {
+            mecanum.mecanumLeft(.5);
             sleep(50);
-        } else if (HorAngle >= 2) {
-            mecanum.mecanumFront(.55);
-        } else if (HorAngle <= -2) {
-            mecanum.mecanumBack(.55);
+        } else if (HorAngle < -2) {
+            mecanum.mecanumBack(.4);
+            sleep(10);
+            telemetry.addData("Status", "Backing");
+        } else if (HorAngle > 2) {
+            mecanum.mecanumFront(.4);
+            sleep(10);
+            telemetry.addData("Status:", "Forwarding");
         }
     }
 
     public void grabSkystone() {
-        telemetry.addLine("I should be grabbing the skystone now");
-        telemetry.update();
+        telemetry.addData("Status:", "I should be grabbing the skystone now");
     }
 
     public void SkyStoneTFOD() {
@@ -67,12 +69,11 @@ public class RyanTeleop extends LinearOpMode {
             if (skystoneArea) {
                 mecanum.mecanumNaught();
                 grabSkystone();
-                robot.tensorFlowEngine.deactivate();
             } else if (skystone) {
                 mecanum.mecanumNaught();
                 moveToSkystone();
             } else {
-                mecanum.mecanumLeft(.75);
+                mecanum.mecanumLeft(.5);
             }
         }
     }
@@ -84,18 +85,10 @@ public class RyanTeleop extends LinearOpMode {
 
         waitForStart();
 
-//        mecanum.mecanumLeft(.9);
-//        sleep(1250);
-//        mecanum.mecanumNaught();
-//        sleep(100);
-//        mecanum.mecanumBack(.9);
-//        sleep(900);
-//        mecanum.mecanumNaught();
-//        sleep(50);
-
         while (opModeIsActive()) {
 
             SkyStoneTFOD();
+            telemetry.update();
         }
     }
 }

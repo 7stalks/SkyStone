@@ -21,6 +21,11 @@ public class AutonomousMecanum {
         mecanum_drive.mecanumDrive(telemetry, robot, 0, -power, 0, false, false);
     }
 
+    public void mecanumRight(double power) {
+        mecanum_drive.mecanumDrive(telemetry, robot, 0, power, 0, false, false);
+
+    }
+
     public void mecanumNaught() {
         mecanum_drive.mecanumDrive(telemetry, robot, 0, 0, 0, false, false);
     }

@@ -49,13 +49,17 @@ public class BlueDriverStation extends LinearOpMode {
     }
 
     public void moveToSkystone() {
-        if (HorAngle >= 1) {
-            mecanum.mecanumFront(.4);
-        } else if (HorAngle <= -1) {
-            mecanum.mecanumBack(.4);
-        } else if (HorAngle > -1 && HorAngle < 1) {
-            mecanum.mecanumLeft(.4);
-        }
+//        if (HorAngle >= 1) {
+//            mecanum.mecanumFront(.7);
+//            telemetry.addLine("MOVING FORWARD");
+//        } else if (HorAngle <= -1) {
+//            mecanum.mecanumBack(.7);
+//            telemetry.addLine("BACKING UP");
+//        } else if (HorAngle > -1 && HorAngle < 1) {
+//            mecanum.mecanumLeft(.8);
+//            telemetry.addLine("GOING IN FOR BLOCK");
+//        }
+        telemetry.update();
     }
 
     public void grabSkystone() {
@@ -75,7 +79,7 @@ public class BlueDriverStation extends LinearOpMode {
                 mecanum.mecanumNaught();
                 moveToSkystone();
             } else {
-                mecanum.mecanumFront(.55);
+                mecanum.mecanumFront(.45);
             }
         }
     }

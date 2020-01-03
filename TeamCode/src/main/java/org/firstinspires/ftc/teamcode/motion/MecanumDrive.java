@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class MecanumDrive {
 
-    double speedVal = .5;
+    double speedVal = 1;
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
