@@ -19,8 +19,6 @@ import java.util.List;
 public class BlueDriverStation extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
-    public TFObjectDetector tensorFlowEngine;
-    SkystoneNavigation skystoneNav = new SkystoneNavigation();
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
     boolean skystone = false;
@@ -33,18 +31,13 @@ public class BlueDriverStation extends LinearOpMode {
             telemetry.addData("# Object Detected", updatedRecognitions.size());
             // step through the list of recognitions and display boundary info.
             for (Recognition recognition : updatedRecognitions) {
-                if (recognition.getLabel() == robot.LABEL_FIRST_ELEMENT) {
-                    telemetry.addLine("Womp womp, no stone");
-                }
                 if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
                     telemetry.addLine("YAHOO!!");
                     skystone = true;
-                    telemetry.addData("Height:", recognition.getHeight());
-                    telemetry.addData("Width:", recognition.getWidth());
                     areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
                     telemetry.addData("Stone area over image area:", areaRatio);
                     if (areaRatio >= .9) {
-                        telemetry.addLine("Nailed it!");
+                        telemetry.addLine("Moving in!");
                         skystoneArea = true;
                     }
                 }
@@ -58,12 +51,13 @@ public class BlueDriverStation extends LinearOpMode {
             for (Recognition recognition : updatedRecognitions)
                 if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT)
                     HorAngle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
-            telemetry.addData("HorizontalAngle:", HorAngle);
+                    telemetry.addData("HorizontalAngle:", HorAngle);
                     if (HorAngle >= 1) {
                         mecanum.mecanumFront(.4);
                     } else if (HorAngle <= -1) {
                         mecanum.mecanumBack(.4);
-                        // :(
+                    } else if (HorAngle < 1 && HorAngle > -10) {
+                        mecanum.mecanumLeft(.4);
                     }
         }
     }
@@ -75,7 +69,6 @@ public class BlueDriverStation extends LinearOpMode {
 
     public void SkyStoneTFOD() {
         if (robot.tensorFlowEngine != null) {
-            sleep(50);
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
             if (skystoneArea) {
@@ -105,7 +98,7 @@ public class BlueDriverStation extends LinearOpMode {
         mecanum.mecanumBack(.9);
         sleep(900);
         mecanum.mecanumNaught();
-        sleep(100);
+        sleep(50);
 
         while (opModeIsActive()) {
 
