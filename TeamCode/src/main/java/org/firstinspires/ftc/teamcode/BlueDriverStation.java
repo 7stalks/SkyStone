@@ -40,25 +40,21 @@ public class BlueDriverStation extends LinearOpMode {
                         telemetry.addLine("Moving in!");
                         skystoneArea = true;
                     }
+                    HorAngle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                    telemetry.addData("HorizontalAngle:", HorAngle);
                 }
             }
             telemetry.update();
         }
     }
 
-    public void moveToSkystone(List<Recognition> updatedRecognitions) {
-        if (updatedRecognitions != null) {
-            for (Recognition recognition : updatedRecognitions)
-                if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT)
-                    HorAngle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
-                    telemetry.addData("HorizontalAngle:", HorAngle);
-                    if (HorAngle >= 1) {
-                        mecanum.mecanumFront(.4);
-                    } else if (HorAngle <= -1) {
-                        mecanum.mecanumBack(.4);
-                    } else if (HorAngle < 1 && HorAngle > -10) {
-                        mecanum.mecanumLeft(.4);
-                    }
+    public void moveToSkystone() {
+        if (HorAngle >= 1) {
+            mecanum.mecanumFront(.4);
+        } else if (HorAngle <= -1) {
+            mecanum.mecanumBack(.4);
+        } else if (HorAngle > -1 && HorAngle < 1) {
+            mecanum.mecanumLeft(.4);
         }
     }
 
@@ -77,7 +73,7 @@ public class BlueDriverStation extends LinearOpMode {
                 robot.tensorFlowEngine.deactivate();
             } else if (skystone) {
                 mecanum.mecanumNaught();
-                moveToSkystone(updatedRecognitions);
+                moveToSkystone();
             } else {
                 mecanum.mecanumFront(.55);
             }
