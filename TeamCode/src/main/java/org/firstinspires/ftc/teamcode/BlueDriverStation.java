@@ -29,13 +29,11 @@ public class BlueDriverStation extends LinearOpMode {
     public void checkForStones(List<Recognition> updatedRecognitions) {
         if (updatedRecognitions != null) {
             telemetry.addData("# Object Detected", updatedRecognitions.size());
-            // step through the list of recognitions and display boundary info.
             for (Recognition recognition : updatedRecognitions) {
                 if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
-                    telemetry.addLine("YAHOO!!");
                     skystone = true;
                     areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
-                    telemetry.addData("Stone area over image area:", areaRatio);
+                    telemetry.addData("Area Ratio", areaRatio);
                     if (areaRatio >= .9) {
                         telemetry.addLine("Moving in!");
                         skystoneArea = true;
@@ -86,15 +84,6 @@ public class BlueDriverStation extends LinearOpMode {
         robot.tensorFlowEngine.activate();
 
         waitForStart();
-
-        mecanum.mecanumLeft(.9);
-        sleep(1250);
-        mecanum.mecanumNaught();
-        sleep(100);
-        mecanum.mecanumBack(.9);
-        sleep(900);
-        mecanum.mecanumNaught();
-        sleep(50);
 
         while (opModeIsActive()) {
 
