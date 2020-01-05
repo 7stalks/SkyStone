@@ -5,23 +5,29 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class AngularMecanum {
 
     RobotHardware robot;
+    Telemetry telemetry;
     double robobAngle;
 
-    public AngularMecanum(RobotHardware robob) {
+    public AngularMecanum(RobotHardware robob, Telemetry telemetryhard) {
         robot = robob;
+        telemetry = telemetryhard;
     }
 
-    public void angularMecanum(double robotAngle, double power, double rotation) {
+    public void Left(double robotAngle, double power, double rotation) {
 
-        robobAngle = (Math.PI / 4) - robotAngle;
+        robobAngle = ((3*Math.PI) / 4) + robotAngle;
 
-        final double RFarquaad = Math.cos(robobAngle*power) + rotation;
-        final double RBridget = Math.sin(robobAngle*power) + rotation;
-        final double LFrancisco = Math.sin(robobAngle*power) - rotation;
-        final double LBoomer = Math.cos(robobAngle*power) - rotation;
-        robot.RightFront.setPower (RFarquaad);
-        robot.RightBack.setPower (RBridget);
-        robot.LeftFront.setPower (LFrancisco);
-        robot.LeftBack.setPower (LBoomer);
+        final double RFarquaad = Math.cos(robobAngle) + rotation;
+        final double RBridget = Math.sin(robobAngle) + rotation;
+        final double LFrancisco = Math.sin(robobAngle) - rotation;
+        final double LBoomer = Math.cos(robobAngle) - rotation;
+        robot.RightFront.setPower (RFarquaad*power);
+        robot.RightBack.setPower (RBridget*power);
+        robot.LeftFront.setPower (LFrancisco*power);
+        robot.LeftBack.setPower (LBoomer*power);
+        telemetry.addData("RFarquaad", RFarquaad);
+        telemetry.addData("LFrancisco", LFrancisco);
+        telemetry.addData("LBoomer", LBoomer);
+        telemetry.addData("RBridget", RBridget);
     }
 }

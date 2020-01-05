@@ -9,4 +9,8 @@ public class Kicker {
         robot.KickerServo.setPosition(1);
 
     }
+
+    public void KickerSet(RobotHardware robot, double position) {
+        robot.KickerServo.setPosition(position);
+    }
 }
