@@ -89,6 +89,7 @@ public class RyanTeleop extends LinearOpMode {
     public void grabSkystone() {
         mecanum.mecanumRotate(-.8);
         sleep(1925);
+        mecanum.mecanumNaught();
         nav.SkystoneNavigation(telemetry);
         telemetry.update();
         mecanum.mecanumBack(.95);
