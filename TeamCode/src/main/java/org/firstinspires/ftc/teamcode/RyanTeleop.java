@@ -5,9 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Rotation;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
+import org.firstinspires.ftc.teamcode.Autonomous.SkystoneNavigation;
+import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
@@ -18,9 +21,11 @@ import java.util.List;
 public class RyanTeleop extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
+    Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
     AngularMecanum angularMecanum = new AngularMecanum(robot, telemetry);
+    SkystoneNavigation nav = new SkystoneNavigation();
     Kicker kicker = new Kicker();
     boolean skystoneArea = false;
     boolean skystone = false;
@@ -29,6 +34,8 @@ public class RyanTeleop extends LinearOpMode {
     boolean skystoneFound = false;
     boolean skystoneGrabbed = false;
     boolean movedToPlate = false;
+    boolean notThereYet = true;
+    boolean placedStone = false;
 
     public void checkForStones(List<Recognition> updatedRecognitions) {
         if (updatedRecognitions != null) {
@@ -58,6 +65,7 @@ public class RyanTeleop extends LinearOpMode {
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
+
             if (skystoneArea) {
                 mecanum.mecanumNaught();
                 robot.tensorFlowEngine.deactivate();
@@ -79,20 +87,38 @@ public class RyanTeleop extends LinearOpMode {
     public void grabSkystone() {
         mecanum.mecanumRotate(-.8);
         sleep(1925);
-        mecanum.mecanumNaught();
+        nav.SkystoneNavigation(telemetry);
+        telemetry.update();
         mecanum.mecanumBack(.95);
-        sleep(925);
+        sleep(1000);
         mecanum.mecanumNaught();
         mecanum.mecanumRight(.95);
-        sleep(2150);
+        sleep(2000);
         mecanum.mecanumNaught();
         driveUntilTouch();
-        kicker.KickerSet(robot, 1);
         skystoneGrabbed = true;
     }
 
     public void moveToPlate() {
-        telemetry.addData("Status:", "Moving to plate");
+        mecanum.mecanumBack(.8);
+        sleep(325);
+        mecanum.mecanumNaught();
+        mecanum.mecanumRotate(-.8);
+        sleep(30);
+        mecanum.mecanumNaught();
+        mecanum.mecanumLeft(.8);
+        sleep(50);
+        mecanum.mecanumNaught();
+        nav.SkystoneNavigation(telemetry);
+        while (nav.Y < 1061 || nav.X > -790 || nav.X < -1010) {
+            nav.SkystoneNavigation(telemetry);
+            telemetry.addData("My X is", nav.X);
+            telemetry.addData("My Y is", nav.Y);
+            telemetry.addData("Rotation:", nav.Rotation);
+            telemetry.update();
+            nav.SkystoneNavigation(telemetry);
+        }
+        mecanum.mecanumNaught();
     }
 
     public void runOpMode() throws InterruptedException {
@@ -109,11 +135,19 @@ public class RyanTeleop extends LinearOpMode {
             if (!skystoneFound) {
                 SkyStoneTFOD();
             } else if (skystoneFound && !skystoneGrabbed) {
+                nav.skystoneNavigationInit(robot);
                 grabSkystone();
             } else if (skystoneGrabbed && !movedToPlate) {
+                clamp.setClamp(robot, false, true);
                 moveToPlate();
+            } else if (movedToPlate && !placedStone) {
+                telemetry.addData("Status:", "Placing");
+                nav.SkystoneNavigation(telemetry);
             }
             telemetry.update();
         }
     }
 }
+
+// Note that nav.skystoneNavigationInit shouldn't be done in a while loop
+// We don't want it init-ing over and over and over
