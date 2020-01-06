@@ -42,18 +42,18 @@ public class BlueDriverStation extends LinearOpMode {
 
         while (opModeIsActive()) {
             nav.SkystoneNavigationNoTelemetry();
-            while (nav.Y < 1090) {
-                nav.SkystoneNavigationNoTelemetry();
-                telemetry.addData("Rotation:", nav.Rotation);
-                telemetry.addData("My X is", nav.X);
-                telemetry.addData("My Y is", nav.Y);
-                tangentTime(nav.X, nav.Y);
-                telemetry.addData("Tangent angle:", robotAngle);
-                angularMecanum.Left(robotAngle, .5, 0);
-                nav.SkystoneNavigationNoTelemetry();
-                telemetry.update();
-            }
-            mecanum.mecanumNaught();
+//            while (nav.Y < 1090) {
+//                nav.SkystoneNavigationNoTelemetry();
+//                telemetry.addData("Rotation:", nav.Rotation);
+//                telemetry.addData("My X is", nav.X);
+//                telemetry.addData("My Y is", nav.Y);
+//                tangentTime(nav.X, nav.Y);
+//                telemetry.addData("Tangent angle:", robotAngle);
+//                angularMecanum.Left(robotAngle, .5, 0);
+//                nav.SkystoneNavigationNoTelemetry();
+//                telemetry.update();
+//            }
+//            mecanum.mecanumNaught();
             telemetry.addData("My X is", nav.X);
             telemetry.addData("My Y is", nav.Y);
             telemetry.addData("Rotation:", nav.Rotation);

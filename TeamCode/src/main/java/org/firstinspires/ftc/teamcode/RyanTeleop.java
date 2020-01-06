@@ -88,14 +88,13 @@ public class RyanTeleop extends LinearOpMode {
 
     public void grabSkystone() {
         mecanum.mecanumRotate(-.8);
-        sleep(1925);
-        nav.SkystoneNavigation(telemetry);
-        telemetry.update();
+        sleep(2000);
+        mecanum.mecanumNaught();
         mecanum.mecanumBack(.95);
         sleep(1000);
         mecanum.mecanumNaught();
         mecanum.mecanumRight(.95);
-        sleep(2000);
+        sleep(2150);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -107,15 +106,17 @@ public class RyanTeleop extends LinearOpMode {
 
     private void pictureFront() {
         mecanum.mecanumFront(.8);
-        sleep(75);
+        sleep(750);
         mecanum.mecanumNaught();
+        sleep(200);
         nav.SkystoneNavigationNoTelemetry();
     }
 
     private void pictureBack() {
         mecanum.mecanumBack(.8);
-        sleep(75);
+        sleep(500);
         mecanum.mecanumNaught();
+        sleep(100);
         nav.SkystoneNavigationNoTelemetry();
     }
 
@@ -134,10 +135,6 @@ public class RyanTeleop extends LinearOpMode {
             while (nav.X == 0 && nav.Y == 0) {
                 telemetry.addData("EMERGENCY:", "CANNOT FIND PICTURE");
                 pictureFront();
-                pictureFront();
-                pictureFront();
-                pictureBack();
-                pictureBack();
                 pictureBack();
             }
             while (nav.Y < 1090) {
@@ -147,7 +144,7 @@ public class RyanTeleop extends LinearOpMode {
                 telemetry.addData("My Y is", nav.Y);
                 tangentTime(nav.X, nav.Y);
                 telemetry.addData("Tangent angle:", robotAngle);
-                angularMecanum.Left(robotAngle, .6, 0);
+                angularMecanum.Left(robotAngle, .7, 0);
                 nav.SkystoneNavigationNoTelemetry();
                 telemetry.update();
             }
