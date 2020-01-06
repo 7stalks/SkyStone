@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.Autonomous.SkystoneNavigation;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
@@ -19,90 +20,44 @@ import java.util.List;
 public class BlueDriverStation extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
-    MecanumDrive mecanum_drive = new MecanumDrive();
-    AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
-    boolean skystone = false;
-    boolean skystoneArea = false;
-    float areaRatio;
-    double HorAngle;
+    SkystoneNavigation nav = new SkystoneNavigation();
+    MecanumDrive mecanumDrive = new MecanumDrive();
+    AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanumDrive);
+    AngularMecanum angularMecanum = new AngularMecanum(robot, telemetry);
 
-    public void checkForStones(List<Recognition> updatedRecognitions) {
-        if (updatedRecognitions != null) {
-            telemetry.addData("# Object Detected", updatedRecognitions.size());
-            // step through the list of recognitions and display boundary info.
-            for (Recognition recognition : updatedRecognitions) {
-                if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
-                    telemetry.addLine("YAHOO!!");
-                    skystone = true;
-                    areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
-                    telemetry.addData("Stone area over image area:", areaRatio);
-                    if (areaRatio >= .9) {
-                        telemetry.addLine("Moving in!");
-                        skystoneArea = true;
-                    }
-                    HorAngle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
-                    telemetry.addData("HorizontalAngle:", HorAngle);
-                }
-            }
-            telemetry.update();
-        }
-    }
+    double robotAngle;
 
-    public void moveToSkystone() {
-//        if (HorAngle >= 1) {
-//            mecanum.mecanumFront(.7);
-//            telemetry.addLine("MOVING FORWARD");
-//        } else if (HorAngle <= -1) {
-//            mecanum.mecanumBack(.7);
-//            telemetry.addLine("BACKING UP");
-//        } else if (HorAngle > -1 && HorAngle < 1) {
-//            mecanum.mecanumLeft(.8);
-//            telemetry.addLine("GOING IN FOR BLOCK");
-//        }
-        telemetry.update();
-    }
-
-    public void grabSkystone() {
-        telemetry.addLine("I should be grabbing the skystone now");
-        telemetry.update();
-    }
-
-    public void SkyStoneTFOD() {
-        if (robot.tensorFlowEngine != null) {
-            List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
-            checkForStones(updatedRecognitions);
-            if (skystoneArea) {
-                mecanum.mecanumNaught();
-                grabSkystone();
-                robot.tensorFlowEngine.deactivate();
-            } else if (skystone) {
-                mecanum.mecanumNaught();
-                moveToSkystone();
-            } else {
-                mecanum.mecanumFront(.45);
-            }
-        }
+    private void tangentTime(double X, double Y) {
+        robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
-        robot.tensorFlowEngine.activate();
+        nav.skystoneNavigationInit(robot);
 
         waitForStart();
 
-        mecanum.mecanumLeft(.9);
-        sleep(1250);
-        mecanum.mecanumNaught();
-        sleep(100);
-        mecanum.mecanumBack(.9);
-        sleep(900);
-        mecanum.mecanumNaught();
-        sleep(50);
+        nav.SkystoneNavigation(telemetry);
 
         while (opModeIsActive()) {
-
-            SkyStoneTFOD();
+            nav.SkystoneNavigationNoTelemetry();
+            while (nav.Y < 1090) {
+                nav.SkystoneNavigationNoTelemetry();
+                telemetry.addData("Rotation:", nav.Rotation);
+                telemetry.addData("My X is", nav.X);
+                telemetry.addData("My Y is", nav.Y);
+                tangentTime(nav.X, nav.Y);
+                telemetry.addData("Tangent angle:", robotAngle);
+                angularMecanum.Left(robotAngle, .5, 0);
+                nav.SkystoneNavigationNoTelemetry();
+                telemetry.update();
+            }
+            mecanum.mecanumNaught();
+            telemetry.addData("My X is", nav.X);
+            telemetry.addData("My Y is", nav.Y);
+            telemetry.addData("Rotation:", nav.Rotation);
+            telemetry.update();
         }
     }
 }

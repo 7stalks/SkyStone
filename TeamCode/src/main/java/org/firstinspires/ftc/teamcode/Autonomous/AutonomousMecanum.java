@@ -37,4 +37,8 @@ public class AutonomousMecanum {
     public void mecanumFront(double power) {
         mecanum_drive.mecanumDrive(telemetry, robot, -power, 0, 0, false, false);
     }
+
+    public void mecanumRotate (double directionPower) {
+        mecanum_drive.mecanumDrive(telemetry, robot, 0, 0, directionPower, false, false);
+    }
 }

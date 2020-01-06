@@ -5,13 +5,14 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class MecanumDrive {
 
-    double speedVal = 1;
+    double speedVal = .5;
+    double robotAngle;
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
 
         double r = Math.hypot (leftStickX, leftStickY);
-        double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
+        robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
 
         if (leftStickX >= robot.stickThres || leftStickX <= -robot.stickThres
                 || leftStickY >= robot.stickThres || leftStickY <= -robot.stickThres
