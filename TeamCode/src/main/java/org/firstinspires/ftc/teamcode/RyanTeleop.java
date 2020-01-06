@@ -36,6 +36,8 @@ public class RyanTeleop extends LinearOpMode {
     boolean movedToPlate = false;
     boolean notThereYet = true;
     boolean placedStone = false;
+    double robotAngle;
+    boolean cantFindPicture = false;
 
     public void checkForStones(List<Recognition> updatedRecognitions) {
         if (updatedRecognitions != null) {
@@ -99,26 +101,57 @@ public class RyanTeleop extends LinearOpMode {
         skystoneGrabbed = true;
     }
 
+    private void tangentTime(double X, double Y) {
+        robotAngle = Math.atan((-905-X)/(1090-Y));
+    }
+
     public void moveToPlate() {
         mecanum.mecanumBack(.8);
         sleep(325);
         mecanum.mecanumNaught();
         mecanum.mecanumRotate(-.8);
-        sleep(30);
+        sleep(60);
         mecanum.mecanumNaught();
         mecanum.mecanumLeft(.8);
         sleep(50);
         mecanum.mecanumNaught();
-        nav.SkystoneNavigation(telemetry);
-        while (nav.Y < 1061 || nav.X > -790 || nav.X < -1010) {
-            nav.SkystoneNavigation(telemetry);
-            telemetry.addData("My X is", nav.X);
-            telemetry.addData("My Y is", nav.Y);
-            telemetry.addData("Rotation:", nav.Rotation);
-            telemetry.update();
-            nav.SkystoneNavigation(telemetry);
+        while (notThereYet) {
+            nav.SkystoneNavigationNoTelemetry();
+            if (nav.X == 0 && nav.Y == 0) {
+                telemetry.addData("EMERGENCY:", "CANNOT FIND PICTURE");
+                mecanum.mecanumFront(.8);
+                sleep(75);
+                nav.SkystoneNavigationNoTelemetry();
+                sleep(75);
+                nav.SkystoneNavigationNoTelemetry();
+                sleep(75);
+                nav.SkystoneNavigationNoTelemetry();
+                mecanum.mecanumNaught();
+                mecanum.mecanumBack(.8);
+                sleep(75);
+                nav.SkystoneNavigationNoTelemetry();
+                sleep(75);
+                nav.SkystoneNavigationNoTelemetry();
+                sleep(75);
+                nav.SkystoneNavigationNoTelemetry();
+                mecanum.mecanumNaught();
+            }
+            while (nav.Y < 1090) {
+                nav.SkystoneNavigationNoTelemetry();
+                telemetry.addData("Rotation:", nav.Rotation);
+                telemetry.addData("My X is", nav.X);
+                telemetry.addData("My Y is", nav.Y);
+                tangentTime(nav.X, nav.Y);
+                telemetry.addData("Tangent angle:", robotAngle);
+                angularMecanum.Left(robotAngle, .6, 0);
+                nav.SkystoneNavigationNoTelemetry();
+                telemetry.update();
+            }
+            if (nav.Y >= 1090) {
+                mecanum.mecanumNaught();
+                notThereYet = false;
+            }
         }
-        mecanum.mecanumNaught();
     }
 
     public void runOpMode() throws InterruptedException {

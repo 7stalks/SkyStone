@@ -28,7 +28,7 @@ public class BlueDriverStation extends LinearOpMode {
     double robotAngle;
 
     private void tangentTime(double X, double Y) {
-        robotAngle = Math.atan((X+905)/(1090-Y));
+        robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
     public void runOpMode() throws InterruptedException {
@@ -38,20 +38,26 @@ public class BlueDriverStation extends LinearOpMode {
 
         waitForStart();
 
+        nav.SkystoneNavigation(telemetry);
+
         while (opModeIsActive()) {
-            nav.SkystoneNavigation(telemetry);
-            sleep(10);
-            while (nav.Y <= 1090) {
+            nav.SkystoneNavigationNoTelemetry();
+            while (nav.Y < 1090) {
+                nav.SkystoneNavigationNoTelemetry();
                 telemetry.addData("Rotation:", nav.Rotation);
                 telemetry.addData("My X is", nav.X);
                 telemetry.addData("My Y is", nav.Y);
                 tangentTime(nav.X, nav.Y);
                 telemetry.addData("Tangent angle:", robotAngle);
-                angularMecanum.Left(-robotAngle, .5, 0);
-                nav.SkystoneNavigation(telemetry);
+                angularMecanum.Left(robotAngle, .5, 0);
+                nav.SkystoneNavigationNoTelemetry();
                 telemetry.update();
             }
             mecanum.mecanumNaught();
+            telemetry.addData("My X is", nav.X);
+            telemetry.addData("My Y is", nav.Y);
+            telemetry.addData("Rotation:", nav.Rotation);
+            telemetry.update();
         }
     }
 }
