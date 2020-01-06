@@ -105,36 +105,40 @@ public class RyanTeleop extends LinearOpMode {
         robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
+    private void pictureFront() {
+        mecanum.mecanumFront(.8);
+        sleep(75);
+        mecanum.mecanumNaught();
+        nav.SkystoneNavigationNoTelemetry();
+    }
+
+    private void pictureBack() {
+        mecanum.mecanumBack(.8);
+        sleep(75);
+        mecanum.mecanumNaught();
+        nav.SkystoneNavigationNoTelemetry();
+    }
+
     public void moveToPlate() {
         mecanum.mecanumBack(.8);
         sleep(325);
         mecanum.mecanumNaught();
         mecanum.mecanumRotate(-.8);
-        sleep(60);
+        sleep(30);
         mecanum.mecanumNaught();
         mecanum.mecanumLeft(.8);
         sleep(50);
         mecanum.mecanumNaught();
         while (notThereYet) {
             nav.SkystoneNavigationNoTelemetry();
-            if (nav.X == 0 && nav.Y == 0) {
+            while (nav.X == 0 && nav.Y == 0) {
                 telemetry.addData("EMERGENCY:", "CANNOT FIND PICTURE");
-                mecanum.mecanumFront(.8);
-                sleep(75);
-                nav.SkystoneNavigationNoTelemetry();
-                sleep(75);
-                nav.SkystoneNavigationNoTelemetry();
-                sleep(75);
-                nav.SkystoneNavigationNoTelemetry();
-                mecanum.mecanumNaught();
-                mecanum.mecanumBack(.8);
-                sleep(75);
-                nav.SkystoneNavigationNoTelemetry();
-                sleep(75);
-                nav.SkystoneNavigationNoTelemetry();
-                sleep(75);
-                nav.SkystoneNavigationNoTelemetry();
-                mecanum.mecanumNaught();
+                pictureFront();
+                pictureFront();
+                pictureFront();
+                pictureBack();
+                pictureBack();
+                pictureBack();
             }
             while (nav.Y < 1090) {
                 nav.SkystoneNavigationNoTelemetry();
@@ -152,6 +156,7 @@ public class RyanTeleop extends LinearOpMode {
                 notThereYet = false;
             }
         }
+        movedToPlate = true;
     }
 
     public void runOpMode() throws InterruptedException {
