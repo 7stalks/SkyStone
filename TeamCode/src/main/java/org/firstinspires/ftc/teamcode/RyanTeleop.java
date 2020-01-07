@@ -39,6 +39,7 @@ public class RyanTeleop extends LinearOpMode {
     double robotAngle;
     boolean cantFindPicture = false;
 
+
     public void checkForStones(List<Recognition> updatedRecognitions) {
         if (updatedRecognitions != null) {
             telemetry.addData("# Object Detected", updatedRecognitions.size());
@@ -132,12 +133,16 @@ public class RyanTeleop extends LinearOpMode {
         mecanum.mecanumNaught();
         while (notThereYet) {
             nav.SkystoneNavigationNoTelemetry();
+            int counter = 0;
             while (nav.X == 0 && nav.Y == 0) {
                 telemetry.addData("EMERGENCY:", "CANNOT FIND PICTURE");
                 pictureFront();
                 pictureBack();
+                counter += 1;
+                if (counter > 10){ break;}
             }
             while (nav.Y < 1090) {
+                // robot is now just off of center isle.
                 nav.SkystoneNavigationNoTelemetry();
                 telemetry.addData("Rotation:", nav.Rotation);
                 telemetry.addData("My X is", nav.X);
