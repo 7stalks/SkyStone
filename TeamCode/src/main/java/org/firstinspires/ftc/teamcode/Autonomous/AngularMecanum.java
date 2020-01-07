@@ -21,9 +21,9 @@ public class AngularMecanum {
         final double RBridget = Math.sin(robobAngle) + rotation;
         final double LFrancisco = Math.sin(robobAngle) - rotation;
         final double LBoomer = Math.cos(robobAngle) - rotation;
-        robot.RightFront.setPower (RFarquaad*power);
+        robot.RightFront.setPower (-RFarquaad*power);
         robot.RightBack.setPower (RBridget*power);
-        robot.LeftFront.setPower (LFrancisco*power);
+        robot.LeftFront.setPower (-LFrancisco*power);
         robot.LeftBack.setPower (LBoomer*power);
         telemetry.addData("RFarquaad", RFarquaad);
         telemetry.addData("LFrancisco", LFrancisco);
