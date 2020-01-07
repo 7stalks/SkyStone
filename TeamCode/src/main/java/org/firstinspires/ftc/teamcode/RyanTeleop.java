@@ -35,6 +35,7 @@ public class RyanTeleop extends LinearOpMode {
     boolean skystoneGrabbed = false;
     boolean movedToPlate = false;
     boolean notThereYet = true;
+    boolean notThereYet2 = true;
     boolean placedStone = false;
     double robotAngle;
     boolean cantFindPicture = false;
@@ -106,6 +107,14 @@ public class RyanTeleop extends LinearOpMode {
         robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
+    private void tangentTime2(double X, double Y) {
+        if (Y > 1110) {
+            robotAngle = Math.atan((835 - X) / (Y - 1110));
+        } else if (Y <= 1110) {
+            robotAngle = Math.atan((835-X)/(1110-Y));
+        }
+    }
+
     public void moveToPlate() {
         mecanum.mecanumBack(.8);
         sleep(325);
@@ -118,7 +127,7 @@ public class RyanTeleop extends LinearOpMode {
         mecanum.mecanumNaught();
         while (notThereYet) {
             nav.SkystoneNavigationNoTelemetry();
-            if (nav.X == 0 && nav.Y == 0) {
+            while (nav.X == 0 && nav.Y == 0)
                 telemetry.addData("EMERGENCY:", "CANNOT FIND PICTURE");
                 mecanum.mecanumFront(.8);
                 sleep(75);
@@ -151,37 +160,41 @@ public class RyanTeleop extends LinearOpMode {
             if (nav.Y >= 1090) {
                 mecanum.mecanumNaught();
                 notThereYet = false;
+
             }
+        }
+    }
+    public void moveToPlate2() {
+        while (nav.X < 835) {
+            nav.SkystoneNavigationNoTelemetry();
+            telemetry.addData("Rotation:", nav.Rotation);
+            telemetry.addData("My X is", nav.X);
+            telemetry.addData("My Y is", nav.Y);
+            tangentTime2(nav.X, nav.Y);
+            telemetry.addData("Tangent angle:", robotAngle);
+            angularMecanum.Left(robotAngle, 1, 0);
+            nav.SkystoneNavigationNoTelemetry();
+            telemetry.update();
+        }
+        if (nav.X >= 835) {
+            mecanum.mecanumNaught();
         }
     }
 
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
-        robot.tensorFlowEngine.activate();
         telemetry.update();
-
+        nav.skystoneNavigationInit(robot);
         waitForStart();
+
+        clamp.setClamp(robot, false, true);
 
         while (opModeIsActive()) {
 
-            kicker.KickerSet(robot, 0);
-            if (!skystoneFound) {
-                SkyStoneTFOD();
-            } else if (skystoneFound && !skystoneGrabbed) {
-                nav.skystoneNavigationInit(robot);
-                grabSkystone();
-            } else if (skystoneGrabbed && !movedToPlate) {
-                clamp.setClamp(robot, false, true);
-                moveToPlate();
-            } else if (movedToPlate && !placedStone) {
-                telemetry.addData("Status:", "Placing");
-                nav.SkystoneNavigation(telemetry);
-            }
-            telemetry.update();
+                moveToPlate2();
         }
     }
 }
-
 // Note that nav.skystoneNavigationInit shouldn't be done in a while loop
 // We don't want it init-ing over and over and over

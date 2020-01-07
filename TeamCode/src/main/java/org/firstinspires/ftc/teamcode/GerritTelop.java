@@ -12,13 +12,13 @@ public class GerritTelop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        robot.init(hardwareMap, telemetry);
 
-        robot.init(hardwareMap,telemetry);
-        robot.composeTelemetry(telemetry);
+        if (robot.tensorFlowEngine != null) {
+            robot.tensorFlowEngine.activate();
+        }
         waitForStart();
 
-        while (opModeIsActive()) {
-            telemetry.update();
-        }
     }
 }
+
