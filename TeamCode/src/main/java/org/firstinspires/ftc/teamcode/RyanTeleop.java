@@ -34,13 +34,16 @@ public class RyanTeleop extends LinearOpMode {
     boolean skystoneFound = false;
     boolean skystoneGrabbed = false;
     boolean movedToPlate = false;
-    boolean notThereYet = true;
+    boolean notToCornerYet = true;
     boolean notThereYet2 = true;
     boolean placedStone = false;
+    boolean notStraightYet = false;
     double robotAngle;
     boolean cantFindPicture = false;
 
-
+    // Looks for stones and tells whether or not its a skystone
+    // If it sees a skystone, it gets the horizontal angle to it
+    // When close enough, it sets skystoneArea to true
     public void checkForStones(List<Recognition> updatedRecognitions) {
         if (updatedRecognitions != null) {
             telemetry.addData("# Object Detected", updatedRecognitions.size());
@@ -59,17 +62,21 @@ public class RyanTeleop extends LinearOpMode {
         }
     }
 
+    // Plugs in the horizontal ange from checkForStones, moves towards it
     public void moveToSkystone() {
         mecanum.mecanumNaught();
         angularMecanum.Left(HorAngle, .65, 0);
         sleep(30);
     }
 
-    public void SkyStoneTFOD() {
+    // Is a conglomeration of checkForStones and moveToSkystone
+    // If it sees something, it checks for stones.
+    // If the area of the stone is large enough, it deactivates tensor and moves to next case.
+    // If it sees a skystone, then it moves to it
+    private void SkyStoneTFOD() {
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
-
             if (skystoneArea) {
                 mecanum.mecanumNaught();
                 robot.tensorFlowEngine.deactivate();
@@ -80,14 +87,16 @@ public class RyanTeleop extends LinearOpMode {
         }
     }
 
+    // Drives forward until touch sensor is activated
     public void driveUntilTouch() {
         while (robot.digitalTouch.getState())
-        mecanum.mecanumFront(.8);
+        mecanum.mecanumFront(.95);
         if (!robot.digitalTouch.getState()) {
             mecanum.mecanumNaught();
         }
     }
 
+    // Grabs the skystone from the position
     public void grabSkystone() {
         mecanum.mecanumRotate(-.8);
         sleep(2000);
@@ -102,11 +111,13 @@ public class RyanTeleop extends LinearOpMode {
         skystoneGrabbed = true;
     }
 
+    // Provides the angle for the coordinate (-905, 1090)
     private void tangentTime(double X, double Y) {
         robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
-
+    // Provides the angle for the coordinate (835, 1110)
+    // NOT BEING USED, NEED TO DELETE THIS
     private void tangentTime2(double X, double Y) {
         if (Y > 1110) {
             robotAngle = Math.atan((835 - X) / (Y - 1110));
@@ -130,6 +141,48 @@ public class RyanTeleop extends LinearOpMode {
         nav.SkystoneNavigationNoTelemetry();
     }
 
+    public void moveToPlate1() {
+        while (nav.Y < 1090) {
+            // robot is now just off of center isle.
+            nav.SkystoneNavigationNoTelemetry();
+            telemetry.addData("Rotation:", nav.Rotation);
+            telemetry.addData("My X is", nav.X);
+            telemetry.addData("My Y is", nav.Y);
+            tangentTime(nav.X, nav.Y);
+            telemetry.addData("Tangent angle:", robotAngle);
+            angularMecanum.Left(robotAngle, .7, 0);
+            nav.SkystoneNavigationNoTelemetry();
+            telemetry.update();
+        }
+        if (nav.Y >= 1090) {
+            mecanum.mecanumNaught();
+            notToCornerYet = false;
+        }
+    }
+
+    public void roundSelfOut() {
+        if (nav.Rotation < 172 && nav.Rotation > 150) {
+            mecanum.mecanumRotate(-.8);
+            sleep(150);
+            mecanum.mecanumNaught();
+        } else if (nav.Rotation < 176 && nav.Rotation >= 172) {
+            mecanum.mecanumRotate(-.8);
+            sleep(80);
+            mecanum.mecanumNaught();
+        } else if (nav.Rotation > -172 && nav.Rotation < -150) {
+            mecanum.mecanumRotate(.8);
+            sleep(150);
+            mecanum.mecanumNaught();
+        } else if (nav.Rotation > -176 && nav.Rotation <= - 172) {
+            mecanum.mecanumRotate(-.8);
+            sleep(80);
+            mecanum.mecanumNaught();
+        }
+    }
+
+    // Moves out of the position moved to at the end of grabSkystone
+    // Tries to look at the picture; if it can't see it, it moves back and forth 10 times
+    // If it can see the photo then it moves to the point (-905, 1090)
     public void moveToPlate() {
         mecanum.mecanumBack(.8);
         sleep(325);
@@ -140,7 +193,7 @@ public class RyanTeleop extends LinearOpMode {
         mecanum.mecanumLeft(.8);
         sleep(50);
         mecanum.mecanumNaught();
-        while (notThereYet) {
+        while (notToCornerYet) {
             nav.SkystoneNavigationNoTelemetry();
             int counter = 0;
             while (nav.X == 0 && nav.Y == 0) {
@@ -150,26 +203,15 @@ public class RyanTeleop extends LinearOpMode {
                 counter += 1;
                 if (counter > 10){ break;}
             }
-            while (nav.Y < 1090) {
-                // robot is now just off of center isle.
-                nav.SkystoneNavigationNoTelemetry();
-                telemetry.addData("Rotation:", nav.Rotation);
-                telemetry.addData("My X is", nav.X);
-                telemetry.addData("My Y is", nav.Y);
-                tangentTime(nav.X, nav.Y);
-                telemetry.addData("Tangent angle:", robotAngle);
-                angularMecanum.Left(robotAngle, .7, 0);
-                nav.SkystoneNavigationNoTelemetry();
-                telemetry.update();
-            }
-            if (nav.Y >= 1090) {
-                mecanum.mecanumNaught();
-                notThereYet = false;
-
-            }
+            moveToPlate1();
+        }
+        while (notStraightYet) {
+            nav.SkystoneNavigationNoTelemetry();
+            roundSelfOut();
         }
         movedToPlate = true;
     }
+
     public void moveToPlate2() {
         while (nav.X < 835) {
             nav.SkystoneNavigationNoTelemetry();
@@ -186,6 +228,8 @@ public class RyanTeleop extends LinearOpMode {
             mecanum.mecanumNaught();
         }
     }
+
+
 
     public void runOpMode() throws InterruptedException {
 

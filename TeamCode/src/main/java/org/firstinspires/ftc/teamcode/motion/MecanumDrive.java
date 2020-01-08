@@ -37,9 +37,9 @@ public class MecanumDrive {
             final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
             final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
             final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
-            robot.RightFront.setPower (-RFarquaad);
+            robot.RightFront.setPower (RFarquaad);
             robot.RightBack.setPower (RBridget);
-            robot.LeftFront.setPower (-LFrancisco);
+            robot.LeftFront.setPower (LFrancisco);
             robot.LeftBack.setPower (LBoomer);
 //            telemetry.addLine("im working power on");
 //            telemetry.addData("RFarquaad", RFarquaad);
