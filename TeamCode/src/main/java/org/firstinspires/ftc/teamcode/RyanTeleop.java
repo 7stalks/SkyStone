@@ -37,7 +37,7 @@ public class RyanTeleop extends LinearOpMode {
     boolean notToCornerYet = true;
     boolean notThereYet2 = true;
     boolean placedStone = false;
-    boolean notStraightYet = false;
+    boolean notStraightYet = true;
     double robotAngle;
     boolean cantFindPicture = false;
 
@@ -99,13 +99,13 @@ public class RyanTeleop extends LinearOpMode {
     // Grabs the skystone from the position
     public void grabSkystone() {
         mecanum.mecanumRotate(-.8);
-        sleep(2000);
+        sleep(2050);
         mecanum.mecanumNaught();
         mecanum.mecanumBack(.95);
-        sleep(1000);
+        sleep(1250);
         mecanum.mecanumNaught();
         mecanum.mecanumRight(.95);
-        sleep(2150);
+        sleep(2200);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -127,9 +127,9 @@ public class RyanTeleop extends LinearOpMode {
     }
     private void pictureFront() {
         mecanum.mecanumFront(.8);
-        sleep(750);
+        sleep(700);
         mecanum.mecanumNaught();
-        sleep(200);
+        sleep(400);
         nav.SkystoneNavigationNoTelemetry();
     }
 
@@ -137,7 +137,7 @@ public class RyanTeleop extends LinearOpMode {
         mecanum.mecanumBack(.8);
         sleep(500);
         mecanum.mecanumNaught();
-        sleep(100);
+        sleep(400);
         nav.SkystoneNavigationNoTelemetry();
     }
 
@@ -157,26 +157,32 @@ public class RyanTeleop extends LinearOpMode {
         if (nav.Y >= 1090) {
             mecanum.mecanumNaught();
             notToCornerYet = false;
+            telemetry.addData("Status:", "In da corner!");
+            telemetry.update();
         }
     }
 
     public void roundSelfOut() {
-        if (nav.Rotation < 172 && nav.Rotation > 150) {
-            mecanum.mecanumRotate(-.8);
-            sleep(150);
-            mecanum.mecanumNaught();
-        } else if (nav.Rotation < 176 && nav.Rotation >= 172) {
+        if (nav.Rotation < 170 && nav.Rotation > 160) {
             mecanum.mecanumRotate(-.8);
             sleep(80);
             mecanum.mecanumNaught();
-        } else if (nav.Rotation > -172 && nav.Rotation < -150) {
+        } else if (nav.Rotation < 175 && nav.Rotation >= 170) {
+            mecanum.mecanumRotate(-.8);
+            sleep(30);
+            mecanum.mecanumNaught();
+        } else if (nav.Rotation > -170 && nav.Rotation < -160) {
             mecanum.mecanumRotate(.8);
-            sleep(150);
-            mecanum.mecanumNaught();
-        } else if (nav.Rotation > -176 && nav.Rotation <= - 172) {
-            mecanum.mecanumRotate(-.8);
             sleep(80);
             mecanum.mecanumNaught();
+        } else if (nav.Rotation > -175 && nav.Rotation <= - 170) {
+            mecanum.mecanumRotate(-.8);
+            sleep(30);
+            mecanum.mecanumNaught();
+        }
+        nav.SkystoneNavigationNoTelemetry();
+        if ((nav.Rotation < 175 && nav.Rotation > 150) || (nav.Rotation > -175 && nav.Rotation < -150)) {
+            telemetry.addData("EMERGENCY:", "NOT STRAIGHT");
         }
     }
 
@@ -185,13 +191,11 @@ public class RyanTeleop extends LinearOpMode {
     // If it can see the photo then it moves to the point (-905, 1090)
     public void moveToPlate() {
         mecanum.mecanumBack(.8);
-        sleep(325);
+        sleep(1300);
         mecanum.mecanumNaught();
-        mecanum.mecanumRotate(-.8);
-        sleep(30);
-        mecanum.mecanumNaught();
-        mecanum.mecanumLeft(.8);
-        sleep(50);
+        kicker.KickerSet(robot, .45);
+        mecanum.mecanumFront(.8);
+        sleep(350);
         mecanum.mecanumNaught();
         while (notToCornerYet) {
             nav.SkystoneNavigationNoTelemetry();
@@ -199,14 +203,20 @@ public class RyanTeleop extends LinearOpMode {
             while (nav.X == 0 && nav.Y == 0) {
                 telemetry.addData("EMERGENCY:", "CANNOT FIND PICTURE");
                 pictureFront();
+                if (nav.X != 0 && nav.Y != 0) {
+                    break;
+                }
                 pictureBack();
+                if (nav.X != 0 && nav.Y != 0) {
+                    break;
+                }
                 counter += 1;
                 if (counter > 10){ break;}
             }
             moveToPlate1();
         }
-        while (notStraightYet) {
-            nav.SkystoneNavigationNoTelemetry();
+        nav.SkystoneNavigationNoTelemetry();
+        if (nav.Rotation > 160 || nav.Rotation < -160) {
             roundSelfOut();
         }
         movedToPlate = true;
@@ -246,13 +256,14 @@ public class RyanTeleop extends LinearOpMode {
                 SkyStoneTFOD();
             } else if (skystoneFound && !skystoneGrabbed) {
                 nav.skystoneNavigationInit(robot);
+                telemetry.addData("Status:", "skystone nav init");
+                telemetry.update();
                 grabSkystone();
             } else if (skystoneGrabbed && !movedToPlate) {
                 clamp.setClamp(robot, false, true);
                 moveToPlate();
             } else if (movedToPlate && !placedStone) {
-                telemetry.addData("Status:", "Placing");
-                nav.SkystoneNavigation(telemetry);
+                nav.SkystoneNavigationNoTelemetry();
             }
             telemetry.update();
         }
