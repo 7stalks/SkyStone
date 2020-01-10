@@ -314,6 +314,8 @@ public class BlueDriverStation extends LinearOpMode {
                 placeTheStone();
             } else if (placedStone && !movedTray) {
                 moveToLine();
+            } else if (movedTray) {
+                telemetry.addData("Ryan Rocks", "..sorta");
             }
             telemetry.update();
         }

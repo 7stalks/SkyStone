@@ -241,7 +241,7 @@ public class RedDriverStation extends LinearOpMode {
 //        mecanum.mecanumRotate(-.8);
 //        sleep(10);
 //        mecanum.mecanumNaught();
-        roundSelfOut();
+//        roundSelfOut();
         if (notStraight) {
             throw new IllegalArgumentException("NOT STRAIGHT ENOUGH");
         }
@@ -256,36 +256,38 @@ public class RedDriverStation extends LinearOpMode {
     }
 
     public void placeTheStone() {
-        telemetry.addData("Status:", "Placing");
+        telemetry.addData("Status", "Placing");
         telemetry.update();
         while (robot.leverArm.getCurrentPosition() < 1297) {
-            lever_arm.moveLeverArm(robot, telemetry, .8);
+            lever_arm.moveLeverArm(robot, telemetry, .75);
             while (robot.clampRotator.getPosition() < 1) {
                 clamp.moveClampRotator(robot, 1);
             }
         }
         clamp.setClamp(robot, true, false);
-        sleep(297);
-        lever_arm.moveLeverArm(robot, telemetry, -1);
-        sleep(997);
-        clamp.moveClampRotator(robot, -1);
-        sleep(175);
-//        while (robot.leverArm.getCurrentPosition() > 750) {
-//            lever_arm.moveLeverArm(robot, telemetry, -.5);
-//            while (robot.clampRotator.getPosition() > -1) {
-//                clamp.moveClampRotator(robot, -1);
-//            }
-//        }
-        lever_arm.leverArmStay(robot, telemetry);
+        sleep(257);
+
+
+        while (robot.leverArm.getCurrentPosition() > 500) {
+            lever_arm.moveLeverArm(robot, telemetry, -.75);
+            while (robot.clampRotator.getPosition() > 0.1) {
+                clamp.moveClampRotator(robot, 0);
+            }
+        }
+        robot.leverArm.setPower(0.0);
+        robot.KickerServo.setPosition(robot.MID_SERVO);
         placedStone = true;
     }
 
     public void moveToLine() {
+
+        robot.KickerServo.setPosition(robot.MID_SERVO);
         telemetry.addData("Status", "Moving tray");
         telemetry.update();
         mecanum.mecanumLeft(1);
-        sleep(2250);
+        sleep(6200);
         mecanum.mecanumNaught();
+        movedTray = true;
     }
 
     public void runOpMode() throws InterruptedException {
@@ -297,7 +299,6 @@ public class RedDriverStation extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
             kicker.KickerSet(robot, 0);
             if (!skystoneFound) {
                 SkyStoneTFOD();
@@ -313,6 +314,8 @@ public class RedDriverStation extends LinearOpMode {
                 placeTheStone();
             } else if (placedStone && !movedTray) {
                 moveToLine();
+            } else if (movedTray) {
+                telemetry.addData("Ryan Rocks", "..sorta");
             }
             telemetry.update();
         }

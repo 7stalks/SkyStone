@@ -5,11 +5,10 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class MecanumDrive {
 
-    double speedVal = .5;
     double robotAngle;
 
-    public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
-                             boolean incSpeed, boolean decSpeed) {
+    private void mecanumMove(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
+                             boolean incSpeed, boolean decSpeed, double speedVal) {
 
         double r = Math.hypot (leftStickX, leftStickY);
         robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
@@ -57,6 +56,18 @@ public class MecanumDrive {
 //            telemetry.addLine("im working power off");
 //            telemetry.update();
         }
+    }
+
+    public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
+                             boolean incSpeed, boolean decSpeed) {
+        double speedVal = .5;
+        mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed, speedVal);
+    }
+
+    public void mecanumDriveFast(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
+                             boolean incSpeed, boolean decSpeed) {
+        double speedVal = 1.0;
+        mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed, speedVal);
     }
 
 }
