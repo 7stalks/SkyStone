@@ -44,6 +44,7 @@ public class HansonTelep extends LinearOpMode {
                 robot.LeftBack.setPower (smallMove);
                 sleep(1000);
             }
+            //hahaha
             while (smallRight) {
                 robot.RightFront.setPower (-smallMove);
                 robot.RightBack.setPower (smallMove);
