@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="TANK")
 public class Tank extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(true);
 
     public void tankDrive(double left,double right) throws InterruptedException {
         if (gamepad1.left_stick_y >= .1 || gamepad1.left_stick_y <= -.1) {

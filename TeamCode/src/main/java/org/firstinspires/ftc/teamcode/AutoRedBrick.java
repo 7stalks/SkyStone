@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "AutoRedBrick")
 public class AutoRedBrick extends LinearOpMode {
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(true);
 
     @Override
 
