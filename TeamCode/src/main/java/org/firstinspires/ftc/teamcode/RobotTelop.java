@@ -62,6 +62,14 @@ public class RobotTelop extends LinearOpMode {
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
             }
+
+            if (robot.digitalTouch.getState()) {
+                telemetry.addData("Help", "Whew I'm safe");
+                telemetry.update();
+            } else {
+                telemetry.addData("Help", "im being touched");
+                telemetry.update();
+            }
             if (robot.tensorFlowEngine != null) {
                 List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {

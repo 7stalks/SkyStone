@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -60,13 +61,14 @@ public class RobotHardware {
 
     public ColorSensor colorSensor;
     public BNO055IMU imu;
+    public DigitalChannel digitalTouch;
 
     public Orientation angles;
     public Acceleration gravity;
 
 
     public static final double MID_SERVO = 0.5;
-    public static final double CLAMP_OPEN_DISTANCE = 0.4;
+    public static final double CLAMP_OPEN_DISTANCE = 0.325;
     public static final double ARM_UP_POWER = 0.45;
     public static final double ARM_DOWN_POWER = -0.45;
     public static final double ARM_UP_DISTANCE = 1600;
@@ -262,6 +264,14 @@ public class RobotHardware {
             initTFOD(telemetry);
         } else {
             telemetry.addData("Warning", "Tensor Flow Object Detection not compatible");
+        }
+        try {
+            digitalTouch = hardwareMap.get(DigitalChannel.class, "digital_touch");
+            digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+            telemetry.addData("Status", "sensor: touch sensor identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "sensor: touch sensor not plugged in");    //
+            digitalTouch = null;
         }
 
         telemetry.update();

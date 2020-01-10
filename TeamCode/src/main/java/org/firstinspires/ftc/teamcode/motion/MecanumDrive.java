@@ -6,12 +6,13 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class MecanumDrive {
 
     double speedVal = .5;
+    double robotAngle;
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
 
         double r = Math.hypot (leftStickX, leftStickY);
-        double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
+        robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
 
         if (leftStickX >= robot.stickThres || leftStickX <= -robot.stickThres
                 || leftStickY >= robot.stickThres || leftStickY <= -robot.stickThres
@@ -40,12 +41,12 @@ public class MecanumDrive {
             robot.RightBack.setPower (RBridget);
             robot.LeftFront.setPower (LFrancisco);
             robot.LeftBack.setPower (LBoomer);
-            telemetry.addLine("im working power on");
-            telemetry.addData("RFarquaad", RFarquaad);
-            telemetry.addData("LFrancisco", LFrancisco);
-            telemetry.addData("LBoomer", LBoomer);
-            telemetry.addData("RBridget", RBridget);
-            telemetry.update();
+//            telemetry.addLine("im working power on");
+//            telemetry.addData("RFarquaad", RFarquaad);
+//            telemetry.addData("LFrancisco", LFrancisco);
+//            telemetry.addData("LBoomer", LBoomer);
+//            telemetry.addData("RBridget", RBridget);
+//            telemetry.update();
         }
 
         else {
@@ -53,8 +54,9 @@ public class MecanumDrive {
             robot.LeftBack.setPower (robot.noSpeed);
             robot.RightFront.setPower (robot.noSpeed);
             robot.RightBack.setPower (robot.noSpeed);
-            telemetry.addLine("im working power off");
-            telemetry.update();
+//            telemetry.addLine("im working power off");
+//            telemetry.update();
         }
     }
+
 }
