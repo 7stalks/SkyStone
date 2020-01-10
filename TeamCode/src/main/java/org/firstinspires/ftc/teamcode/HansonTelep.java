@@ -10,9 +10,11 @@ public class HansonTelep extends LinearOpMode {
     double speedVal         = .5;
     final double stickThres = .25;
     final double noSpeed    = 0;
+    final double smallMove = .75;
 
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
-                             boolean incSpeed, boolean decSpeed) {
+                             boolean incSpeed, boolean decSpeed,
+                             boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
 
         double r = Math.hypot (leftStickX, leftStickY);
         double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
@@ -34,6 +36,34 @@ public class HansonTelep extends LinearOpMode {
             }
             if (speedVal <= .25) {
             speedVal = .25;
+            }
+            while (smallUp) {
+                robot.RightFront.setPower (smallMove);
+                robot.RightBack.setPower (smallMove);
+                robot.LeftFront.setPower (smallMove);
+                robot.LeftBack.setPower (smallMove);
+                sleep(1000);
+            }
+            while (smallRight) {
+                robot.RightFront.setPower (-smallMove);
+                robot.RightBack.setPower (smallMove);
+                robot.LeftFront.setPower (smallMove);
+                robot.LeftBack.setPower (-smallMove);
+                sleep(1000);
+            }
+            while (smallLeft) {
+                robot.RightFront.setPower (smallMove);
+                robot.RightBack.setPower (-smallMove);
+                robot.LeftFront.setPower (-smallMove);
+                robot.LeftBack.setPower (smallMove);
+                sleep(1000);
+            }
+            while (smallDown) {
+                robot.RightFront.setPower (-smallMove);
+                robot.RightBack.setPower (-smallMove);
+                robot.LeftFront.setPower (-smallMove);
+                robot.LeftBack.setPower (-smallMove);
+                sleep(1000);
             }
 
             final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
@@ -59,6 +89,7 @@ public class HansonTelep extends LinearOpMode {
             robot.RightBack.setPower (noSpeed);
             telemetry.addLine("im working power off");
         }
+
     }
 
     @Override
@@ -73,7 +104,8 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Status:", "Started");
             telemetry.update();
 
-            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
+            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down,
+                    gamepad2.dpad_up,gamepad2.dpad_right,gamepad2.dpad_down,gamepad2.dpad_left);
             telemetry.addData("Y Value:", gamepad1.left_stick_y);
             telemetry.addData("X Value", gamepad1.left_stick_x);
             telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
