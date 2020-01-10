@@ -10,7 +10,7 @@ public class HansonTelep extends LinearOpMode {
     double speedVal         = .5;
     final double stickThres = .25;
     final double noSpeed    = 0;
-    final double smallMove = .75;
+    final double smallMove = .8;
 
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed,
@@ -37,34 +37,54 @@ public class HansonTelep extends LinearOpMode {
             if (speedVal <= .25) {
             speedVal = .25;
             }
-            while (smallUp) {
-                robot.RightFront.setPower (smallMove);
-                robot.RightBack.setPower (smallMove);
-                robot.LeftFront.setPower (smallMove);
-                robot.LeftBack.setPower (smallMove);
-                sleep(1000);
+            if (smallUp) {
+                robot.RightFront.setPower (-smallMove);
+                robot.RightBack.setPower (-smallMove);
+                robot.LeftFront.setPower (-smallMove);
+                robot.LeftBack.setPower (-smallMove);
+                sleep(100);
+                robot.LeftFront.setPower (noSpeed);
+                robot.LeftBack.setPower (noSpeed);
+                robot.RightFront.setPower (noSpeed);
+                robot.RightBack.setPower (noSpeed);
+                sleep(250);
             }
             //hahaha
-            while (smallRight) {
-                robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (smallMove);
-                robot.LeftFront.setPower (smallMove);
-                robot.LeftBack.setPower (-smallMove);
-                sleep(1000);
-            }
-            while (smallLeft) {
+            if (smallRight) {
                 robot.RightFront.setPower (smallMove);
                 robot.RightBack.setPower (-smallMove);
                 robot.LeftFront.setPower (-smallMove);
                 robot.LeftBack.setPower (smallMove);
-                sleep(1000);
+                sleep(100);
+                robot.LeftFront.setPower (noSpeed);
+                robot.LeftBack.setPower (noSpeed);
+                robot.RightFront.setPower (noSpeed);
+                robot.RightBack.setPower (noSpeed);
+                sleep(250);
             }
-            while (smallDown) {
+            if (smallLeft) {
                 robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (-smallMove);
-                robot.LeftFront.setPower (-smallMove);
+                robot.RightBack.setPower (smallMove);
+                robot.LeftFront.setPower (smallMove);
                 robot.LeftBack.setPower (-smallMove);
-                sleep(1000);
+                sleep(100);
+                robot.LeftFront.setPower (noSpeed);
+                robot.LeftBack.setPower (noSpeed);
+                robot.RightFront.setPower (noSpeed);
+                robot.RightBack.setPower (noSpeed);
+                sleep(250);
+            }
+            if (smallDown) {
+                robot.RightFront.setPower (smallMove);
+                robot.RightBack.setPower (smallMove);
+                robot.LeftFront.setPower (smallMove);
+                robot.LeftBack.setPower (smallMove);
+                sleep(100);
+                robot.LeftFront.setPower (noSpeed);
+                robot.LeftBack.setPower (noSpeed);
+                robot.RightFront.setPower (noSpeed);
+                robot.RightBack.setPower (noSpeed);
+                sleep(250);
             }
 
             final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;

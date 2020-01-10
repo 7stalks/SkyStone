@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -60,7 +59,6 @@ public class RobotHardware {
     public Servo KickerServo;
 
     public ColorSensor colorSensor;
-    public BNO055IMU imu;
     public DigitalChannel digitalTouch;
 
     public Orientation angles;
@@ -81,8 +79,8 @@ public class RobotHardware {
     public static final double stickThres = .25;
     public static final double noSpeed = 0;
 
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
+    private static final float mmPerInch = 25.4f;
+    private static final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
     // Constant for Stone Target
     public static final float stoneZ = 2.00f * mmPerInch;
@@ -96,7 +94,7 @@ public class RobotHardware {
 
     // Constants for perimeter targets
     public static final float halfField = 72 * mmPerInch;
-    public static final float quadField  = 36 * mmPerInch;
+    public static final float quadField = 36 * mmPerInch;
 
     public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     public static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -235,29 +233,6 @@ public class RobotHardware {
             colorSensor = null;
         }
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        try {
-            imu = hardwareMap.get(BNO055IMU.class, "imu-1");
-            telemetry.addData("Status", "sensor: imu identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "sensor: imu not plugged in");    //
-            imu = null;
-        }
-
-        imu.initialize(parameters);
-        BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
-        String filename = "AdafruitIMUCalibration.json";
-        File file = AppUtil.getInstance().getSettingsFile(filename);
-        ReadWriteFile.writeFile(file, calibrationData.serialize());
-        telemetry.log().add("saved to '%s'", filename);
-
         initVuforia(telemetry, rightCamera);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -313,67 +288,5 @@ public class RobotHardware {
         } else {
             telemetry.addData("Status", "Tensor Flow Object Detection not Initialized");
         }
-    }
-    public void composeTelemetry(Telemetry telemetry) {
-
-
-        telemetry.addAction(new Runnable() { @Override public void run()
-        {
-
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            gravity  = imu.getGravity();
-        }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override public String value() {
-                        return imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override public String value() {
-                        return imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("grvty", new Func<String>() {
-                    @Override public String value() {
-                        return gravity.toString();
-                    }
-                })
-                .addData("mag", new Func<String>() {
-                    @Override public String value() {
-                        return String.format(Locale.getDefault(), "%.3f",
-                                Math.sqrt(gravity.xAccel*gravity.xAccel
-                                        + gravity.yAccel*gravity.yAccel
-                                        + gravity.zAccel*gravity.zAccel));
-                    }
-                });
-    }
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees(double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
