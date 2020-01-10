@@ -121,15 +121,6 @@ public class BlueDriverStation extends LinearOpMode {
         robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
-    // Provides the angle for the coordinate (835, 1110)
-    // NOT BEING USED, NEED TO DELETE THIS
-    private void tangentTime2(double X, double Y) {
-        if (Y > 1110) {
-            robotAngle = Math.atan((835 - X) / (Y - 1110));
-        } else if (Y <= 1110) {
-            robotAngle = Math.atan((835-X)/(1110-Y));
-        }
-    }
     private void pictureFront() {
         mecanum.mecanumFront(.8);
         sleep(600);

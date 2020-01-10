@@ -67,7 +67,7 @@ public class RyanTeleop extends LinearOpMode {
         }
     }
 
-    // Plugs in the horizontal ange from checkForStones, moves towards it
+    // Plugs in the horizontal angle from checkForStones, moves towards it
     public void moveToSkystone() {
         mecanum.mecanumNaught();
         angularMecanum.Left(HorAngle, .65, 0);

@@ -118,18 +118,9 @@ public class RedDriverStation extends LinearOpMode {
 
     // Provides the angle for the coordinate (-905, 1090)
     private void tangentTime(double X, double Y) {
-        robotAngle = Math.atan((-905-X)/(1090-Y));
+        robotAngle = Math.atan((-905-X)/(-1090-Y));
     }
 
-    // Provides the angle for the coordinate (835, 1110)
-    // NOT BEING USED, NEED TO DELETE THIS
-    private void tangentTime2(double X, double Y) {
-        if (Y > 1110) {
-            robotAngle = Math.atan((835 - X) / (Y - 1110));
-        } else if (Y <= 1110) {
-            robotAngle = Math.atan((835-X)/(1110-Y));
-        }
-    }
     private void pictureFront() {
         mecanum.mecanumFront(.8);
         sleep(600);
@@ -147,7 +138,7 @@ public class RedDriverStation extends LinearOpMode {
     }
 
     public void moveToPlate1() {
-        while (nav.Y < 1090) {
+        while (nav.Y < -1090) {
             // robot is now just off of center isle.
             nav.SkystoneNavigationNoTelemetry();
             telemetry.addData("Rotation:", nav.Rotation);
@@ -155,11 +146,11 @@ public class RedDriverStation extends LinearOpMode {
             telemetry.addData("My Y is", nav.Y);
             tangentTime(nav.X, nav.Y);
             telemetry.addData("Tangent angle:", robotAngle);
-            angularMecanum.Left(robotAngle, .7, 0);
+            angularMecanum.Right(robotAngle, .7, 0);
             nav.SkystoneNavigationNoTelemetry();
             telemetry.update();
         }
-        if (nav.Y >= 1090) {
+        if (nav.Y >= -1090) {
             mecanum.mecanumNaught();
             notToCornerYet = false;
             telemetry.addData("Status:", "In da corner!");
@@ -168,17 +159,17 @@ public class RedDriverStation extends LinearOpMode {
     }
 
     public void roundSelfOut() {
-        while ((nav.Rotation < 176 && nav.Rotation > 1) || (nav.Rotation > -176 && nav.Rotation < -1)) {
-            if (nav.Rotation > 1) {
-                mecanum.mecanumRotate(-.8);
-                sleep(20);
+        while ((nav.Rotation < 176 && nav.Rotation > 4) || (nav.Rotation > -176 && nav.Rotation < -4)) {
+            if (nav.Rotation > 4) {
+                mecanum.mecanumRotate(-.9);
+                sleep(25);
                 mecanum.mecanumNaught();
-                sleep(95);
+                sleep(130);
             } else if (nav.Rotation < -1) {
-                mecanum.mecanumRotate(.8);
-                sleep(20);
+                mecanum.mecanumRotate(.9);
+                sleep(25);
                 mecanum.mecanumNaught();
-                sleep(95);
+                sleep(130);
             }
             nav.SkystoneNavigationNoTelemetry();
         }
@@ -250,7 +241,7 @@ public class RedDriverStation extends LinearOpMode {
 //        mecanum.mecanumRotate(-.8);
 //        sleep(10);
 //        mecanum.mecanumNaught();
-//        roundSelfOut();
+        roundSelfOut();
         if (notStraight) {
             throw new IllegalArgumentException("NOT STRAIGHT ENOUGH");
         }
@@ -258,7 +249,7 @@ public class RedDriverStation extends LinearOpMode {
         mecanum.mecanumFront(1);
         sleep(975);
         mecanum.mecanumNaught();
-        mecanum.mecanumRotate(.8);
+        mecanum.mecanumRotate(-.8);
         sleep(1025);
         mecanum.mecanumNaught();
         movedToPlate = true;
@@ -292,7 +283,7 @@ public class RedDriverStation extends LinearOpMode {
     public void moveToLine() {
         telemetry.addData("Status", "Moving tray");
         telemetry.update();
-        mecanum.mecanumRight(1);
+        mecanum.mecanumLeft(1);
         sleep(2250);
         mecanum.mecanumNaught();
     }
