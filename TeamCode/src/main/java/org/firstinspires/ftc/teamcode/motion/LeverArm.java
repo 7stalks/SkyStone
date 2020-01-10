@@ -34,36 +34,54 @@ public class LeverArm {
     }
 
     public void moveLeverArm(RobotHardware robot, Telemetry telemetry, double distance){
-        telemetry.addData("Distance %.2d", distance);
-        position = robot.leverArm.getCurrentPosition();
-        telemetry.addData("Position %.2d", position);
-        telemetry.update();
+
+        int position = robot.leverArm.getCurrentPosition();
+        if (telemetry != null) {
+            telemetry.addData("Distance %.2d", distance);
+            telemetry.addData("Position %.2d", position);
+            telemetry.update();
+        }
 
         if (distance > .5) {
-            telemetry.addData("Distance > .5 %.2d", distance);
-            if (position >= robot.ARM_UP_DISTANCE) {
-                telemetry.addData("Position %.2d", position);
-                robot.leverArm.setPower(0);
+            if (telemetry != null ) {
+                telemetry.addData("Distance > .5", distance);
                 telemetry.update();
             }
-            else if (position <= robot.ARM_UP_DISTANCE) {
-                telemetry.addData("Position < %.2d", position);
+            if (position >= robot.ARM_UP_DISTANCE) {
+                if (telemetry != null ) {
+                    telemetry.addData("Position >= 1600", position);
+                    telemetry.update();
+                }
+                robot.leverArm.setPower(0);
+            }
+            else if (position < robot.ARM_UP_DISTANCE) {
+                if (telemetry != null) {
+                    telemetry.addData("Position <= 1600", position);
+                    telemetry.update();
+                }
                 robot.leverArm.setPower(.25);
-                telemetry.update();
 
             }
         }
         if (distance < -.5) {
-            telemetry.addData("Distance < -.5 %.2d", distance);
+            if (telemetry != null ) {
+                telemetry.addData("Distance < -.5", distance);
+                telemetry.update();
+            }
             if (position <= 100) {
-                telemetry.addData("Position < 100 %.2d", position);
+                if (telemetry != null) {
+                    telemetry.addData("Position < 100", position);
+                    telemetry.update();
+                }
                 robot.leverArm.setPower(0);
             }
-            else if (position >= 100) {
-                telemetry.addData("Position > 100 %.2d", position);
+            else if (position > 100) {
+                if (telemetry != null) {
+                    telemetry.addData("Position > 100", position);
+                    telemetry.update();
+                }
                 robot.leverArm.setPower(-.25);
             }
-            telemetry.update();
         }
         wanted = robot.leverArm.getCurrentPosition();
     }
