@@ -276,7 +276,7 @@ public class RyanTeleop extends LinearOpMode {
         clamp.setClamp(robot, true, false);
         sleep(297);
         lever_arm.moveLeverArm(robot, telemetry, -1);
-        sleep(330);
+        sleep(997);
         clamp.moveClampRotator(robot, -1);
         sleep(175);
 //        while (robot.leverArm.getCurrentPosition() > 750) {

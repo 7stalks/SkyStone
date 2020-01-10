@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 import java.util.List;
 
 
-@Autonomous(name = "BlueDriverStation")
-public class BlueDriverStation extends LinearOpMode {
+@Autonomous(name = "RedDriverStation")
+public class RedDriverStation extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    RobotHardware robot = new RobotHardware(true);
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
@@ -70,7 +70,7 @@ public class BlueDriverStation extends LinearOpMode {
     // Plugs in the horizontal ange from checkForStones, moves towards it
     public void moveToSkystone() {
         mecanum.mecanumNaught();
-        angularMecanum.Left(HorAngle, .65, 0);
+        angularMecanum.Right(HorAngle, .65, 0);
         sleep(30);
     }
 
@@ -103,13 +103,13 @@ public class BlueDriverStation extends LinearOpMode {
 
     // Grabs the skystone from the position
     public void grabSkystone() {
-        mecanum.mecanumRotate(-.8);
+        mecanum.mecanumRotate(.8);
         sleep(2050);
         mecanum.mecanumNaught();
         mecanum.mecanumBack(.95);
         sleep(1250);
         mecanum.mecanumNaught();
-        mecanum.mecanumRight(.95);
+        mecanum.mecanumLeft(.95);
         sleep(2200);
         mecanum.mecanumNaught();
         driveUntilTouch();
@@ -268,7 +268,7 @@ public class BlueDriverStation extends LinearOpMode {
         telemetry.addData("Status:", "Placing");
         telemetry.update();
         while (robot.leverArm.getCurrentPosition() < 1297) {
-            lever_arm.moveLeverArm(robot, telemetry, .75);
+            lever_arm.moveLeverArm(robot, telemetry, .8);
             while (robot.clampRotator.getPosition() < 1) {
                 clamp.moveClampRotator(robot, 1);
             }

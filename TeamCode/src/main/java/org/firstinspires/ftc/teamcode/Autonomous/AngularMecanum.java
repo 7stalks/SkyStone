@@ -31,9 +31,9 @@ public class AngularMecanum {
         telemetry.addData("RBridget", RBridget);
     }
 
-    public void Forward(double robotAngle, double power, double rotation) {
+    public void Right(double robotAngle, double power, double rotation) {
 
-        robobAngle = (Math.PI / 4) + robotAngle;
+        robobAngle = (-Math.PI / 4) + robotAngle;
 
         final double RFarquaad = Math.cos(robobAngle) + rotation;
         final double RBridget = Math.sin(robobAngle) + rotation;
