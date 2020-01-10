@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.Autonomous.SkystoneNavigation;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
+import org.firstinspires.ftc.teamcode.motion.LeverArm;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class RyanTeleop extends LinearOpMode {
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
+    LeverArm lever_arm = new LeverArm();
     AngularMecanum angularMecanum = new AngularMecanum(robot, telemetry);
     SkystoneNavigation nav = new SkystoneNavigation();
     Kicker kicker = new Kicker();
@@ -42,6 +44,7 @@ public class RyanTeleop extends LinearOpMode {
     boolean cantFindPicture = false;
     boolean notToPlate = true;
     boolean notStraight = false;
+    boolean movedTray = false;
 
     // Looks for stones and tells whether or not its a skystone
     // If it sees a skystone, it gets the horizontal angle to it
@@ -165,27 +168,19 @@ public class RyanTeleop extends LinearOpMode {
     }
 
     public void roundSelfOut() {
-        if (nav.Rotation < 170 && nav.Rotation > 160) {
-            mecanum.mecanumRotate(-.8);
-            sleep(90);
-            mecanum.mecanumNaught();
-        } else if (nav.Rotation < 175 && nav.Rotation >= 170) {
-            mecanum.mecanumRotate(-.8);
-            sleep(30);
-            mecanum.mecanumNaught();
-        } else if (nav.Rotation > -170 && nav.Rotation < -160) {
-            mecanum.mecanumRotate(.8);
-            sleep(90);
-            mecanum.mecanumNaught();
-        } else if (nav.Rotation > -175 && nav.Rotation < -170) {
-            mecanum.mecanumRotate(.8);
-            sleep(30);
-            mecanum.mecanumNaught();
-        }
-        nav.SkystoneNavigationNoTelemetry();
-        if ((nav.Rotation < 170 && nav.Rotation > 150) || (nav.Rotation > -170 && nav.Rotation < -150)) {
-            telemetry.addData("EMERGENCY:", "NOT STRAIGHT");
-            notStraight = true;
+        while ((nav.Rotation < 176 && nav.Rotation > 1) || (nav.Rotation > -176 && nav.Rotation < -1)) {
+            if (nav.Rotation > 1) {
+                mecanum.mecanumRotate(-.8);
+                sleep(20);
+                mecanum.mecanumNaught();
+                sleep(95);
+            } else if (nav.Rotation < -1) {
+                mecanum.mecanumRotate(.8);
+                sleep(20);
+                mecanum.mecanumNaught();
+                sleep(95);
+            }
+            nav.SkystoneNavigationNoTelemetry();
         }
     }
 
@@ -193,6 +188,7 @@ public class RyanTeleop extends LinearOpMode {
         mecanum.mecanumFront(1);
         sleep(5800);
         mecanum.mecanumNaught();
+        sleep(30);
         nav.SkystoneNavigationNoTelemetry();
         telemetry.addData("Rotation:", nav.Rotation);
         telemetry.addData("My X is", nav.X);
@@ -251,10 +247,10 @@ public class RyanTeleop extends LinearOpMode {
             moveToPlate1();
         }
         nav.SkystoneNavigationNoTelemetry();
-        mecanum.mecanumRotate(-.8);
-        sleep(10);
-        mecanum.mecanumNaught();
-        roundSelfOut();
+//        mecanum.mecanumRotate(-.8);
+//        sleep(10);
+//        mecanum.mecanumNaught();
+//        roundSelfOut();
         if (notStraight) {
             throw new IllegalArgumentException("NOT STRAIGHT ENOUGH");
         }
@@ -270,6 +266,35 @@ public class RyanTeleop extends LinearOpMode {
 
     public void placeTheStone() {
         telemetry.addData("Status:", "Placing");
+        telemetry.update();
+        while (robot.leverArm.getCurrentPosition() < 1297) {
+            lever_arm.moveLeverArm(robot, telemetry, .8);
+            while (robot.clampRotator.getPosition() < 1) {
+                clamp.moveClampRotator(robot, 1);
+            }
+        }
+        clamp.setClamp(robot, true, false);
+        sleep(297);
+        lever_arm.moveLeverArm(robot, telemetry, -1);
+        sleep(330);
+        clamp.moveClampRotator(robot, -1);
+        sleep(175);
+//        while (robot.leverArm.getCurrentPosition() > 750) {
+//            lever_arm.moveLeverArm(robot, telemetry, -.5);
+//            while (robot.clampRotator.getPosition() > -1) {
+//                clamp.moveClampRotator(robot, -1);
+//            }
+//        }
+        lever_arm.leverArmStay(robot, telemetry);
+        placedStone = true;
+    }
+
+    public void moveToLine() {
+        telemetry.addData("Status", "Moving tray");
+        telemetry.update();
+        mecanum.mecanumRight(1);
+        sleep(2250);
+        mecanum.mecanumNaught();
     }
 
     public void runOpMode() throws InterruptedException {
@@ -295,6 +320,8 @@ public class RyanTeleop extends LinearOpMode {
                 moveToPlate();
             } else if (movedToPlate && !placedStone) {
                 placeTheStone();
+            } else if (placedStone && !movedTray) {
+                moveToLine();
             }
             telemetry.update();
         }

@@ -62,7 +62,6 @@ public class RobotTelop extends LinearOpMode {
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
             }
-
             if (robot.digitalTouch.getState()) {
                 telemetry.addData("Help", "Whew I'm safe");
                 telemetry.update();

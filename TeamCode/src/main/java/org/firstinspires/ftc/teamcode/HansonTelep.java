@@ -22,8 +22,8 @@ public class HansonTelep extends LinearOpMode {
         if (leftStickX >= stickThres || leftStickX <= -stickThres
             || leftStickY >= stickThres || leftStickY <= -stickThres
             || rightStickX >= stickThres || rightStickX <= - stickThres
-            || (incSpeed)
-            || (decSpeed)) {
+            || (incSpeed) || (decSpeed)
+            || (smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
 
             if ((incSpeed)) {
             speedVal = speedVal + .25;
@@ -90,7 +90,6 @@ public class HansonTelep extends LinearOpMode {
             robot.RightBack.setPower (noSpeed);
             telemetry.addLine("im working power off");
         }
-
     }
 
     @Override

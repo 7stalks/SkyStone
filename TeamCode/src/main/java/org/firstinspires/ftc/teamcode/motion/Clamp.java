@@ -16,9 +16,9 @@ public class Clamp {
 
     public void moveClampRotator(RobotHardware robot, double clamp_rotator_set) {
         if (clamp_rotator_set > 0) {
-            robot.clampRotator.setPosition(.003 + robot.clampRotator.getPosition());
+            robot.clampRotator.setPosition(.005 + robot.clampRotator.getPosition());
         } else {
-            robot.clampRotator.setPosition(-.003 + robot.clampRotator.getPosition());
+            robot.clampRotator.setPosition(-.005 + robot.clampRotator.getPosition());
         }
 
     }
