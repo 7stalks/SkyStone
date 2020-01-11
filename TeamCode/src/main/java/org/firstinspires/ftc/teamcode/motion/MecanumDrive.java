@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.motion;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
@@ -56,6 +58,10 @@ public class MecanumDrive {
 //            telemetry.addLine("im working power off");
 //            telemetry.update();
         }
+    }
+
+    public void mecanumSmall(Telemetry telemetry, RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
+
     }
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,

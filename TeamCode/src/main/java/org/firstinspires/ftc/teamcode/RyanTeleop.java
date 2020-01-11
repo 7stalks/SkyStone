@@ -11,12 +11,13 @@ import java.util.List;
 @Autonomous(name = "RyanTeleop")
 public class RyanTeleop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    RobotHardware robot = new RobotHardware(true);
     SkystoneNavigation nav = new SkystoneNavigation();
 
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
+        nav.skystoneNavigationInit(robot);
         telemetry.update();
 
         waitForStart();
