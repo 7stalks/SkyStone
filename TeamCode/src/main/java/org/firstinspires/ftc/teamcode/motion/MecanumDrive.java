@@ -8,10 +8,20 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class MecanumDrive {
 
     double robotAngle;
-    double speedVal = 0.5;
+    final double stickThres = .25;
 
-    public void mecanumSmall (boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft){
-        if (|| (smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
+    private void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void mecanumSmall (RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft){
+        final double smallMove = .6;
+        final double noSpeed = 0;
+        if ((smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
             if (smallUp) {
                 robot.RightFront.setPower (-smallMove);
                 robot.RightBack.setPower (-smallMove);
@@ -64,34 +74,21 @@ public class MecanumDrive {
         }
     }
     private void mecanumMove(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
-                             boolean incSpeed, boolean decSpeed, double speedVal) {
+                             boolean incSpeed, boolean decSpeed) {
 
-        double r = Math.hypot (leftStickX, leftStickY);
+        if (leftStickX >= stickThres || leftStickX <= -stickThres
+                || leftStickY >= stickThres || leftStickY <= -stickThres
+                || rightStickX >= stickThres || rightStickX <= - stickThres
+                || (incSpeed) || (decSpeed)) {
+
+
+            double r = Math.hypot (leftStickX, leftStickY);
         robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
 
-        if (leftStickX >= robot.stickThres || leftStickX <= -robot.stickThres
-                || leftStickY >= robot.stickThres || leftStickY <= -robot.stickThres
-                || rightStickX >= robot.stickThres || rightStickX <= -robot.stickThres
-                || (incSpeed)
-                || (decSpeed)) {
-
-            if ((incSpeed)) {
-                speedVal = speedVal + .25;
-            }
-            if ((decSpeed) && speedVal > .25) {
-                speedVal = speedVal - .25;
-            }
-            if (speedVal >= 1) {
-                speedVal = 1;
-            }
-            if (speedVal <= .25) {
-                speedVal = .25;
-            }
-
-            final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
-            final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
-            final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
-            final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
+            final double RFarquaad = r*Math.cos(robotAngle) + rightStickX;
+            final double RBridget = r*Math.sin(robotAngle) + rightStickX;
+            final double LFrancisco = r*Math.sin(robotAngle) - rightStickX;
+            final double LBoomer = r*Math.cos(robotAngle) - rightStickX;
             robot.RightFront.setPower (RFarquaad);
             robot.RightBack.setPower (RBridget);
             robot.LeftFront.setPower (LFrancisco);
@@ -102,9 +99,7 @@ public class MecanumDrive {
 //            telemetry.addData("LBoomer", LBoomer);
 //            telemetry.addData("RBridget", RBridget);
 //            telemetry.update();
-        }
-
-        else {
+        } else {
             robot.LeftFront.setPower (robot.noSpeed);
             robot.LeftBack.setPower (robot.noSpeed);
             robot.RightFront.setPower (robot.noSpeed);
@@ -112,18 +107,17 @@ public class MecanumDrive {
 //            telemetry.addLine("im working power off");
 //            telemetry.update();
         }
+
     }
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
-        speedVal = .5;
-        mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed, speedVal);
+        mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed);
     }
 
     public void mecanumDriveFast(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
-        speedVal = 1.0;
-        mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed, speedVal);
+        mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed);
     }
 
 }
