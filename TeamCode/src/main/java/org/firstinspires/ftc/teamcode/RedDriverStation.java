@@ -104,6 +104,7 @@ public class RedDriverStation extends LinearOpMode {
     // Grabs the skystone from the position
     public void grabSkystone() {
         nav.skystoneNavigationInit(robot);
+        //
         mecanum.mecanumRotate(.8);
         sleep(1950);
         mecanum.mecanumNaught();
