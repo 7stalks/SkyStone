@@ -162,7 +162,7 @@ public class RedDriverStation extends LinearOpMode {
 
     public void actuallyMoveToPlate() {
         mecanum.mecanumFFront(1);
-        sleep(3000);
+        sleep(3351);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();
@@ -198,11 +198,11 @@ public class RedDriverStation extends LinearOpMode {
     // If it can see the photo then it moves to the point (-905, 1090)
     public void moveToPlate() {
         mecanum.mecanumFBack(.8);
-        sleep(650);
+        sleep(750);
         mecanum.mecanumNaught();
         kicker.KickerSet(robot, .45);
         mecanum.mecanumFront(.8);
-        sleep(350);
+        sleep(450);
         mecanum.mecanumNaught();
         while (notToCornerYet) {
             nav.SkystoneNavigationNoTelemetry();
@@ -243,8 +243,8 @@ public class RedDriverStation extends LinearOpMode {
     public void placeTheStone() {
         telemetry.addData("Status", "Placing");
         telemetry.update();
-        while (robot.leverArm.getCurrentPosition() < 1297) {
-            lever_arm.moveLeverArm(robot, telemetry, .50);
+        while (robot.leverArm.getCurrentPosition() < 1397) {
+            lever_arm.moveLeverArm(robot, telemetry, .625);
             while (robot.clampRotator.getPosition() < 1) {
                 clamp.moveClampRotator(robot, 1);
             }
