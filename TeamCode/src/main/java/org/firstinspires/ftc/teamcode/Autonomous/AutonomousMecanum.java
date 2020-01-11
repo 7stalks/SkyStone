@@ -21,8 +21,16 @@ public class AutonomousMecanum {
         mecanum_drive.mecanumDrive(telemetry, robot, 0, -power, 0, false, false);
     }
 
+    public void mecanumFLeft (double power) {
+        mecanum_drive.mecanumDriveFast(telemetry, robot, 0, -power, 0, false, false);
+    }
+
     public void mecanumRight(double power) {
         mecanum_drive.mecanumDrive(telemetry, robot, 0, power, 0, false, false);
+    }
+
+    public void mecanumFRight (double power) {
+        mecanum_drive.mecanumDriveFast(telemetry, robot, 0, power, 0, false, false);
 
     }
 
@@ -34,8 +42,17 @@ public class AutonomousMecanum {
         mecanum_drive.mecanumDrive(telemetry, robot, power, 0, 0, false, false);
     }
 
+    public void mecanumFBack(double power) {
+        mecanum_drive.mecanumDriveFast(telemetry, robot, power, 0, 0, false, false);
+    }
+
+
     public void mecanumFront(double power) {
         mecanum_drive.mecanumDrive(telemetry, robot, -power, 0, 0, false, false);
+    }
+
+    public void mecanumFFront(double power) {
+        mecanum_drive.mecanumDriveFast(telemetry, robot, -power, 0, 0, false, false);
     }
 
     public void mecanumRotate (double directionPower) {
