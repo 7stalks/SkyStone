@@ -105,13 +105,13 @@ public class BlueDriverStation extends LinearOpMode {
     public void grabSkystone() {
         nav.skystoneNavigationInit(robot);
         mecanum.mecanumRotate(-.8);
-        sleep(1950);
+        sleep(1847);
         mecanum.mecanumNaught();
         mecanum.mecanumFBack(.95);
         sleep(777);
         mecanum.mecanumNaught();
         mecanum.mecanumFRight(.95);
-        sleep(1100);
+        sleep(900);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -234,7 +234,7 @@ public class BlueDriverStation extends LinearOpMode {
         sleep(975);
         mecanum.mecanumNaught();
         mecanum.mecanumRotate(.8);
-        sleep(1025);
+        sleep(915);
         mecanum.mecanumNaught();
         movedToPlate = true;
     }

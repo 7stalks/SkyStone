@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class MecanumDrive {
 
     double robotAngle;
+    double speedVal = 0.5;
 
     private void mecanumMove(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed, double speedVal) {
@@ -66,13 +67,13 @@ public class MecanumDrive {
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
-        double speedVal = .5;
+        speedVal = .5;
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed, speedVal);
     }
 
     public void mecanumDriveFast(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean incSpeed, boolean decSpeed) {
-        double speedVal = 1.0;
+        speedVal = 1.0;
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed, speedVal);
     }
 
