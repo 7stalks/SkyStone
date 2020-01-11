@@ -138,7 +138,7 @@ public class RedDriverStation extends LinearOpMode {
     }
 
     public void moveToPlate1() {
-        while (nav.Y < -1090) {
+        while (nav.Y > -1137) {
             // robot is now just off of center isle.
             nav.SkystoneNavigationNoTelemetry();
             telemetry.addData("Rotation:", nav.Rotation);
@@ -150,7 +150,7 @@ public class RedDriverStation extends LinearOpMode {
             nav.SkystoneNavigationNoTelemetry();
             telemetry.update();
         }
-        if (nav.Y >= -1090) {
+        if (nav.Y <= -1137) {
             mecanum.mecanumNaught();
             notToCornerYet = false;
             telemetry.addData("Status:", "In da corner!");
@@ -177,7 +177,7 @@ public class RedDriverStation extends LinearOpMode {
 
     public void actuallyMoveToPlate() {
         mecanum.mecanumFront(1);
-        sleep(5800);
+        sleep(5700);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();
