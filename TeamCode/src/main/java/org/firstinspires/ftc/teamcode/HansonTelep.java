@@ -13,8 +13,7 @@ public class HansonTelep extends LinearOpMode {
     final double smallMove = .6;
 
     public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
-                             boolean incSpeed, boolean decSpeed,
-                             boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
+                             boolean incSpeed, boolean decSpeed) {
 
         double r = Math.hypot (leftStickX, leftStickY);
         double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
@@ -22,8 +21,7 @@ public class HansonTelep extends LinearOpMode {
         if (leftStickX >= stickThres || leftStickX <= -stickThres
             || leftStickY >= stickThres || leftStickY <= -stickThres
             || rightStickX >= stickThres || rightStickX <= - stickThres
-            || (incSpeed) || (decSpeed)
-            || (smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
+            || (incSpeed) || (decSpeed)) {
 
             if ((incSpeed)) {
             speedVal = speedVal + .25;
@@ -37,55 +35,7 @@ public class HansonTelep extends LinearOpMode {
             if (speedVal <= .25) {
             speedVal = .25;
             }
-            if (smallUp) {
-                robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (-smallMove);
-                robot.LeftFront.setPower (-smallMove);
-                robot.LeftBack.setPower (-smallMove);
-                sleep(10);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(200);
-            }
-            //hahaha
-            if (smallRight) {
-                robot.RightFront.setPower (smallMove);
-                robot.RightBack.setPower (-smallMove);
-                robot.LeftFront.setPower (-smallMove);
-                robot.LeftBack.setPower (smallMove);
-                sleep(10);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(200);
-            }
-            if (smallLeft) {
-                robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (smallMove);
-                robot.LeftFront.setPower (smallMove);
-                robot.LeftBack.setPower (-smallMove);
-                sleep(10);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(200);
-            }
-            if (smallDown) {
-                robot.RightFront.setPower (smallMove);
-                robot.RightBack.setPower (smallMove);
-                robot.LeftFront.setPower (smallMove);
-                robot.LeftBack.setPower (smallMove);
-                sleep(10);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(200);
-            }
+
 
             final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
             final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
@@ -111,6 +61,59 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addLine("im working power off");
         }
     }
+    public void mecanumSmall (boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft){
+        if (|| (smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
+            if (smallUp) {
+                robot.RightFront.setPower (-smallMove);
+                robot.RightBack.setPower (-smallMove);
+                robot.LeftFront.setPower (-smallMove);
+                robot.LeftBack.setPower (-smallMove);
+                sleep(10);
+                robot.LeftFront.setPower (noSpeed);
+                robot.LeftBack.setPower (noSpeed);
+                robot.RightFront.setPower (noSpeed);
+                robot.RightBack.setPower (noSpeed);
+                sleep(200);
+            }
+        }
+        //hahaha
+        if (smallRight) {
+            robot.RightFront.setPower (smallMove);
+            robot.RightBack.setPower (-smallMove);
+            robot.LeftFront.setPower (-smallMove);
+            robot.LeftBack.setPower (smallMove);
+            sleep(10);
+            robot.LeftFront.setPower (noSpeed);
+            robot.LeftBack.setPower (noSpeed);
+            robot.RightFront.setPower (noSpeed);
+            robot.RightBack.setPower (noSpeed);
+            sleep(200);
+        }
+        if (smallLeft) {
+            robot.RightFront.setPower (-smallMove);
+            robot.RightBack.setPower (smallMove);
+            robot.LeftFront.setPower (smallMove);
+            robot.LeftBack.setPower (-smallMove);
+            sleep(10);
+            robot.LeftFront.setPower (noSpeed);
+            robot.LeftBack.setPower (noSpeed);
+            robot.RightFront.setPower (noSpeed);
+            robot.RightBack.setPower (noSpeed);
+            sleep(200);
+        }
+        if (smallDown) {
+            robot.RightFront.setPower (smallMove);
+            robot.RightBack.setPower (smallMove);
+            robot.LeftFront.setPower (smallMove);
+            robot.LeftBack.setPower (smallMove);
+            sleep(10);
+            robot.LeftFront.setPower (noSpeed);
+            robot.LeftBack.setPower (noSpeed);
+            robot.RightFront.setPower (noSpeed);
+            robot.RightBack.setPower (noSpeed);
+            sleep(200);
+        }
+    }
 
     @Override
     public void runOpMode() {
@@ -124,8 +127,8 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Status:", "Started");
             telemetry.update();
 
-            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down,
-                    gamepad2.dpad_up,gamepad2.dpad_right,gamepad2.dpad_down,gamepad2.dpad_left);
+            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down, );
+            mecanumSmall(gamepad2.dpad_up,gamepad2.dpad_right,gamepad2.dpad_down,gamepad2.dpad_left);
             telemetry.addData("Y Value:", gamepad1.left_stick_y);
             telemetry.addData("X Value", gamepad1.left_stick_x);
             telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
