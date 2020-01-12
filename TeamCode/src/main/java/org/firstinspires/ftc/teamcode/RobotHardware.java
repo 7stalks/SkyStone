@@ -80,6 +80,16 @@ public class RobotHardware {
     public static final double KICKER_PRESS = 1;
     public static final double stickThres = .25;
     public static final double noSpeed = 0;
+    public static final double smallMove = .6;
+    public static final double smallRot = .6;
+
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 
     private static final float mmPerInch        = 25.4f;
     private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor

@@ -20,6 +20,8 @@ public class RobotTelop extends LinearOpMode {
     LeverArm lever_arm = new LeverArm();
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
+    MecanumDrive mecanum_small = new MecanumDrive();
+    MecanumDrive rotate_small = new MecanumDrive();
     Kicker kicker = new Kicker();
 
     @Override
@@ -40,7 +42,13 @@ public class RobotTelop extends LinearOpMode {
             mecanum_drive.mecanumDrive(
                     telemetry, robot,
                     gamepad1.left_stick_y, gamepad1.left_stick_x,
-                    gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
+                    gamepad1.right_stick_x,
+                    gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
+            mecanum_small.mecanumSmall(
+                    robot, gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
+            rotate_small.rotateSmall(
+                    robot, gamepad1.right_bumper, gamepad1.left_bumper);
+
             // Might need to put speedVal above "while (opModeIsActive())"
             // Might also want to add "dpad_up" and "dpad_down" into the if statement
             //}

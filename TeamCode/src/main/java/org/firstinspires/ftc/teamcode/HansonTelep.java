@@ -62,7 +62,7 @@ public class HansonTelep extends LinearOpMode {
         }
     }
     public void mecanumSmall (boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft){
-        if (|| (smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
+        if ((smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
             if (smallUp) {
                 robot.RightFront.setPower (-smallMove);
                 robot.RightBack.setPower (-smallMove);
