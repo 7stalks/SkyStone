@@ -105,13 +105,13 @@ public class BlueDriverStation extends LinearOpMode {
     public void grabSkystone() {
         nav.skystoneNavigationInit(robot);
         mecanum.mecanumRotate(-.8);
-        sleep(1847);
+        sleep(1951);
         mecanum.mecanumNaught();
         mecanum.mecanumFBack(.95);
         sleep(777);
         mecanum.mecanumNaught();
         mecanum.mecanumFRight(.95);
-        sleep(900);
+        sleep(1077);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -161,7 +161,7 @@ public class BlueDriverStation extends LinearOpMode {
 
     public void actuallyMoveToPlate() {
         mecanum.mecanumFFront(1);
-        sleep(3351);
+        sleep(3479);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();
@@ -174,13 +174,13 @@ public class BlueDriverStation extends LinearOpMode {
         }
         while (notToPlate) {
             if (nav.X < 910) {
-                mecanum.mecanumFront(.85);
+                mecanum.mecanumFront(.425);
                 sleep(40);
                 mecanum.mecanumNaught();
                 sleep(80);
                 nav.SkystoneNavigationNoTelemetry();
             } else if (nav.X > 950) {
-                mecanum.mecanumBack(.85);
+                mecanum.mecanumBack(.425);
                 sleep(40);
                 mecanum.mecanumNaught();
                 sleep(80);
@@ -222,6 +222,9 @@ public class BlueDriverStation extends LinearOpMode {
             moveToPlate1();
         }
         nav.SkystoneNavigationNoTelemetry();
+        mecanum.mecanumRotate(-.8);
+        sleep(20);
+        mecanum.mecanumNaught();
 //        mecanum.mecanumRotate(-.8);
 //        sleep(10);
 //        mecanum.mecanumNaught();

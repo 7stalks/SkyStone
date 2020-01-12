@@ -41,6 +41,10 @@ public class RobotTelop extends LinearOpMode {
                     telemetry, robot,
                     gamepad1.left_stick_y, gamepad1.left_stick_x,
                     gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
+
+            mecanum_drive.mecanumSmall(
+                    robot,
+                    gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
             // Might need to put speedVal above "while (opModeIsActive())"
             // Might also want to add "dpad_up" and "dpad_down" into the if statement
             //}

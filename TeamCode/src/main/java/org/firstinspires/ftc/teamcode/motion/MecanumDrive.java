@@ -18,59 +18,57 @@ public class MecanumDrive {
         }
     }
 
-    public void mecanumSmall (RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft){
+    public void mecanumSmall (RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
         final double smallMove = .6;
         final double noSpeed = 0;
         if ((smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
             if (smallUp) {
-                robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (-smallMove);
-                robot.LeftFront.setPower (-smallMove);
-                robot.LeftBack.setPower (-smallMove);
+                robot.RightFront.setPower(-smallMove);
+                robot.RightBack.setPower(-smallMove);
+                robot.LeftFront.setPower(-smallMove);
+                robot.LeftBack.setPower(-smallMove);
                 sleep(10);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
+                robot.LeftFront.setPower(noSpeed);
+                robot.LeftBack.setPower(noSpeed);
+                robot.RightFront.setPower(noSpeed);
+                robot.RightBack.setPower(noSpeed);
                 sleep(200);
             }
-        }
-        //hahaha
-        else if (smallRight) {
-            robot.RightFront.setPower (smallMove);
-            robot.RightBack.setPower (-smallMove);
-            robot.LeftFront.setPower (-smallMove);
-            robot.LeftBack.setPower (smallMove);
-            sleep(10);
-            robot.LeftFront.setPower (noSpeed);
-            robot.LeftBack.setPower (noSpeed);
-            robot.RightFront.setPower (noSpeed);
-            robot.RightBack.setPower (noSpeed);
-            sleep(200);
-        }
-        else if (smallLeft) {
-            robot.RightFront.setPower (-smallMove);
-            robot.RightBack.setPower (smallMove);
-            robot.LeftFront.setPower (smallMove);
-            robot.LeftBack.setPower (-smallMove);
-            sleep(10);
-            robot.LeftFront.setPower (noSpeed);
-            robot.LeftBack.setPower (noSpeed);
-            robot.RightFront.setPower (noSpeed);
-            robot.RightBack.setPower (noSpeed);
-            sleep(200);
-        }
-        else if (smallDown) {
-            robot.RightFront.setPower (smallMove);
-            robot.RightBack.setPower (smallMove);
-            robot.LeftFront.setPower (smallMove);
-            robot.LeftBack.setPower (smallMove);
-            sleep(10);
-            robot.LeftFront.setPower (noSpeed);
-            robot.LeftBack.setPower (noSpeed);
-            robot.RightFront.setPower (noSpeed);
-            robot.RightBack.setPower (noSpeed);
-            sleep(200);
+            //hahaha
+            else if (smallRight) {
+                robot.RightFront.setPower(smallMove);
+                robot.RightBack.setPower(-smallMove);
+                robot.LeftFront.setPower(-smallMove);
+                robot.LeftBack.setPower(smallMove);
+                sleep(10);
+                robot.LeftFront.setPower(noSpeed);
+                robot.LeftBack.setPower(noSpeed);
+                robot.RightFront.setPower(noSpeed);
+                robot.RightBack.setPower(noSpeed);
+                sleep(200);
+            } else if (smallLeft) {
+                robot.RightFront.setPower(-smallMove);
+                robot.RightBack.setPower(smallMove);
+                robot.LeftFront.setPower(smallMove);
+                robot.LeftBack.setPower(-smallMove);
+                sleep(10);
+                robot.LeftFront.setPower(noSpeed);
+                robot.LeftBack.setPower(noSpeed);
+                robot.RightFront.setPower(noSpeed);
+                robot.RightBack.setPower(noSpeed);
+                sleep(200);
+            } else if (smallDown) {
+                robot.RightFront.setPower(smallMove);
+                robot.RightBack.setPower(smallMove);
+                robot.LeftFront.setPower(smallMove);
+                robot.LeftBack.setPower(smallMove);
+                sleep(10);
+                robot.LeftFront.setPower(noSpeed);
+                robot.LeftBack.setPower(noSpeed);
+                robot.RightFront.setPower(noSpeed);
+                robot.RightBack.setPower(noSpeed);
+                sleep(200);
+            }
         }
     }
     private void mecanumMove(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
@@ -85,10 +83,10 @@ public class MecanumDrive {
             double r = Math.hypot (leftStickX, leftStickY);
         robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
 
-            final double RFarquaad = r*Math.cos(robotAngle) + rightStickX;
-            final double RBridget = r*Math.sin(robotAngle) + rightStickX;
-            final double LFrancisco = r*Math.sin(robotAngle) - rightStickX;
-            final double LBoomer = r*Math.cos(robotAngle) - rightStickX;
+            final double RFarquaad = 1.4*r*Math.cos(robotAngle) + rightStickX;
+            final double RBridget = 1.4*r*Math.sin(robotAngle) + rightStickX;
+            final double LFrancisco = 1.4*r*Math.sin(robotAngle) - rightStickX;
+            final double LBoomer = 1.4*r*Math.cos(robotAngle) - rightStickX;
             robot.RightFront.setPower (RFarquaad);
             robot.RightBack.setPower (RBridget);
             robot.LeftFront.setPower (LFrancisco);
@@ -119,5 +117,6 @@ public class MecanumDrive {
                              boolean incSpeed, boolean decSpeed) {
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, incSpeed, decSpeed);
     }
+
 
 }
