@@ -52,7 +52,7 @@ public class RobotTelop extends LinearOpMode {
             // Might need to put speedVal above "while (opModeIsActive())"
             // Might also want to add "dpad_up" and "dpad_down" into the if statement
             //}
-            if (gamepad1.right_trigger > 0) {
+            if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
                 kicker.KickerMove(robot);
             }
             else {
@@ -69,13 +69,6 @@ public class RobotTelop extends LinearOpMode {
             }
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
-            }
-            if (robot.digitalTouch.getState()) {
-                telemetry.addData("Help", "Whew I'm safe");
-                telemetry.update();
-            } else {
-                telemetry.addData("Help", "im being touched");
-                telemetry.update();
             }
             if (robot.tensorFlowEngine != null) {
                 List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();

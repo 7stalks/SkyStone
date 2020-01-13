@@ -127,7 +127,7 @@ public class HansonTelep extends LinearOpMode {
             telemetry.addData("Status:", "Started");
             telemetry.update();
 
-            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down, );
+            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
             mecanumSmall(gamepad2.dpad_up,gamepad2.dpad_right,gamepad2.dpad_down,gamepad2.dpad_left);
             telemetry.addData("Y Value:", gamepad1.left_stick_y);
             telemetry.addData("X Value", gamepad1.left_stick_x);

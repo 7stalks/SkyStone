@@ -95,7 +95,7 @@ public class RedDriverStation extends LinearOpMode {
     // Drives forward until touch sensor is activated
     public void driveUntilTouch() {
         while (robot.digitalTouch.getState())
-            mecanum.mecanumFront(.95);
+            mecanum.mecanumFFront(.875);
         if (!robot.digitalTouch.getState()) {
             mecanum.mecanumNaught();
         }
@@ -103,14 +103,16 @@ public class RedDriverStation extends LinearOpMode {
 
     // Grabs the skystone from the position
     public void grabSkystone() {
+        nav.skystoneNavigationInit(robot);
+        //
         mecanum.mecanumRotate(.8);
-        sleep(2050);
+        sleep(1950);
         mecanum.mecanumNaught();
-        mecanum.mecanumBack(.95);
-        sleep(1250);
+        mecanum.mecanumFBack(.95);
+        sleep(777);
         mecanum.mecanumNaught();
-        mecanum.mecanumLeft(.95);
-        sleep(2200);
+        mecanum.mecanumFLeft(.95);
+        sleep(1100);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -122,16 +124,16 @@ public class RedDriverStation extends LinearOpMode {
     }
 
     private void pictureFront() {
-        mecanum.mecanumFront(.8);
-        sleep(600);
+        mecanum.mecanumFFront(.8);
+        sleep(300);
         mecanum.mecanumNaught();
         sleep(300);
         nav.SkystoneNavigationNoTelemetry();
     }
 
     private void pictureBack() {
-        mecanum.mecanumBack(.8);
-        sleep(500);
+        mecanum.mecanumFBack(.8);
+        sleep(250);
         mecanum.mecanumNaught();
         sleep(300);
         nav.SkystoneNavigationNoTelemetry();
@@ -158,26 +160,9 @@ public class RedDriverStation extends LinearOpMode {
         }
     }
 
-    public void roundSelfOut() {
-        while ((nav.Rotation < 176 && nav.Rotation > 4) || (nav.Rotation > -176 && nav.Rotation < -4)) {
-            if (nav.Rotation > 4) {
-                mecanum.mecanumRotate(-.9);
-                sleep(25);
-                mecanum.mecanumNaught();
-                sleep(130);
-            } else if (nav.Rotation < -1) {
-                mecanum.mecanumRotate(.9);
-                sleep(25);
-                mecanum.mecanumNaught();
-                sleep(130);
-            }
-            nav.SkystoneNavigationNoTelemetry();
-        }
-    }
-
     public void actuallyMoveToPlate() {
-        mecanum.mecanumFront(1);
-        sleep(5700);
+        mecanum.mecanumFFront(1);
+        sleep(3479);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();
@@ -212,12 +197,12 @@ public class RedDriverStation extends LinearOpMode {
     // Tries to look at the picture; if it can't see it, it moves back and forth 10 times
     // If it can see the photo then it moves to the point (-905, 1090)
     public void moveToPlate() {
-        mecanum.mecanumBack(.8);
-        sleep(1300);
+        mecanum.mecanumFBack(.8);
+        sleep(750);
         mecanum.mecanumNaught();
         kicker.KickerSet(robot, .45);
         mecanum.mecanumFront(.8);
-        sleep(350);
+        sleep(450);
         mecanum.mecanumNaught();
         while (notToCornerYet) {
             nav.SkystoneNavigationNoTelemetry();
@@ -258,8 +243,8 @@ public class RedDriverStation extends LinearOpMode {
     public void placeTheStone() {
         telemetry.addData("Status", "Placing");
         telemetry.update();
-        while (robot.leverArm.getCurrentPosition() < 1297) {
-            lever_arm.moveLeverArm(robot, telemetry, .75);
+        while (robot.leverArm.getCurrentPosition() < 1397) {
+            lever_arm.moveLeverArm(robot, telemetry, .625);
             while (robot.clampRotator.getPosition() < 1) {
                 clamp.moveClampRotator(robot, 1);
             }
@@ -284,8 +269,8 @@ public class RedDriverStation extends LinearOpMode {
         robot.KickerServo.setPosition(robot.MID_SERVO);
         telemetry.addData("Status", "Moving tray");
         telemetry.update();
-        mecanum.mecanumLeft(1);
-        sleep(6200);
+        mecanum.mecanumFLeft(1);
+        sleep(3100);
         mecanum.mecanumNaught();
         movedTray = true;
     }
@@ -303,9 +288,6 @@ public class RedDriverStation extends LinearOpMode {
             if (!skystoneFound) {
                 SkyStoneTFOD();
             } else if (skystoneFound && !skystoneGrabbed) {
-                nav.skystoneNavigationInit(robot);
-                telemetry.addData("Status:", "skystone nav init");
-                telemetry.update();
                 grabSkystone();
             } else if (skystoneGrabbed && !movedToPlate) {
                 clamp.setClamp(robot, false, true);
