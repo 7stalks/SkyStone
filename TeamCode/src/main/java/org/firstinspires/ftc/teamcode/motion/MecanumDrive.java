@@ -17,7 +17,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(robot.smallRot);
                 robot.LeftFront.setPower(-robot.smallRot);
                 robot.LeftBack.setPower(-robot.smallRot);
-                robot.sleep(250);
+                robot.sleep(40);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
@@ -30,7 +30,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(-robot.smallRot);
                 robot.LeftFront.setPower(robot.smallRot);
                 robot.LeftBack.setPower(robot.smallRot);
-                robot.sleep(250);
+                robot.sleep(40);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
@@ -46,7 +46,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(-robot.smallMove);
                 robot.LeftFront.setPower(-robot.smallMove);
                 robot.LeftBack.setPower(-robot.smallMove);
-                robot.sleep(10);
+                robot.sleep(20);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
@@ -59,7 +59,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(-robot.smallMove);
                 robot.LeftFront.setPower(-robot.smallMove);
                 robot.LeftBack.setPower(robot.smallMove);
-                robot.sleep(10);
+                robot.sleep(20);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
@@ -70,7 +70,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(robot.smallMove);
                 robot.LeftFront.setPower(robot.smallMove);
                 robot.LeftBack.setPower(-robot.smallMove);
-                robot.sleep(10);
+                robot.sleep(20);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
@@ -81,7 +81,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(robot.smallMove);
                 robot.LeftFront.setPower(robot.smallMove);
                 robot.LeftBack.setPower(robot.smallMove);
-                robot.sleep(10);
+                robot.sleep(20);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);

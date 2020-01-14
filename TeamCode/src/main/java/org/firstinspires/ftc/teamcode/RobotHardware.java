@@ -58,6 +58,7 @@ public class RobotHardware {
     public Servo clampRotator;
     public Servo clamp;
     public Servo KickerServo;
+    public Servo handsOn;
 
     public ColorSensor colorSensor;
     public BNO055IMU imu;
@@ -234,6 +235,15 @@ public class RobotHardware {
             telemetry.addData("Status", "Servo: kicker identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: kicker not plugged in");    //
+            KickerServo = null;
+        }
+
+        try {
+            handsOn = hardwareMap.get(Servo.class, "hands_on");
+            handsOn.setPosition(MID_SERVO);
+            telemetry.addData("Status", "Servo: hands_on identified");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: hands_on not plugged in");    //
             KickerServo = null;
         }
 

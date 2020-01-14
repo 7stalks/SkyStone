@@ -161,8 +161,8 @@ public class RedDriverStation extends LinearOpMode {
     }
 
     public void actuallyMoveToPlate() {
-        mecanum.mecanumFFront(1);
-        sleep(3479);
+        mecanum.mecanumFullFront();
+        sleep(2800);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();

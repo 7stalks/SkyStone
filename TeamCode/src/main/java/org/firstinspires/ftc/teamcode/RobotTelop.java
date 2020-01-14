@@ -66,6 +66,11 @@ public class RobotTelop extends LinearOpMode {
             rotate_small.rotateSmall(
                     robot, gamepad1.right_bumper, gamepad1.left_bumper);
 
+            if (gamepad1.y) {
+                robot.handsOn.setPosition(1);
+            } else {
+                robot.handsOn.setPosition(robot.MID_SERVO);
+            }
             if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
                 kicker.KickerMove(robot);
             } else {
