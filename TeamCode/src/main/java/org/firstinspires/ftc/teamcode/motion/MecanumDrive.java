@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class MecanumDrive {
 
     double robotAngle;
+    double speedVal = 1.0;
 
     public void rotateSmall (RobotHardware robot, boolean rotRight, boolean rotLeft) {
         if ((rotRight)||(rotLeft)) {
@@ -100,53 +101,52 @@ public class MecanumDrive {
                 robot.RightBack.setPower(-1);
                 robot.LeftFront.setPower(-1);
                 robot.LeftBack.setPower(-1);
-                telemetry.addLine("IM GOING FASTER FORWARD");
-                telemetry.update();
+//                telemetry.addLine("IM GOING FASTER FORWARD");
+//                telemetry.update();
             }
             else if (fullRight){
                 robot.RightFront.setPower(1);
                 robot.RightBack.setPower(-1);
                 robot.LeftFront.setPower(-1);
                 robot.LeftBack.setPower(1);
-                telemetry.addLine("IM GOING FASTER RIGHT");
-                telemetry.update();
+//                telemetry.addLine("IM GOING FASTER RIGHT");
+//                telemetry.update();
             }
             else if (fullLeft){
                 robot.RightFront.setPower(-1);
                 robot.RightBack.setPower(1);
                 robot.LeftFront.setPower(1);
                 robot.LeftBack.setPower(-1);
-                telemetry.addLine("IM GOING FASTER LEFT");
-                telemetry.update();
+//                telemetry.addLine("IM GOING FASTER LEFT");
+//                telemetry.update();
             }
             else if (fullDown) {
                 robot.RightFront.setPower(1);
                 robot.RightBack.setPower(1);
                 robot.LeftFront.setPower(1);
                 robot.LeftBack.setPower(1);
-                telemetry.addLine("IM GOING FASTER DOWN");
-                telemetry.update();
+//                telemetry.addLine("IM GOING FASTER DOWN");
+//                telemetry.update();
 
             }
-        }
-        else if (leftStickX >= robot.stickThres || leftStickX <= -robot.stickThres
+        } else if (leftStickX >= robot.stickThres || leftStickX <= -robot.stickThres
                 || leftStickY >= robot.stickThres || leftStickY <= -robot.stickThres
                 || rightStickX >= robot.stickThres || rightStickX <= -robot.stickThres) {
 
-            final double RFarquaad = r*Math.cos(robotAngle) + rightStickX;
-            final double RBridget = r*Math.sin(robotAngle) + rightStickX;
-            final double LFrancisco = r*Math.sin(robotAngle) - rightStickX;
-            final double LBoomer = r*Math.cos(robotAngle) - rightStickX;
+            final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
+            final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
+            final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
+            final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
             robot.RightFront.setPower (RFarquaad);
             robot.RightBack.setPower (RBridget);
             robot.LeftFront.setPower (LFrancisco);
             robot.LeftBack.setPower (LBoomer);
-            telemetry.addLine("im working power on");
-            telemetry.addData("RFarquaad", RFarquaad);
-            telemetry.addData("LFrancisco", LFrancisco);
-            telemetry.addData("LBoomer", LBoomer);
-            telemetry.addData("RBridget", RBridget);
-            telemetry.update();
+//            telemetry.addLine("im working power on");
+//            telemetry.addData("RFarquaad", RFarquaad);
+//            telemetry.addData("LFrancisco", LFrancisco);
+//            telemetry.addData("LBoomer", LBoomer);
+//            telemetry.addData("RBridget", RBridget);
+//            telemetry.update();
         }
 
         else {
@@ -154,18 +154,18 @@ public class MecanumDrive {
             robot.LeftBack.setPower (robot.noSpeed);
             robot.RightFront.setPower (robot.noSpeed);
             robot.RightBack.setPower (robot.noSpeed);
-            telemetry.addLine("im working power off");
-            telemetry.update();
+//            telemetry.addLine("im working power off");
+//            telemetry.update();
         }
     }
 
     public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX, boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft) {
-        double speedVal = .5;
+        speedVal = .5;
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, fullUp, fullRight, fullDown, fullLeft, speedVal);
     }
 
     public void mecanumDriveFast (Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX, boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft) {
-        double speedVal = 1.0;
+        speedVal = 1.0;
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, fullUp, fullRight, fullDown, fullLeft, speedVal);
     }
 }

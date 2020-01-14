@@ -23,6 +23,7 @@ public class RobotTelop extends LinearOpMode {
     MecanumDrive mecanum_small = new MecanumDrive();
     MecanumDrive rotate_small = new MecanumDrive();
     Kicker kicker = new Kicker();
+    boolean speedUp = false;
 
     @Override
     public void runOpMode() {
@@ -39,23 +40,35 @@ public class RobotTelop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            mecanum_drive.mecanumDrive(
-                    telemetry, robot,
-                    gamepad1.left_stick_y, gamepad1.left_stick_x,
-                    gamepad1.right_stick_x,
-                    gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
+            // Establishes the speed value boolean. A to speedup, B to slow down.
+            if (gamepad1.a) {
+                speedUp = true;
+            } else if (gamepad1.b) {
+                speedUp = false;
+            }
+
+            if (!speedUp) {
+                mecanum_drive.mecanumDrive(
+                        telemetry, robot,
+                        gamepad1.left_stick_y, gamepad1.left_stick_x,
+                        gamepad1.right_stick_x,
+                        gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
+            } else {
+                mecanum_drive.mecanumDriveFast(telemetry, robot,
+                        gamepad1.left_stick_y, gamepad1.left_stick_x,
+                        gamepad1.right_stick_x,
+                        gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
+            }
+
             mecanum_small.mecanumSmall(
                     robot, gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
+
             rotate_small.rotateSmall(
                     robot, gamepad1.right_bumper, gamepad1.left_bumper);
 
-            // Might need to put speedVal above "while (opModeIsActive())"
-            // Might also want to add "dpad_up" and "dpad_down" into the if statement
-            //}
             if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
                 kicker.KickerMove(robot);
-            }
-            else {
+            } else {
                 robot.KickerServo.setPosition(0);
             }
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
