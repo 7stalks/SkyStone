@@ -3,12 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
-import org.firstinspires.ftc.teamcode.Autonomous.SkystoneNavigation;
-import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
-import org.firstinspires.ftc.teamcode.motion.LeverArm;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 @Autonomous(name = "AutoTray")
