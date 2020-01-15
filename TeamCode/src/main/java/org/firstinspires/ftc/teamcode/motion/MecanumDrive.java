@@ -24,7 +24,6 @@ public class MecanumDrive {
                 robot.RightBack.setPower(robot.noSpeed);
                 robot.sleep(200);
             }
-            //hahaha
             else if (rotLeft) {
                 robot.RightFront.setPower(-robot.smallRot);
                 robot.RightBack.setPower(-robot.smallRot);
@@ -53,7 +52,6 @@ public class MecanumDrive {
                 robot.RightBack.setPower(robot.noSpeed);
                 robot.sleep(200);
             }
-            //hahaha
             else if (smallRight) {
                 robot.RightFront.setPower(robot.smallMove);
                 robot.RightBack.setPower(-robot.smallMove);
@@ -104,6 +102,7 @@ public class MecanumDrive {
 //                telemetry.addLine("IM GOING FASTER FORWARD");
 //                telemetry.update();
             }
+
             else if (fullRight){
                 robot.RightFront.setPower(1);
                 robot.RightBack.setPower(-1);
