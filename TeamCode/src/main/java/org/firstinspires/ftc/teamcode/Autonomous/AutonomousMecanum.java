@@ -62,4 +62,8 @@ public class AutonomousMecanum {
     public void mecanumFullFront () {
         mecanum_drive.mecanumDrive(telemetry, robot, 0, 0, 0, true, false, false, false);
     }
+
+    public void mecanumFullBack () {
+        mecanum_drive.mecanumDrive(telemetry, robot, 0, 0 , 0,false, false, true, false);
+    }
 }

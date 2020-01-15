@@ -249,7 +249,8 @@ public class RobotHardware {
 
         try {
             colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
-            telemetry.addData("Status", "sensor: color sensor identified");    //
+            telemetry.addData("Status", "sensor: color sensor identified");
+            colorSensor.setI2cAddress(colorSensor.getI2cAddress());
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "sensor: color sensor not plugged in");    //
             colorSensor = null;
@@ -326,7 +327,7 @@ public class RobotHardware {
             int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                     "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-            tfodParameters.minimumConfidence = 0.8;
+            tfodParameters.minimumConfidence = 0.7;
             tensorFlowEngine = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
             tensorFlowEngine.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
             telemetry.addData("Status", "Tensor Flow Object Detection Initialized");
