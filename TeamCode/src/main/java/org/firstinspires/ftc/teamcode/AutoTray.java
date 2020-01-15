@@ -14,21 +14,24 @@ public class AutoTray extends LinearOpMode {
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
     Kicker kicker = new Kicker();
     boolean moveTray = false;
+    int moveTime = 0;
+    int stayTime = 0;
+    int strafeMove = 0;
 
     public void AutoTrayStart() {
         if (moveTray = true) {
             mecanum.mecanumFFront(1);
-            sleep(3479);
+            sleep(moveTime);
             mecanum.mecanumNaught();
             kicker.KickerSet(robot, 1);
-            sleep(30);
+            sleep(stayTime );
             mecanum.mecanumFBack(1);
-            sleep(3479);
+            sleep(moveTime);
             mecanum.mecanumNaught();
             kicker.KickerSet(robot, 0);
-            sleep(30);
+            sleep(stayTime);
             mecanum.mecanumFLeft(1);
-            sleep(1000);
+            sleep(strafeMove);
         }
     }
 
