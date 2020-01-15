@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
@@ -17,8 +18,10 @@ public class TfodTest extends LinearOpMode {
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
+    AngularMecanum angularMecanum = new AngularMecanum(robot, telemetry);
     boolean skystone = false;
     boolean skystoneArea = false;
+    boolean skystoneFound = false;
     float areaRatio;
     double HorAngle;
 
@@ -28,53 +31,108 @@ public class TfodTest extends LinearOpMode {
             // step through the list of recognitions and display boundary info.
             for (Recognition recognition : updatedRecognitions) {
                 if (recognition.getLabel() == robot.LABEL_SECOND_ELEMENT) {
-                    telemetry.addLine("YAHOO!!");
                     skystone = true;
-                    areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
-                    telemetry.addData("Stone area over image area:", areaRatio);
-                    if (areaRatio >= .975) {
-                        telemetry.addLine("Moving in!");
-                        skystoneArea = true;
-                    }
-                    HorAngle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                    HorAngle = recognition.estimateAngleToObject(AngleUnit.RADIANS);
                     telemetry.addData("HorizontalAngle:", HorAngle);
+                    areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
+                    telemetry.addData("Area Ratio", areaRatio);
+                    if (areaRatio > .90) {
+                        skystoneArea = true;
+                        telemetry.addData("SkystoneArea", "True");
+                    }
                 }
             }
         }
     }
 
+    // Plugs in the horizontal ange from checkForStones, moves towards it
     public void moveToSkystone() {
-        if (-1.5 <= HorAngle && HorAngle <= 1.5) {
-            mecanum.mecanumLeft(.5);
-            sleep(50);
-        } else if (HorAngle < -2) {
-            mecanum.mecanumBack(.4);
-            sleep(10);
-            telemetry.addData("Status", "Backing");
-        } else if (HorAngle > 2) {
-            mecanum.mecanumFront(.4);
-            sleep(10);
-            telemetry.addData("Status:", "Forwarding");
-        }
+        mecanum.mecanumNaught();
+        angularMecanum.Left(HorAngle, .65, 0);
+        sleep(30);
     }
 
-    public void grabSkystone() {
-        telemetry.addData("Status:", "I should be grabbing the skystone now");
-    }
-
-    public void SkyStoneTFOD() {
+    // Is a conglomeration of checkForStones and moveToSkystone
+    // If it sees something, it checks for stones.
+    // If the area of the stone is large enough, it deactivates tensor and moves to next case.
+    // If it sees a skystone, then it moves to itd
+    private void SkyStoneTFOD() {
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
             if (skystoneArea) {
                 mecanum.mecanumNaught();
-                grabSkystone();
+                robot.tensorFlowEngine.deactivate();
+                skystoneFound = true;
             } else if (skystone) {
-                mecanum.mecanumNaught();
                 moveToSkystone();
-            } else {
-                mecanum.mecanumLeft(.5);
+            } else if (!skystone) {
+                mecanum.mecanumLeft(.6);
+                sleep(60);
+                mecanum.mecanumNaught();
+                sleep(80);
             }
+        }
+    }
+
+    private void simplekyStoneTFOD() {
+        List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
+        checkForStones(updatedRecognitions);
+    }
+
+//    angularMecanum.Left(.3216505544, 1, 0);
+//    sleep(1000);
+//    mecanum.mecanumNaught();
+//
+//        while (opModeIsActive()) {
+//        simpleSkyStoneTFOD();
+//        telemetry.update();
+//    }
+
+    private void stopAndGoMoveToSkystone() {
+        mecanum.mecanumNaught();
+        angularMecanum.Left(HorAngle, .65, 0);
+        sleep(100);
+        mecanum.mecanumNaught();
+        sleep(100);
+    }
+
+    private void stopAndGoSkyStoneTFOD() {
+        List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
+        checkForStones(updatedRecognitions);
+        if (skystoneArea) {
+            mecanum.mecanumNaught();
+            robot.tensorFlowEngine.deactivate();
+            skystoneFound = true;
+        } else if (skystone) {
+            stopAndGoMoveToSkystone();
+        } else if (!skystone) {
+            mecanum.mecanumLeft(1);
+            sleep(50);
+            mecanum.mecanumNaught();
+        }
+    }
+
+    private void slowMoveToSkystone() {
+        mecanum.mecanumNaught();
+        angularMecanum.Left(HorAngle, .4, 0);
+        sleep(30);
+    }
+
+    private void slowSkyStoneTFOD() {
+        List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
+        checkForStones(updatedRecognitions);
+        if (skystoneArea) {
+            mecanum.mecanumNaught();
+            robot.tensorFlowEngine.deactivate();
+            skystoneFound = true;
+        } else if (skystone) {
+            slowMoveToSkystone();
+        } else if (!skystone) {
+            mecanum.mecanumLeft(1);
+            sleep(50);
+            mecanum.mecanumNaught();
+            sleep(100);
         }
     }
 
@@ -86,8 +144,7 @@ public class TfodTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
-            SkyStoneTFOD();
+            simplekyStoneTFOD();
             telemetry.update();
         }
     }

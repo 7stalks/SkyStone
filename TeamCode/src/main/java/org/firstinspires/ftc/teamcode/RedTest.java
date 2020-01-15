@@ -65,7 +65,7 @@ public class RedTest extends LinearOpMode {
     // Is a conglomeration of checkForStones and moveToSkystone
     // If it sees something, it checks for stones.
     // If the area of the stone is large enough, it deactivates tensor and moves to next case.
-    // If it sees a skystone, then it moves to it
+    // If it sees a skystone, then it moves to itd
     private void SkyStoneTFOD() {
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
