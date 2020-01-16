@@ -38,6 +38,10 @@ public class LeverArm {
 
     public void moveLeverArm(RobotHardware robot, Telemetry telemetry, double distance){
 
+        if (robot.leverArm == null) {
+            return;
+        }
+
         int position = robot.leverArm.getCurrentPosition();
         if (telemetry != null) {
             telemetry.addData("Distance %.2d", distance);
