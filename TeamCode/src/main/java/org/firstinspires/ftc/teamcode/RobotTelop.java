@@ -73,11 +73,21 @@ public class RobotTelop extends LinearOpMode {
                     robot.handsOn.setPosition(robot.MID_SERVO);
                 }
             }
-            if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
-                kicker.KickerMove(robot);
+
+            if (robot.digitalTouch != null) {
+                if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
+                    kicker.KickerMove(robot);
+                } else {
+                    robot.KickerServo.setPosition(0);
+                }
             } else {
-                robot.KickerServo.setPosition(0);
+                if (gamepad1.right_trigger > 0) {
+                    kicker.KickerMove(robot);
+                } else {
+                    robot.KickerServo.setPosition(0);
+                }
             }
+
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
                 lever_arm.leverArmStay(robot, telemetry);
             }
