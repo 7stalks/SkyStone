@@ -10,6 +10,9 @@ public class LeverArm {
     int Encoder;
 
     public void leverArmStay(RobotHardware robot, Telemetry telemetry) {
+        if (robot.leverArm == null){
+            return;
+        }
         position = robot.leverArm.getCurrentPosition();
         if(position > wanted) {
             robot.leverArm.setPower(-.05);

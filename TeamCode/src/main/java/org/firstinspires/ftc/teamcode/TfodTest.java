@@ -36,7 +36,7 @@ public class TfodTest extends LinearOpMode {
                     telemetry.addData("HorizontalAngle:", HorAngle);
                     areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
                     telemetry.addData("Area Ratio", areaRatio);
-                    if (areaRatio > .90) {
+                    if (areaRatio > .80) {
                         skystoneArea = true;
                         telemetry.addData("SkystoneArea", "True");
                     }
@@ -70,7 +70,7 @@ public class TfodTest extends LinearOpMode {
                 mecanum.mecanumLeft(.6);
                 sleep(60);
                 mecanum.mecanumNaught();
-                sleep(80);
+                sleep(120);
             }
         }
     }
@@ -144,7 +144,7 @@ public class TfodTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            simplekyStoneTFOD();
+            SkyStoneTFOD();
             telemetry.update();
         }
     }
