@@ -143,9 +143,13 @@ public class TfodTest extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            SkyStoneTFOD();
-            telemetry.update();
-        }
+        mecanum.mecanumLeft(1);
+        sleep(811);
+        mecanum.mecanumNaught();
+
+//        while (opModeIsActive()) {
+//            SkyStoneTFOD();
+//            telemetry.update();
+//        }
     }
 }
