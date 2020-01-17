@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -30,6 +31,9 @@ public class RedTest extends LinearOpMode {
     boolean skystoneFound = false;
     boolean skystoneGrabbed = false;
     boolean movedToOtherSideOne = false;
+    boolean grabbedOtherStone = false;
+    boolean movedToOtherSideTwo = false;
+    boolean parked = false;
     double HorAngle;
     double areaRatio;
 
@@ -47,7 +51,7 @@ public class RedTest extends LinearOpMode {
                     HorAngle = recognition.estimateAngleToObject(AngleUnit.RADIANS);
                     telemetry.addData("HorizontalAngle:", HorAngle);
                     areaRatio = ((recognition.getWidth() * recognition.getHeight()) / (recognition.getImageHeight() * recognition.getImageWidth()));
-                    if (areaRatio > .90) {
+                    if (areaRatio > .80) {
                         skystoneArea = true;
                     }
                 }
@@ -88,21 +92,25 @@ public class RedTest extends LinearOpMode {
         telemetry.addData("Status", "Grabbing skystone");
         telemetry.update();
 
+//        mecanum.mecanumRotate(-1);
+//        sleep(17);
+//        mecanum.mecanumNaught();
+
         mecanum.mecanumFFront(1);
-        sleep(275);
+        sleep(313);
         mecanum.mecanumNaught();
 
         // modify
         mecanum.mecanumFLeft(1);
-        sleep(300);
+        sleep(461);
         mecanum.mecanumNaught();
 
         robot.handsOn.setPosition(1);
-        sleep(700);
+        sleep(691);
 
         // modify
         mecanum.mecanumFRight(1);
-        sleep(900);
+        sleep(741);
         mecanum.mecanumNaught();
 
         // delete?
@@ -119,16 +127,50 @@ public class RedTest extends LinearOpMode {
 
         // modify
         mecanum.mecanumFullFront();
-        sleep(2000);
+        sleep(2450);
         mecanum.mecanumNaught();
         robot.handsOn.setPosition(.45);
 
         // modify
         mecanum.mecanumFullBack();
-        sleep(2600);
+        sleep(3569);
         mecanum.mecanumNaught();
 
         movedToOtherSideOne = true;
+    }
+
+    private void grabOtherStone() {
+        mecanum.mecanumRotate(-.8);
+        sleep(47);
+        mecanum.mecanumNaught();
+
+        mecanum.mecanumLeft(1);
+        sleep(603);
+        mecanum.mecanumNaught();
+
+        robot.handsOn.setPosition(1);
+        sleep(700);
+
+        mecanum.mecanumRight(1);
+        sleep(783);
+        mecanum.mecanumNaught();
+
+        grabbedOtherStone = true;
+    }
+
+    private void moveToFrontButNotBack() {
+        mecanum.mecanumFullFront();
+        sleep(3251);
+        mecanum.mecanumNaught();
+
+        robot.handsOn.setPosition(1);
+        sleep(700);
+
+        movedToOtherSideTwo = true;
+    }
+
+    private void park() {
+        telemetry.addData("Status", "Parking");
     }
 
     public void runOpMode() throws InterruptedException {
@@ -139,10 +181,11 @@ public class RedTest extends LinearOpMode {
 
         waitForStart();
 
-        mecanum.mecanumLeft(1);
-        sleep(400);
-        mecanum.mecanumNaught();
-        sleep(200);
+
+//        mecanum.mecanumLeft(1);
+//        sleep(400);
+//        mecanum.mecanumNaught();
+//        sleep(200);
         while (opModeIsActive()) {
             kicker.KickerSet(robot, 0);
             if (!skystoneFound) {
@@ -151,6 +194,12 @@ public class RedTest extends LinearOpMode {
                 grabTheSkystone();
             } else if (skystoneGrabbed && !movedToOtherSideOne) {
                 moveToFrontAndThenBack();
+            } else if (movedToOtherSideOne && !grabbedOtherStone) {
+                grabOtherStone();
+            } else if (grabbedOtherStone && !movedToOtherSideTwo) {
+                moveToFrontButNotBack();
+            } else if (movedToOtherSideTwo && !parked) {
+                park();
             }
             telemetry.update();
         }
