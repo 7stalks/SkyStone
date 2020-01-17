@@ -38,6 +38,7 @@ public class MecanumDrive {
            }
         }
     }
+
     public void mecanumSmall (RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
         if ((smallUp) || (smallRight) || (smallDown) || (smallLeft)){
             if (smallUp) {
@@ -45,46 +46,46 @@ public class MecanumDrive {
                 robot.RightBack.setPower(-robot.smallMove);
                 robot.LeftFront.setPower(-robot.smallMove);
                 robot.LeftBack.setPower(-robot.smallMove);
-                robot.sleep(20);
+                robot.sleep(35);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
                 robot.RightBack.setPower(robot.noSpeed);
-                robot.sleep(200);
+                robot.sleep(150);
             }
             else if (smallRight) {
                 robot.RightFront.setPower(robot.smallMove);
                 robot.RightBack.setPower(-robot.smallMove);
                 robot.LeftFront.setPower(-robot.smallMove);
                 robot.LeftBack.setPower(robot.smallMove);
-                robot.sleep(20);
+                robot.sleep(35);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
                 robot.RightBack.setPower(robot.noSpeed);
-                robot.sleep(200);
+                robot.sleep(150);
             } else if (smallLeft) {
                 robot.RightFront.setPower(-robot.smallMove);
                 robot.RightBack.setPower(robot.smallMove);
                 robot.LeftFront.setPower(robot.smallMove);
                 robot.LeftBack.setPower(-robot.smallMove);
-                robot.sleep(20);
+                robot.sleep(35);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
                 robot.RightBack.setPower(robot.noSpeed);
-                robot.sleep(200);
+                robot.sleep(150);
             } else if (smallDown) {
                 robot.RightFront.setPower(robot.smallMove);
                 robot.RightBack.setPower(robot.smallMove);
                 robot.LeftFront.setPower(robot.smallMove);
                 robot.LeftBack.setPower(robot.smallMove);
-                robot.sleep(20);
+                robot.sleep(35);
                 robot.LeftFront.setPower(robot.noSpeed);
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
                 robot.RightBack.setPower(robot.noSpeed);
-                robot.sleep(200);
+                robot.sleep(150);
             }
         }
     }
