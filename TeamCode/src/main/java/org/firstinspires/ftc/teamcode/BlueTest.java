@@ -92,11 +92,8 @@ public class BlueTest extends LinearOpMode {
         telemetry.addData("Status", "Grabbing skystone");
         telemetry.update();
 
-//        mecanum.mecanumRotate(-1);
-//        sleep(17);
-//        mecanum.mecanumNaught();
-
-        mecanum.mecanumFFront(1);
+        // modify
+        mecanum.mecanumFBack(1);
         sleep(313);
         mecanum.mecanumNaught();
 
@@ -126,13 +123,14 @@ public class BlueTest extends LinearOpMode {
         telemetry.update();
 
         // modify
-        mecanum.mecanumFullFront();
+        mecanum.mecanumFullBack();
         sleep(2450);
         mecanum.mecanumNaught();
         robot.handsOn.setPosition(.45);
+        sleep(600);
 
         // modify
-        mecanum.mecanumFullBack();
+        mecanum.mecanumFullFront();
         sleep(3569);
         mecanum.mecanumNaught();
 
@@ -140,7 +138,9 @@ public class BlueTest extends LinearOpMode {
     }
 
     private void grabOtherStone() {
-        mecanum.mecanumRotate(-.8);
+
+        // NOT SURE!!!
+        mecanum.mecanumRotate(.8);
         sleep(47);
         mecanum.mecanumNaught();
 
@@ -159,7 +159,7 @@ public class BlueTest extends LinearOpMode {
     }
 
     private void moveToFrontButNotBack() {
-        mecanum.mecanumFullFront();
+        mecanum.mecanumFullBack();
         sleep(3251);
         mecanum.mecanumNaught();
 
@@ -173,8 +173,8 @@ public class BlueTest extends LinearOpMode {
         telemetry.addData("Status", "Parking");
         telemetry.update();
 
-        mecanum.mecanumFullBack();
-        sleep(553);
+        mecanum.mecanumFullFront();
+        sleep(623);
         mecanum.mecanumNaught();
 
         parked = true;

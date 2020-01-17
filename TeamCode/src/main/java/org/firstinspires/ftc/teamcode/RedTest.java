@@ -130,6 +130,7 @@ public class RedTest extends LinearOpMode {
         sleep(2450);
         mecanum.mecanumNaught();
         robot.handsOn.setPosition(.45);
+        sleep(600);
 
         // modify
         mecanum.mecanumFullBack();
