@@ -21,7 +21,7 @@ public class MecanumDrive {
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
                 robot.RightBack.setPower(robot.noSpeed);
-                robot.sleep(200);
+                robot.sleep(130);
             }
             else if (rotLeft >= .2) {
                 robot.RightFront.setPower(-robot.smallRot);
@@ -33,7 +33,7 @@ public class MecanumDrive {
                 robot.LeftBack.setPower(robot.noSpeed);
                 robot.RightFront.setPower(robot.noSpeed);
                 robot.RightBack.setPower(robot.noSpeed);
-                robot.sleep(200);
+                robot.sleep(130);
            }
         }
 

@@ -135,7 +135,7 @@ public class BlueTest extends LinearOpMode {
 
         // modify
         mecanum.mecanumFullFront();
-        sleep(3569);
+        sleep(3595);
         mecanum.mecanumNaught();
 
         movedToOtherSideOne = true;
