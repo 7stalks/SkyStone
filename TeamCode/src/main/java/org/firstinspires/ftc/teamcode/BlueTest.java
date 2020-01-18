@@ -93,7 +93,7 @@ public class BlueTest extends LinearOpMode {
         telemetry.update();
 
         // modify
-        mecanum.mecanumFBack(1);
+        mecanum.mecanumFFront(1);
         sleep(313);
         mecanum.mecanumNaught();
 
@@ -140,7 +140,7 @@ public class BlueTest extends LinearOpMode {
     private void grabOtherStone() {
 
         // NOT SURE!!!
-        mecanum.mecanumRotate(.8);
+        mecanum.mecanumRotate(-.8);
         sleep(47);
         mecanum.mecanumNaught();
 
