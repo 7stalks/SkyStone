@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
-@Autonomous(name = "LeftTray")
-public class AutoTray extends LinearOpMode {
+@Autonomous(name = "RightTray")
+public class AutoTrayRight extends LinearOpMode {
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
@@ -20,7 +20,7 @@ public class AutoTray extends LinearOpMode {
     int strafeMoveTime = 3000;
 
     public void AutoTrayStart() {
-        mecanum.mecanumFRight(1);
+        mecanum.mecanumFLeft(1);
         sleep(469);
         mecanum.mecanumNaught();
 
@@ -40,10 +40,10 @@ public class AutoTray extends LinearOpMode {
         kicker.KickerSet(robot, 0);
         sleep(stayTime);
 
-            mecanum.mecanumFLeft(1);
-            sleep(strafeMoveTime);
-            mecanum.mecanumNaught();
-        }
+        mecanum.mecanumFRight(1);
+        sleep(strafeMoveTime);
+        mecanum.mecanumNaught();
+    }
 
     public void runOpMode() throws InterruptedException {
 

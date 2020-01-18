@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 import java.util.List;
 
 
-@Autonomous(name = "RyanTeleop")
-public class RyanTeleop extends LinearOpMode {
+@Autonomous(name = "Backwards")
+public class Backwards extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(true);
     SkystoneNavigation nav = new SkystoneNavigation();
@@ -28,7 +28,7 @@ public class RyanTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
             sleep(10000);
-            mecanum.mecanumFront(.8);
+            mecanum.mecanumBack(.8);
             sleep(2500);
             mecanum.mecanumNaught();
             break;
