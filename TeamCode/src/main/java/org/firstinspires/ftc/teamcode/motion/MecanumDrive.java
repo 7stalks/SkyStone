@@ -10,9 +10,8 @@ public class MecanumDrive {
     double robotAngle;
     double speedVal = 1.0;
 
-    public void rotateSmall (RobotHardware robot, boolean rotRight, boolean rotLeft) {
-        if ((rotRight)||(rotLeft)) {
-            if (rotRight) {
+    public void rotateSmall (RobotHardware robot, float rotRight, float rotLeft) {
+            if (rotRight >= .2) {
                 robot.RightFront.setPower(robot.smallRot);
                 robot.RightBack.setPower(robot.smallRot);
                 robot.LeftFront.setPower(-robot.smallRot);
@@ -24,7 +23,7 @@ public class MecanumDrive {
                 robot.RightBack.setPower(robot.noSpeed);
                 robot.sleep(200);
             }
-            else if (rotLeft) {
+            else if (rotLeft >= .2) {
                 robot.RightFront.setPower(-robot.smallRot);
                 robot.RightBack.setPower(-robot.smallRot);
                 robot.LeftFront.setPower(robot.smallRot);
@@ -37,7 +36,6 @@ public class MecanumDrive {
                 robot.sleep(200);
            }
         }
-    }
 
     public void mecanumSmall (RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
         if ((smallUp) || (smallRight) || (smallDown) || (smallLeft)){

@@ -27,7 +27,7 @@ public class RyanTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            sleep(10000);
+//            sleep(10000);
             mecanum.mecanumFront(.8);
             sleep(2500);
             mecanum.mecanumNaught();

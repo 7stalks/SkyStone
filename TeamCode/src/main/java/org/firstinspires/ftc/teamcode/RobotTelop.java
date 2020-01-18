@@ -64,7 +64,7 @@ public class RobotTelop extends LinearOpMode {
                     robot, gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
 
             rotate_small.rotateSmall(
-                    robot, gamepad1.right_bumper, gamepad1.left_bumper);
+                    robot, gamepad2.right_trigger, gamepad2.left_trigger);
 
             if (robot.handsOn != null){
                 if (gamepad1.y) {
