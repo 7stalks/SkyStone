@@ -94,7 +94,7 @@ public class BlueTest extends LinearOpMode {
 
         // modify
         mecanum.mecanumFFront(1);
-        sleep(313);
+        sleep(343);
         mecanum.mecanumNaught();
 
         // modify
@@ -129,8 +129,8 @@ public class BlueTest extends LinearOpMode {
         robot.handsOn.setPosition(.45);
         sleep(600);
 
-        mecanum.mecanumRotate(-.8);
-        sleep(47);
+        mecanum.mecanumRotate(-.95);
+        sleep(70);
         mecanum.mecanumNaught();
 
         // modify
@@ -149,14 +149,14 @@ public class BlueTest extends LinearOpMode {
 //        mecanum.mecanumNaught();
 
         mecanum.mecanumLeft(1);
-        sleep(683);
+        sleep(733);
         mecanum.mecanumNaught();
 
         robot.handsOn.setPosition(1);
         sleep(700);
 
         mecanum.mecanumRight(1);
-        sleep(823);
+        sleep(817);
         mecanum.mecanumNaught();
 
         grabbedOtherStone = true;
