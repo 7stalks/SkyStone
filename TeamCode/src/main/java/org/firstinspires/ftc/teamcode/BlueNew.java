@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
-@Autonomous(name = "BlueTest")
-public class BlueTest extends LinearOpMode {
+@Autonomous(name = "BlueNew")
+public class BlueNew extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
@@ -36,6 +36,10 @@ public class BlueTest extends LinearOpMode {
     boolean parked = false;
     double HorAngle;
     double areaRatio;
+
+    // LINES 146, 175, and (190 is park)
+
+
 
 
     // Looks for stones and tells whether or not its a skystone
@@ -134,8 +138,12 @@ public class BlueTest extends LinearOpMode {
         mecanum.mecanumNaught();
 
         // modify
+
+
+
+        // MODIFY MODIFY MODIFY
         mecanum.mecanumFullFront();
-        sleep(3569);
+        sleep(3000);
         mecanum.mecanumNaught();
 
         movedToOtherSideOne = true;
@@ -164,7 +172,7 @@ public class BlueTest extends LinearOpMode {
 
     private void moveToFrontButNotBack() {
         mecanum.mecanumFullBack();
-        sleep(3251);
+        sleep(2750);
         mecanum.mecanumNaught();
 
         robot.handsOn.setPosition(.45);
@@ -177,6 +185,7 @@ public class BlueTest extends LinearOpMode {
         telemetry.addData("Status", "Parking");
         telemetry.update();
 
+        // might modify?????
         mecanum.mecanumFullFront();
         sleep(673);
         mecanum.mecanumNaught();

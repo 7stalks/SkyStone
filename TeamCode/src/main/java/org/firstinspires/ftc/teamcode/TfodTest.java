@@ -143,10 +143,11 @@ public class TfodTest extends LinearOpMode {
 
         waitForStart();
 
-        mecanum.mecanumLeft(1);
-        sleep(811  );
-        mecanum.mecanumNaught();
-
+//        mecanum.mecanumLeft(1);
+//        sleep(811  );
+//        mecanum.mecanumNaught();
+        List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
+        checkForStones(updatedRecognitions);
 //        while (opModeIsActive()) {
 //            SkyStoneTFOD();
 //            telemetry.update();
