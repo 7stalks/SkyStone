@@ -174,7 +174,7 @@ public class BlueTest extends LinearOpMode {
         telemetry.update();
 
         mecanum.mecanumFullFront();
-        sleep(623);
+        sleep(673);
         mecanum.mecanumNaught();
 
         parked = true;

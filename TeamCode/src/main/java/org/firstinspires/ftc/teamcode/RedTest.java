@@ -175,7 +175,7 @@ public class RedTest extends LinearOpMode {
         telemetry.update();
 
         mecanum.mecanumFullBack();
-        sleep(553);
+        sleep(673);
         mecanum.mecanumNaught();
 
         parked = true;
