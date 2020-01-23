@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 import java.util.List;
 
 
-@Autonomous(name = "BlueDriverStation")
-public class BlueDriverStation extends LinearOpMode {
+@Autonomous(name = "RedVuforiaSinglePlaceStone")
+public class RedVuforiaSinglePlaceStone extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    RobotHardware robot = new RobotHardware(true);
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
@@ -70,7 +70,7 @@ public class BlueDriverStation extends LinearOpMode {
     // Plugs in the horizontal ange from checkForStones, moves towards it
     public void moveToSkystone() {
         mecanum.mecanumNaught();
-        angularMecanum.Left(HorAngle, .65, 0);
+        angularMecanum.Right(HorAngle, .65, 0);
         sleep(30);
     }
 
@@ -95,7 +95,7 @@ public class BlueDriverStation extends LinearOpMode {
     // Drives forward until touch sensor is activated
     public void driveUntilTouch() {
         while (robot.digitalTouch.getState())
-            mecanum.mecanumFront(.95);
+            mecanum.mecanumFFront(.875);
         if (!robot.digitalTouch.getState()) {
             mecanum.mecanumNaught();
         }
@@ -104,14 +104,15 @@ public class BlueDriverStation extends LinearOpMode {
     // Grabs the skystone from the position
     public void grabSkystone() {
         nav.skystoneNavigationInit(robot);
-        mecanum.mecanumRotate(-.8);
-        sleep(1951);
+        //
+        mecanum.mecanumRotate(.8);
+        sleep(1950);
         mecanum.mecanumNaught();
         mecanum.mecanumFBack(.95);
         sleep(777);
         mecanum.mecanumNaught();
-        mecanum.mecanumFRight(.95);
-        sleep(1077);
+        mecanum.mecanumFLeft(.95);
+        sleep(1100);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -119,7 +120,7 @@ public class BlueDriverStation extends LinearOpMode {
 
     // Provides the angle for the coordinate (-905, 1090)
     private void tangentTime(double X, double Y) {
-        robotAngle = Math.atan((-905-X)/(1090-Y));
+        robotAngle = Math.atan((-905-X)/(-1090-Y));
     }
 
     private void pictureFront() {
@@ -139,7 +140,7 @@ public class BlueDriverStation extends LinearOpMode {
     }
 
     public void moveToPlate1() {
-        while (nav.Y < 1090) {
+        while (nav.Y > -1137) {
             // robot is now just off of center isle.
             nav.SkystoneNavigationNoTelemetry();
             telemetry.addData("Rotation:", nav.Rotation);
@@ -147,11 +148,11 @@ public class BlueDriverStation extends LinearOpMode {
             telemetry.addData("My Y is", nav.Y);
             tangentTime(nav.X, nav.Y);
             telemetry.addData("Tangent angle:", robotAngle);
-            angularMecanum.Left(robotAngle, .7, 0);
+            angularMecanum.Right(robotAngle, .7, 0);
             nav.SkystoneNavigationNoTelemetry();
             telemetry.update();
         }
-        if (nav.Y >= 1090) {
+        if (nav.Y <= -1137) {
             mecanum.mecanumNaught();
             notToCornerYet = false;
             telemetry.addData("Status:", "In da corner!");
@@ -160,8 +161,8 @@ public class BlueDriverStation extends LinearOpMode {
     }
 
     public void actuallyMoveToPlate() {
-        mecanum.mecanumFFront(1);
-        sleep(3479);
+        mecanum.mecanumFullFront();
+        sleep(2800);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();
@@ -174,13 +175,13 @@ public class BlueDriverStation extends LinearOpMode {
         }
         while (notToPlate) {
             if (nav.X < 910) {
-                mecanum.mecanumFront(.425);
+                mecanum.mecanumFront(.85);
                 sleep(40);
                 mecanum.mecanumNaught();
                 sleep(80);
                 nav.SkystoneNavigationNoTelemetry();
             } else if (nav.X > 950) {
-                mecanum.mecanumBack(.425);
+                mecanum.mecanumBack(.85);
                 sleep(40);
                 mecanum.mecanumNaught();
                 sleep(80);
@@ -222,9 +223,6 @@ public class BlueDriverStation extends LinearOpMode {
             moveToPlate1();
         }
         nav.SkystoneNavigationNoTelemetry();
-        mecanum.mecanumRotate(-.8);
-        sleep(20);
-        mecanum.mecanumNaught();
 //        mecanum.mecanumRotate(-.8);
 //        sleep(10);
 //        mecanum.mecanumNaught();
@@ -236,8 +234,8 @@ public class BlueDriverStation extends LinearOpMode {
         mecanum.mecanumFront(1);
         sleep(975);
         mecanum.mecanumNaught();
-        mecanum.mecanumRotate(.8);
-        sleep(915);
+        mecanum.mecanumRotate(-.8);
+        sleep(1025);
         mecanum.mecanumNaught();
         movedToPlate = true;
     }
@@ -271,7 +269,7 @@ public class BlueDriverStation extends LinearOpMode {
         robot.KickerServo.setPosition(robot.MID_SERVO);
         telemetry.addData("Status", "Moving tray");
         telemetry.update();
-        mecanum.mecanumFRight(1);
+        mecanum.mecanumFLeft(1);
         sleep(3100);
         mecanum.mecanumNaught();
         movedTray = true;

@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
-@Autonomous(name = "BlueNew")
-public class BlueNew extends LinearOpMode {
+@Autonomous(name = "BlueMoveBothStones")
+public class BlueMoveBothStones extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();

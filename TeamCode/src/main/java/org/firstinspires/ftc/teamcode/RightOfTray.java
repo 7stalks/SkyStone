@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
-@Autonomous(name = "RightTray")
-public class AutoTrayRight extends LinearOpMode {
+@Autonomous(name = "RightOfTray")
+public class RightOfTray extends LinearOpMode {
     RobotHardware robot = new RobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
