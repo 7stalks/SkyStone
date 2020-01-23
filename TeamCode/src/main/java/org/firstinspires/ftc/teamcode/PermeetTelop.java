@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 
 @TeleOp(name = "PermeetTelop")
+@Disabled
+
 public class PermeetTelop extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(true);

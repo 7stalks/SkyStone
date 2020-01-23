@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -13,6 +14,8 @@ import java.util.List;
 
 
 @Autonomous(name = "TfodTest")
+@Disabled
+
 public class TfodTest extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);

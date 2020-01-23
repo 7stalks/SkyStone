@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -15,6 +16,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 import java.util.List;
 
 @Autonomous(name = "BlueTest")
+@Disabled
+
 public class BlueTest extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);

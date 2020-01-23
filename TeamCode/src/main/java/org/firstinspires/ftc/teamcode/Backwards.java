@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
@@ -11,6 +12,8 @@ import java.util.List;
 
 
 @Autonomous(name = "Backwards")
+@Disabled
+
 public class Backwards extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(true);
