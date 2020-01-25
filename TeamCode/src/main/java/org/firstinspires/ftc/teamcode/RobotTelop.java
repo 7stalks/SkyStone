@@ -47,6 +47,8 @@ public class RobotTelop extends LinearOpMode {
                 speedUp = false;
             }
 
+            // Does mecanumDrive (either fast or normal based on above) and inputs several buttons
+            // If the buttons aren't pressed then the function does nothing
             if (!speedUp) {
                 mecanum_drive.mecanumDrive(
                         telemetry, robot,
@@ -60,22 +62,44 @@ public class RobotTelop extends LinearOpMode {
                         gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
             }
 
+            // does mecanumSmall based on the inputs from the clamp driver's controller
             mecanum_small.mecanumSmall(
                     robot, gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
 
             rotate_small.rotateSmall(
                     robot, gamepad2.right_trigger, gamepad2.left_trigger);
 
+            // handsOn = clamp controller X
             if (robot.handsOn != null){
-                if (gamepad1.y) {
+                if (gamepad2.x) {
                     robot.handsOn.setPosition(1);
                 } else {
                     robot.handsOn.setPosition(robot.MID_SERVO);
                 }
             }
 
-            if (robot.digitalTouch != null) {
-                if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
+            // hansen = clamp controller A
+            if (robot.hansen != null) {
+                if (gamepad2.a) {
+                    robot.hansen.setPosition(.075);
+                } else {
+                    robot.hansen.setPosition(.425);
+                }
+            }
+
+            // hansen rotator = clamp controller B
+            if (robot.hansenRotator != null) {
+                if (gamepad2.b) {
+                    robot.hansenRotator.setPosition(0);
+                } else {
+                    robot.hansenRotator.setPosition(.5);
+                }
+            }
+
+            // If touch funnel is activated, close kicker
+            // Else if RIGHT TRIGGER is clicked, also close kicker
+            if (robot.digitalTouchFunnel != null) {
+                if (gamepad1.right_trigger > 0 || !robot.digitalTouchFunnel.getState()) {
                     kicker.KickerMove(robot);
                 } else {
                     if (robot.KickerServo != null) {
@@ -92,18 +116,28 @@ public class RobotTelop extends LinearOpMode {
                 }
             }
 
+            // stay lever arm
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
                 lever_arm.leverArmStay(robot, telemetry);
             }
+
+            // lever arm = clamp controller LEFT STICK Y
             if (gamepad2.left_stick_y > .5 || gamepad2.left_stick_y < -.5) {
                 lever_arm.moveLeverArm(robot, telemetry, -gamepad2.left_stick_y);
             }
+
+            // clamp = clamp controller BUMPERS
+            // LEFT = OPEN, RIGHT = CLOSE
             if (gamepad2.left_bumper || gamepad2.right_bumper) {
                 clamp.setClamp(robot, gamepad2.left_bumper, gamepad2.right_bumper);
             }
+
+            // clamp rotator = clamp controller RIGHT STICK Y
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
             }
+
+            // tensor flow
             if (robot.tensorFlowEngine != null) {
                 List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
@@ -119,9 +153,7 @@ public class RobotTelop extends LinearOpMode {
                     }
                     telemetry.update();
                 }
-
             }
-
         }
 
         if (robot.tensorFlowEngine != null) {

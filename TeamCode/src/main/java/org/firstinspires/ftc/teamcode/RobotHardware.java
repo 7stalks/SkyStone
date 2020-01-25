@@ -48,13 +48,14 @@ public class RobotHardware {
     public Servo clamp;
     public Servo KickerServo;
     public Servo handsOn;
+    public Servo hansen;
+    public Servo hansenRotator;
 
     public ColorSensor colorSensor;
-    public DistanceSensor colorDistance;
-
+//    public DistanceSensor colorDistance;
     public BNO055IMU imu;
-    public DigitalChannel digitalTouch;
-
+    public DigitalChannel digitalTouchFunnel;
+    public DigitalChannel digitalTouchHansen;
     public Orientation angles;
     public Acceleration gravity;
 
@@ -147,6 +148,7 @@ public class RobotHardware {
         hardwareMap = hardware_map;
 
         // Define and Initialize Motor
+
         try {
             LeftFront = hardwareMap.get(DcMotor.class, "left_front");
             LeftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -202,7 +204,6 @@ public class RobotHardware {
         }
 
         try {
-
             clampRotator = hardwareMap.get(Servo.class, "clamp_rotator");
             clampRotator.setPosition(CLAMP_ROTATOR_BEGINNING_SERVO);
             telemetry.addData("Status", "Servo: clamp_rotator identified");    //
@@ -239,13 +240,31 @@ public class RobotHardware {
         }
 
         try {
+            hansen = hardwareMap.get(Servo.class, "hansen");
+            hansen.setPosition(.4795);
+            telemetry.addData("Status", "Servo: hansen identified");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: hansen not plugged in");
+            hansen = null;
+        }
+
+        try {
+            hansenRotator = hardwareMap.get(Servo.class, "hansen_rotator");
+            hansenRotator.setPosition(.7);
+            telemetry.addData("Status", "Servo: hansen identified");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: hansen not plugged in");
+            hansenRotator = null;
+        }
+
+        try {
             colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
-            colorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
+//            colorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
             telemetry.addData("Status", "sensor: color sensor identified");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "sensor: color sensor not plugged in");    //
             colorSensor = null;
-            colorDistance = null;
+//            colorDistance = null;
         }
 
         initVuforia(telemetry, rightCamera);
@@ -255,17 +274,26 @@ public class RobotHardware {
         } else {
             telemetry.addData("Warning", "Tensor Flow Object Detection not compatible");
         }
+
         try {
-            digitalTouch = hardwareMap.get(DigitalChannel.class, "digital_touch");
-            digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-            telemetry.addData("Status", "sensor: touch sensor identified");    //
+            digitalTouchFunnel = hardwareMap.get(DigitalChannel.class, "digital_touch_funnel");
+            digitalTouchFunnel.setMode(DigitalChannel.Mode.INPUT);
+            telemetry.addData("Status", "sensor: funnel toucb identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "sensor: touch sensor not plugged in");    //
-            digitalTouch = null;
+            telemetry.addData("Warning", "sensor: funnel touch not plugged in");    //
+            digitalTouchFunnel = null;
+        }
+
+        try {
+            digitalTouchHansen = hardwareMap.get(DigitalChannel.class, "digital_touch_hansen");
+            digitalTouchHansen.setMode(DigitalChannel.Mode.INPUT);
+            telemetry.addData("Status", "sensor: hansen touch identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "sensor: hansen touch not plugged in");    //
+            digitalTouchHansen = null;
         }
 
         telemetry.update();
-
     }
 
     private void initVuforia(Telemetry telemetry, boolean rightCamera) {

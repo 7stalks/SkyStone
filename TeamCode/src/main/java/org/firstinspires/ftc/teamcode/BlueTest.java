@@ -131,7 +131,6 @@ public class BlueTest extends LinearOpMode {
         mecanum.mecanumNaught();
         robot.handsOn.setPosition(.45);
         sleep(600);
-        // :)
 
         mecanum.mecanumRotate(-.95);
         sleep(70);
