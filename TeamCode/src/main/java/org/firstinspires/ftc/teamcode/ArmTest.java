@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 @TeleOp(name="ArmTest")
-@Disabled
 
 public class ArmTest extends LinearOpMode {
 
@@ -21,14 +21,15 @@ public class ArmTest extends LinearOpMode {
 
         waitForStart();
 
-        robot.leverArm.setPower(.325);
+        robot.leverArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leverArm.setTargetPosition(800);
 
         while (opModeIsActive()) {
+            robot.leverArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leverArm.setTargetPosition(800);
             armPosition = robot.leverArm.getCurrentPosition();
             telemetry.addData("Arm Position", armPosition);
             telemetry.update();
-            robot.leverArm.setTargetPosition(800);
         }
     }
 }
