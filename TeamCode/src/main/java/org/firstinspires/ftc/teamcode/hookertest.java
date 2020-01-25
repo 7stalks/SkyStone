@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.motion.Hookers;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 @TeleOp(name="hookertest")
-@Disabled
 
 public class hookertest extends LinearOpMode {
 
