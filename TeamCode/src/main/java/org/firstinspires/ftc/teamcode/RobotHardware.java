@@ -287,6 +287,7 @@ public class RobotHardware {
 //            colorDistance = null;
         }
 
+
         initVuforia(telemetry, rightCamera);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {

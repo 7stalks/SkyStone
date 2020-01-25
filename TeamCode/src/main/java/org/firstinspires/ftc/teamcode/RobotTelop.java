@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
+import org.firstinspires.ftc.teamcode.motion.Hookers;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
@@ -23,6 +24,7 @@ public class RobotTelop extends LinearOpMode {
     MecanumDrive mecanum_small = new MecanumDrive();
     MecanumDrive rotate_small = new MecanumDrive();
     Kicker kicker = new Kicker();
+    Hookers hookers = new Hookers();
     boolean speedUp = false;
 
     @Override
@@ -40,7 +42,7 @@ public class RobotTelop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Establishes the speed value boolean. A to speedup, B to slow down.
+            // Establishes the speed value boolean. Mecanum controller A to speedup, B to slow down.
             if (gamepad1.a) {
                 speedUp = true;
             } else if (gamepad1.b) {
@@ -62,6 +64,7 @@ public class RobotTelop extends LinearOpMode {
                         gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
             }
 
+            // clamp controller D PAD
             // does mecanumSmall based on the inputs from the clamp driver's controller
             mecanum_small.mecanumSmall(
                     robot, gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
@@ -75,6 +78,16 @@ public class RobotTelop extends LinearOpMode {
                     robot.handsOn.setPosition(1);
                 } else {
                     robot.handsOn.setPosition(robot.MID_SERVO);
+                }
+            }
+
+            // hookers = driver controller X
+            if (robot.hookLeft != null || robot.hookRight != null) {
+                if (gamepad1.x) {
+                    hookers.Hooker(robot);
+                } else {
+                    robot.hookRight.setPosition(robot.MID_SERVO);
+                    robot.hookLeft.setPosition(robot.MID_SERVO);
                 }
             }
 
