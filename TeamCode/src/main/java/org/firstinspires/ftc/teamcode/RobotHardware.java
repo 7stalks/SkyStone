@@ -50,6 +50,9 @@ public class RobotHardware {
     public Servo handsOn;
     public Servo hansen;
     public Servo hansenRotator;
+    public Servo hookRight;
+    public Servo hookLeft;
+
 
     public ColorSensor colorSensor;
 //    public DistanceSensor colorDistance;
@@ -148,6 +151,23 @@ public class RobotHardware {
         hardwareMap = hardware_map;
 
         // Define and Initialize Motor
+        try {
+            hookRight = hardwareMap.get(Servo.class, "hookerRight");
+            hookRight.setPosition(MID_SERVO);
+            telemetry.addData("Status", "Servo: hook right identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: hook right not plugged in");    //
+            hookRight = null;
+        }
+
+        try {
+            hookLeft = hardwareMap.get(Servo.class, "hookerLeft");
+            hookLeft.setPosition(MID_SERVO);
+            telemetry.addData("Status", "Servo: hook left identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: hook left not plugged in");    //
+            hookLeft = null;
+        }
 
         try {
             LeftFront = hardwareMap.get(DcMotor.class, "left_front");
