@@ -94,9 +94,9 @@ public class BlueVuforiaSinglePlaceStone extends LinearOpMode {
 
     // Drives forward until touch sensor is activated
     public void driveUntilTouch() {
-        while (robot.digitalTouch.getState())
+        while (robot.digitalTouchFunnel.getState())
             mecanum.mecanumFront(.95);
-        if (!robot.digitalTouch.getState()) {
+        if (!robot.digitalTouchFunnel.getState()) {
             mecanum.mecanumNaught();
         }
     }
