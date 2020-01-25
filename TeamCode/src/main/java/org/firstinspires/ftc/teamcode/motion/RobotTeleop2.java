@@ -29,11 +29,11 @@ public class RobotTeleop2 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            mecanum_drive.mecanumDrive(
-                    telemetry, robot,
-                    gamepad1.left_stick_y, gamepad1.left_stick_x,
-                    gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
-            // Might need to put speedVal above "while (opModeIsActive())"
+//            mecanum_drive.mecanumDrive(
+//                    telemetry, robot,
+//                    gamepad1.left_stick_y, gamepad1.left_stick_x,
+//                    gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
+//            // Might need to put speedVal above "while (opModeIsActive())"
             // Might also want to add "dpad_up" and "dpad_down" into the if statement
             //}
 

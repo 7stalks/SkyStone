@@ -4,7 +4,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class Hookers {
 
-    public void Hooker(RobotHardware robot) {
+    public void Hooker (RobotHardware robot) {
         if (robot.hookLeft != null) {
             robot.hookLeft.setPosition(1);
         }
