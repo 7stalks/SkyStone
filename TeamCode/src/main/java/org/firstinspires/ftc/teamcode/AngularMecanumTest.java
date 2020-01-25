@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
 
 @Autonomous(name = "AngularMecanumTest")
+@Disabled
 public class AngularMecanumTest extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(false);

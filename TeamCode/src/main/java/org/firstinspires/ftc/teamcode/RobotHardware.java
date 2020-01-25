@@ -1,32 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.ReadWriteFile;
-import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
-import java.io.File;
-import java.util.Locale;
-
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 
 /**
@@ -57,8 +47,12 @@ public class RobotHardware {
     public Servo clampRotator;
     public Servo clamp;
     public Servo KickerServo;
+    public Servo handsOn;
 
     public ColorSensor colorSensor;
+    public DistanceSensor colorDistance;
+
+    public BNO055IMU imu;
     public DigitalChannel digitalTouch;
 
     public Orientation angles;
@@ -78,9 +72,19 @@ public class RobotHardware {
     public static final double KICKER_PRESS = 1;
     public static final double stickThres = .25;
     public static final double noSpeed = 0;
+    public static final double smallMove = .6;
+    public static final double smallRot = .6;
 
-    private static final float mmPerInch = 25.4f;
-    private static final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static final float mmPerInch        = 25.4f;
+    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
     // Constant for Stone Target
     public static final float stoneZ = 2.00f * mmPerInch;
@@ -94,7 +98,7 @@ public class RobotHardware {
 
     // Constants for perimeter targets
     public static final float halfField = 72 * mmPerInch;
-    public static final float quadField = 36 * mmPerInch;
+    public static final float quadField  = 36 * mmPerInch;
 
     public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     public static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -226,11 +230,22 @@ public class RobotHardware {
         }
 
         try {
+            handsOn = hardwareMap.get(Servo.class, "hands_on");
+            handsOn.setPosition(MID_SERVO);
+            telemetry.addData("Status", "Servo: hands_on identified");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: hands_on not plugged in");    //
+            handsOn = null;
+        }
+
+        try {
             colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
-            telemetry.addData("Status", "sensor: color sensor identified");    //
+            colorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
+            telemetry.addData("Status", "sensor: color sensor identified");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "sensor: color sensor not plugged in");    //
             colorSensor = null;
+            colorDistance = null;
         }
 
         initVuforia(telemetry, rightCamera);
@@ -281,7 +296,7 @@ public class RobotHardware {
             int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                     "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-            tfodParameters.minimumConfidence = 0.8;
+            tfodParameters.minimumConfidence = 0.7;
             tensorFlowEngine = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
             tensorFlowEngine.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
             telemetry.addData("Status", "Tensor Flow Object Detection Initialized");

@@ -20,7 +20,10 @@ public class RobotTelop extends LinearOpMode {
     LeverArm lever_arm = new LeverArm();
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
+    MecanumDrive mecanum_small = new MecanumDrive();
+    MecanumDrive rotate_small = new MecanumDrive();
     Kicker kicker = new Kicker();
+    boolean speedUp = false;
 
     @Override
     public void runOpMode() {
@@ -37,19 +40,58 @@ public class RobotTelop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            mecanum_drive.mecanumDrive(
-                    telemetry, robot,
-                    gamepad1.left_stick_y, gamepad1.left_stick_x,
-                    gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down);
-            // Might need to put speedVal above "while (opModeIsActive())"
-            // Might also want to add "dpad_up" and "dpad_down" into the if statement
-            //}
-            if (gamepad1.right_trigger > 0) {
-                kicker.KickerMove(robot);
+            // Establishes the speed value boolean. A to speedup, B to slow down.
+            if (gamepad1.a) {
+                speedUp = true;
+            } else if (gamepad1.b) {
+                speedUp = false;
             }
-            else {
-                robot.KickerServo.setPosition(0);
+
+            if (!speedUp) {
+                mecanum_drive.mecanumDrive(
+                        telemetry, robot,
+                        gamepad1.left_stick_y, gamepad1.left_stick_x,
+                        gamepad1.right_stick_x,
+                        gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
+            } else {
+                mecanum_drive.mecanumDriveFast(telemetry, robot,
+                        gamepad1.left_stick_y, gamepad1.left_stick_x,
+                        gamepad1.right_stick_x,
+                        gamepad1.dpad_up, gamepad1.dpad_right, gamepad1.dpad_down, gamepad1.dpad_left);
             }
+
+            mecanum_small.mecanumSmall(
+                    robot, gamepad2.dpad_up, gamepad2.dpad_right, gamepad2.dpad_down, gamepad2.dpad_left);
+
+            rotate_small.rotateSmall(
+                    robot, gamepad2.right_trigger, gamepad2.left_trigger);
+
+            if (robot.handsOn != null){
+                if (gamepad1.y) {
+                    robot.handsOn.setPosition(1);
+                } else {
+                    robot.handsOn.setPosition(robot.MID_SERVO);
+                }
+            }
+
+            if (robot.digitalTouch != null) {
+                if (gamepad1.right_trigger > 0 || !robot.digitalTouch.getState()) {
+                    kicker.KickerMove(robot);
+                } else {
+                    if (robot.KickerServo != null) {
+                        robot.KickerServo.setPosition(0);
+                    }
+                }
+            } else {
+                if (gamepad1.right_trigger > 0) {
+                    kicker.KickerMove(robot);
+                } else {
+                    if (robot.KickerServo != null) {
+                        robot.KickerServo.setPosition(0);
+                    }
+                }
+            }
+
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
                 lever_arm.leverArmStay(robot, telemetry);
             }
@@ -61,13 +103,6 @@ public class RobotTelop extends LinearOpMode {
             }
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
-            }
-            if (robot.digitalTouch.getState()) {
-                telemetry.addData("Help", "Whew I'm safe");
-                telemetry.update();
-            } else {
-                telemetry.addData("Help", "im being touched");
-                telemetry.update();
             }
             if (robot.tensorFlowEngine != null) {
                 List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();

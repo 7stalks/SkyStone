@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 @TeleOp(name="ArmTest")
+@Disabled
+
 public class ArmTest extends LinearOpMode {
 
     LeverArm leverArm = new LeverArm();

@@ -5,12 +5,14 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class Kicker {
 
     public void KickerMove(RobotHardware robot) {
-
-        robot.KickerServo.setPosition(1);
-
+        if (robot.KickerServo != null) {
+            robot.KickerServo.setPosition(1);
+        }
     }
 
     public void KickerSet(RobotHardware robot, double position) {
-        robot.KickerServo.setPosition(position);
+        if (robot.KickerServo != null) {
+            robot.KickerServo.setPosition(position);
+        }
     }
 }

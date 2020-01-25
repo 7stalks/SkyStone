@@ -1,138 +1,46 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 @TeleOp(name = "HansonTelep")
+@Disabled
+
 public class HansonTelep extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(true);
-    double speedVal         = .5;
-    final double stickThres = .25;
-    final double noSpeed    = 0;
-    final double smallMove = .8;
-
-    public void mecanumDrive(double leftStickY, double leftStickX, double rightStickX,
-                             boolean incSpeed, boolean decSpeed,
-                             boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
-
-        double r = Math.hypot (leftStickX, leftStickY);
-        double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-
-        if (leftStickX >= stickThres || leftStickX <= -stickThres
-            || leftStickY >= stickThres || leftStickY <= -stickThres
-            || rightStickX >= stickThres || rightStickX <= - stickThres
-            || (incSpeed) || (decSpeed)
-            || (smallUp) || (smallRight) || (smallDown) || (smallLeft)) {
-
-            if ((incSpeed)) {
-            speedVal = speedVal + .25;
-            }
-            if ((decSpeed) && speedVal > .25) {
-            speedVal = speedVal - .25;
-            }
-            if (speedVal >= 1) {
-            speedVal = 1;
-            }
-            if (speedVal <= .25) {
-            speedVal = .25;
-            }
-            if (smallUp) {
-                robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (-smallMove);
-                robot.LeftFront.setPower (-smallMove);
-                robot.LeftBack.setPower (-smallMove);
-                sleep(100);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(250);
-            }
-            //hahaha
-            if (smallRight) {
-                robot.RightFront.setPower (smallMove);
-                robot.RightBack.setPower (-smallMove);
-                robot.LeftFront.setPower (-smallMove);
-                robot.LeftBack.setPower (smallMove);
-                sleep(100);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(250);
-            }
-            if (smallLeft) {
-                robot.RightFront.setPower (-smallMove);
-                robot.RightBack.setPower (smallMove);
-                robot.LeftFront.setPower (smallMove);
-                robot.LeftBack.setPower (-smallMove);
-                sleep(100);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(250);
-            }
-            if (smallDown) {
-                robot.RightFront.setPower (smallMove);
-                robot.RightBack.setPower (smallMove);
-                robot.LeftFront.setPower (smallMove);
-                robot.LeftBack.setPower (smallMove);
-                sleep(100);
-                robot.LeftFront.setPower (noSpeed);
-                robot.LeftBack.setPower (noSpeed);
-                robot.RightFront.setPower (noSpeed);
-                robot.RightBack.setPower (noSpeed);
-                sleep(250);
-            }
-
-            final double RFarquaad = speedVal*r*Math.cos(robotAngle) + rightStickX;
-            final double RBridget = speedVal*r*Math.sin(robotAngle) + rightStickX;
-            final double LFrancisco = speedVal*r*Math.sin(robotAngle) - rightStickX;
-            final double LBoomer = speedVal*r*Math.cos(robotAngle) - rightStickX;
-            robot.RightFront.setPower (RFarquaad);
-            robot.RightBack.setPower (RBridget);
-            robot.LeftFront.setPower (LFrancisco);
-            robot.LeftBack.setPower (LBoomer);
-            telemetry.addLine("im working power on");
-            telemetry.addData("RFarquaad", RFarquaad);
-            telemetry.addData("LFrancisco", LFrancisco);
-            telemetry.addData("LBoomer", LBoomer);
-            telemetry.addData("RBridget", RBridget);
-            telemetry.update();
-        }
-
-        else {
-            robot.LeftFront.setPower (noSpeed);
-            robot.LeftBack.setPower (noSpeed);
-            robot.RightFront.setPower (noSpeed);
-            robot.RightBack.setPower (noSpeed);
-            telemetry.addLine("im working power off");
-        }
-    }
+    I2cAddr address = new I2cAddr(2);
+    int red;
+    int blue;
+    int green;
 
     @Override
     public void runOpMode() {
 
         // Initialize, wait for start
-        robot.init(hardwareMap, telemetry);
+//        robot.init(hardwareMap, telemetry);
+        try {
+            robot.colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
+            telemetry.addData("Status", "sensor: color sensor identified");    //
+            robot.colorSensor.setI2cAddress(address);
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "sensor: color sensor not plugged in");    //
+            robot.colorSensor = null;
+        }
+        telemetry.update();
         waitForStart();
 
-        // Begins while loop, updates telemetry
         while (opModeIsActive()) {
-            telemetry.addData("Status:", "Started");
+            red = robot.colorSensor.red();
+            telemetry.addData("RED NECK", red);
+            blue = robot.colorSensor.blue();
+            telemetry.addData("BLUE", blue);
+            green = robot.colorSensor.green();
+            telemetry.addData("GREEN", green);
             telemetry.update();
-
-            mecanumDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.dpad_up, gamepad1.dpad_down,
-                    gamepad2.dpad_up,gamepad2.dpad_right,gamepad2.dpad_down,gamepad2.dpad_left);
-            telemetry.addData("Y Value:", gamepad1.left_stick_y);
-            telemetry.addData("X Value", gamepad1.left_stick_x);
-            telemetry.addData("Rotate Value:", gamepad1.right_stick_x);
-            telemetry.update();
-
-
-            }
         }
     }
-//ur dumb lol
+}

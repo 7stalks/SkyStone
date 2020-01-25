@@ -4,15 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.motion.Kicker;
-
-@TeleOp(name = "PermeetTelop")
+@TeleOp(name = "Color Sensor")
 @Disabled
 
-public class PermeetTelop extends LinearOpMode {
+public class CSensorTelop extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(true);
-    Kicker kicker = new Kicker();
 
     @Override
     public void runOpMode() {
@@ -23,15 +20,14 @@ public class PermeetTelop extends LinearOpMode {
 
         // Begins while loop, updates telemetry
         while (opModeIsActive()) {
-            if (gamepad1.right_trigger > 0) {
-                telemetry.addData("Right Trigger", "Hit");
-                telemetry.update();
-                kicker.KickerMove(robot);
+            if (robot.colorSensor != null){
+                telemetry.addData("Color Sensor", robot.colorSensor.alpha());
             } else {
-                telemetry.addData("Right Trigger", "Off");
-                telemetry.update();
-                kicker.KickerSet(robot, -1);
+                telemetry.addData("Color Sensor", "C R A P!");
             }
+            telemetry.update();
+            sleep(1000);
         }
     }
 }
+
