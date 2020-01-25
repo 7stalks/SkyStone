@@ -21,15 +21,15 @@ public class ArmTest extends LinearOpMode {
 
         waitForStart();
 
-        robot.leverArm.setTargetPosition(800);
         robot.leverArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leverArm.setTargetPosition(800);
 
-//        while (opModeIsActive()) {
-//            robot.leverArm.setTargetPosition(800);
-//            robot.leverArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            armPosition = robot.leverArm.getCurrentPosition();
-//            telemetry.addData("Arm Position", armPosition);
-//            telemetry.update();
-//        }
+        while (opModeIsActive()) {
+            robot.leverArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leverArm.setTargetPosition(800);
+            armPosition = robot.leverArm.getCurrentPosition();
+            telemetry.addData("Arm Position", armPosition);
+            telemetry.update();
+        }
     }
 }
