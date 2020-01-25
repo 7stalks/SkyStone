@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
+import org.firstinspires.ftc.robotcore.internal.vuforia.VuforiaException;
 
 
 /**
@@ -154,6 +154,7 @@ public class RobotHardware {
         try {
             hookRight = hardwareMap.get(Servo.class, "hookerRight");
             hookRight.setPosition(MID_SERVO);
+            hookRight.setDirection(Servo.Direction.REVERSE);
             telemetry.addData("Status", "Servo: hook right identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: hook right not plugged in");    //
@@ -261,7 +262,7 @@ public class RobotHardware {
 
         try {
             hansen = hardwareMap.get(Servo.class, "hansen");
-            hansen.setPosition(.4795);
+            hansen.setPosition(.4275);
             telemetry.addData("Status", "Servo: hansen identified");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: hansen not plugged in");
@@ -335,6 +336,9 @@ public class RobotHardware {
             telemetry.addData("Status", "Vuforia Initialized");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: Vuforia not enabled");    //
+            vuforia = null;
+        } catch (VuforiaException err) {
+            telemetry.addData("Warning", "Servo: Vuforia Exception - not enabled");    //
             vuforia = null;
         }
     }

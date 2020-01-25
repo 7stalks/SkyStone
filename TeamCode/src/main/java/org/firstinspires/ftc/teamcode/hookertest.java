@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.motion.Hookers;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
-@TeleOp(name="hookertest")
-@Disabled
+@TeleOp(name = "hookertest")
 
 public class hookertest extends LinearOpMode {
 
@@ -22,10 +21,9 @@ public class hookertest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.right_stick_y != 0) {
-                robot.hookLeft.setPosition(gamepad1.right_stick_y);
-                robot.hookRight.setPosition(gamepad1.right_stick_y);
-            }
+            telemetry.addData("Gamepad 1 right stick", gamepad1.right_stick_y);
+            robot.hookLeft.setPosition(gamepad1.right_stick_y);
+            robot.hookRight.setPosition(gamepad1.right_stick_y);
         }
     }
 }

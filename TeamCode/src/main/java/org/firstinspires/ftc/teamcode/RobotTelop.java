@@ -84,7 +84,7 @@ public class RobotTelop extends LinearOpMode {
             // hookers = driver controller X
             if (robot.hookLeft != null || robot.hookRight != null) {
                 if (gamepad1.x) {
-                    hookers.Hooker(robot);
+                    hookers.Hooker(robot, -1);
                 } else {
                     robot.hookRight.setPosition(robot.MID_SERVO);
                     robot.hookLeft.setPosition(robot.MID_SERVO);
@@ -105,7 +105,7 @@ public class RobotTelop extends LinearOpMode {
                 if (gamepad2.b) {
                     robot.hansenRotator.setPosition(0);
                 } else {
-                    robot.hansenRotator.setPosition(.5);
+                    robot.hansenRotator.setPosition(.4);
                 }
             }
 
