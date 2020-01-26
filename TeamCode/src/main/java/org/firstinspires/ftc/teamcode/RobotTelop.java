@@ -86,8 +86,8 @@ public class RobotTelop extends LinearOpMode {
                 if (gamepad1.x) {
                     hookers.Hooker(robot, -1);
                 } else {
-                    robot.hookRight.setPosition(robot.MID_SERVO);
-                    robot.hookLeft.setPosition(robot.MID_SERVO);
+                    robot.hookRight.setPosition(1);
+                    robot.hookLeft.setPosition(1);
                 }
             }
 
@@ -118,7 +118,6 @@ public class RobotTelop extends LinearOpMode {
                     robot.KickerServo.setPosition(1);
                 }
             }
-
 
             // stay lever arm
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
