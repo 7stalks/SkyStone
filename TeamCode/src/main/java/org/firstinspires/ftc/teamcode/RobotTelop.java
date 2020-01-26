@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
-@TeleOp(name="RobotTeleop:)", group="Robot")
+@TeleOp(name = "RobotTeleop:)", group = "Robot")
 public class RobotTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -73,7 +73,7 @@ public class RobotTelop extends LinearOpMode {
                     robot, gamepad2.right_trigger, gamepad2.left_trigger);
 
             // handsOn = clamp controller X
-            if (robot.handsOn != null){
+            if (robot.handsOn != null) {
                 if (gamepad2.x) {
                     robot.handsOn.setPosition(1);
                 } else {
@@ -111,23 +111,14 @@ public class RobotTelop extends LinearOpMode {
 
             // If touch funnel is activated, close kicker
             // Else if RIGHT TRIGGER is clicked, also close kicker
-            if (robot.digitalTouchFunnel != null) {
-                if (gamepad1.right_trigger > 0 || !robot.digitalTouchFunnel.getState()) {
-                    kicker.KickerMove(robot);
-                } else {
-                    if (robot.KickerServo != null) {
-                        robot.KickerServo.setPosition(0);
-                    }
-                }
+            if (gamepad1.right_trigger > 0) {
+                kicker.KickerMove(robot);
             } else {
-                if (gamepad1.right_trigger > 0) {
-                    kicker.KickerMove(robot);
-                } else {
-                    if (robot.KickerServo != null) {
-                        robot.KickerServo.setPosition(0);
-                    }
+                if (robot.KickerServo != null) {
+                    robot.KickerServo.setPosition(1);
                 }
             }
+
 
             // stay lever arm
             if (gamepad2.left_stick_y < .5 && gamepad2.left_stick_y > -.5) {
@@ -168,10 +159,8 @@ public class RobotTelop extends LinearOpMode {
                 }
             }
         }
-
         if (robot.tensorFlowEngine != null) {
             robot.tensorFlowEngine.shutdown();
         }
     }
 }
-

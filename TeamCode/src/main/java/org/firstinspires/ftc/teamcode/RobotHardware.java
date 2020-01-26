@@ -153,8 +153,8 @@ public class RobotHardware {
         // Define and Initialize Motor
         try {
             hookRight = hardwareMap.get(Servo.class, "hookerRight");
-            hookRight.setPosition(MID_SERVO);
             hookRight.setDirection(Servo.Direction.REVERSE);
+            hookRight.setPosition(1);
             telemetry.addData("Status", "Servo: hook right identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: hook right not plugged in");    //
@@ -163,7 +163,7 @@ public class RobotHardware {
 
         try {
             hookLeft = hardwareMap.get(Servo.class, "hookerLeft");
-            hookLeft.setPosition(MID_SERVO);
+            hookLeft.setPosition(1);
             telemetry.addData("Status", "Servo: hook left identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: hook left not plugged in");    //

@@ -6,7 +6,7 @@ public class Kicker {
 
     public void KickerMove(RobotHardware robot) {
         if (robot.KickerServo != null) {
-            robot.KickerServo.setPosition(1);
+            robot.KickerServo.setPosition(0);
         }
     }
 
