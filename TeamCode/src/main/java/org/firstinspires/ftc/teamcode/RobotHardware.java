@@ -81,6 +81,8 @@ public class RobotHardware {
     public static final double noSpeed = 0;
     public static final double smallMove = .6;
     public static final double smallRot = .6;
+    public static final double SKYSTONE_GRABBER_DOWN = .125;
+    public static final double SKYSTONE_ROTATOR_DOWN = .29;
 
     public final void sleep(long milliseconds) {
         try {

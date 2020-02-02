@@ -74,7 +74,7 @@ public class RobotTelop extends LinearOpMode {
             // skystoneBack = clamp controller X
             if (robot.skystoneBack != null) {
                 if (gamepad2.x) {
-                    robot.skystoneBack.setPosition(.1085);
+                    robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneBack.setPosition(robot.MID_SERVO);
                 }
@@ -83,7 +83,7 @@ public class RobotTelop extends LinearOpMode {
             // skystoneBackRotator = clamp controller Y
             if (robot.skystoneBackRotator != null) {
                 if (gamepad2.y) {
-                    robot.skystoneBackRotator.setPosition(.29);
+                    robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                 } else {
                     robot.skystoneBackRotator.setPosition(1);
                 }
@@ -92,7 +92,7 @@ public class RobotTelop extends LinearOpMode {
             // skystoneFront = clamp controller A
             if (robot.skystoneFront != null) {
                 if (gamepad2.a) {
-                    robot.skystoneFront.setPosition(.125);
+                    robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneFront.setPosition(robot.MID_SERVO);
                 }
@@ -101,7 +101,7 @@ public class RobotTelop extends LinearOpMode {
             // skystoneFront rotator = clamp controller B
             if (robot.skystoneFrontRotator != null) {
                 if (gamepad2.b) {
-                    robot.skystoneFrontRotator.setPosition(.29);
+                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                 } else {
                     robot.skystoneFrontRotator.setPosition(1);
                 }
@@ -109,12 +109,7 @@ public class RobotTelop extends LinearOpMode {
 
             // trayGrabbers = driver controller X
             if (robot.trayGrabberLeft != null || robot.trayGrabberRight != null) {
-                if (gamepad1.x) {
-                    trayGrabbers.grabTray(robot, -1);
-                } else {
-                    robot.trayGrabberRight.setPosition(1);
-                    robot.trayGrabberLeft.setPosition(1);
-                }
+                trayGrabbers.trayGrabberMove(robot, gamepad1.x);
             }
 
             // If touch funnel is activated, close kicker
