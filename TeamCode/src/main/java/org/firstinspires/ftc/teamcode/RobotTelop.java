@@ -112,7 +112,6 @@ public class RobotTelop extends LinearOpMode {
                 trayGrabbers.trayGrabberMove(robot, gamepad1.x);
             }
 
-            // If touch funnel is activated, close kicker
             // Else if RIGHT TRIGGER is clicked, also close kicker
             if (gamepad1.right_trigger > 0) {
                 kicker.KickerMove(robot);

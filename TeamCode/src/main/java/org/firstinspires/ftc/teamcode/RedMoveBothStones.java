@@ -70,6 +70,7 @@ public class RedMoveBothStones extends LinearOpMode {
     // If the area of the stone is large enough, it deactivates tensor and moves to next case.
     // If it sees a skystone, then it moves to itd
     private void SkyStoneTFOD() {
+        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
@@ -95,22 +96,38 @@ public class RedMoveBothStones extends LinearOpMode {
 //        sleep(17);
 //        mecanum.mecanumNaught();
 
+        // MODIFY
         mecanum.mecanumFFront(1);
-        sleep(313);
+        sleep(450);
         mecanum.mecanumNaught();
 
-        // modify
-        mecanum.mecanumFLeft(1);
-        sleep(491);
+        while (robot.digitalTouchSkystoneBack.getState()) {
+            mecanum.mecanumFLeft(.85);
+        }
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(1);
-        sleep(691);
+        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
+        sleep(400);
 
-        // modify
+        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        sleep(400);
+
         mecanum.mecanumFRight(1);
-        sleep(741);
+        sleep(671);
         mecanum.mecanumNaught();
+
+//        // modify
+//        mecanum.mecanumFLeft(1);
+//        sleep(491);
+//        mecanum.mecanumNaught();
+//
+//        robot.skystoneBack.setPosition(1);
+//        sleep(691);
+//
+//        // modify
+//        mecanum.mecanumFRight(1);
+//        sleep(741);
+//        mecanum.mecanumNaught();
 
         // delete?
 //        mecanum.mecanumRotate(-.8);
@@ -217,16 +234,18 @@ public class RedMoveBothStones extends LinearOpMode {
                 SkyStoneTFOD();
             } else if (skystoneFound && !skystoneGrabbed) {
                 grabTheSkystone();
-            } else if (skystoneGrabbed && !movedToOtherSideOne) {
-                moveToFrontAndThenBack();
-            } else if (movedToOtherSideOne && !grabbedOtherStone) {
-                grabOtherStone();
-            } else if (grabbedOtherStone && !movedToOtherSideTwo) {
-                moveToFrontButNotBack();
-            } else if (movedToOtherSideTwo && !parked) {
-                park();
-            } else if (parked) {
-                break;
+            } else if (skystoneGrabbed) {
+                telemetry.addData("Status", "done");
+//            } else if (skystoneGrabbed && !movedToOtherSideOne) {
+//                moveToFrontAndThenBack();
+//            } else if (movedToOtherSideOne && !grabbedOtherStone) {
+//                grabOtherStone();
+//            } else if (grabbedOtherStone && !movedToOtherSideTwo) {
+//                moveToFrontButNotBack();
+//            } else if (movedToOtherSideTwo && !parked) {
+//                park();
+//            } else if (parked) {
+//                break;
             }
             telemetry.update();
         }
