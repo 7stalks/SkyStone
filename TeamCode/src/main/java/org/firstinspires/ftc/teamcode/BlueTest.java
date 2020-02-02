@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -105,7 +104,7 @@ public class BlueTest extends LinearOpMode {
         sleep(491);
         mecanum.mecanumNaught();
 
-        robot.handsOn.setPosition(1);
+        robot.skystoneBack.setPosition(1);
         sleep(691);
 
         // modify
@@ -129,7 +128,7 @@ public class BlueTest extends LinearOpMode {
         mecanum.mecanumFullBack();
         sleep(2450);
         mecanum.mecanumNaught();
-        robot.handsOn.setPosition(.45);
+        robot.skystoneBack.setPosition(.45);
         sleep(600);
 
         mecanum.mecanumRotate(-.95);
@@ -155,7 +154,7 @@ public class BlueTest extends LinearOpMode {
         sleep(733);
         mecanum.mecanumNaught();
 
-        robot.handsOn.setPosition(1);
+        robot.skystoneBack.setPosition(1);
         sleep(700);
 
         mecanum.mecanumRight(1);
@@ -170,7 +169,7 @@ public class BlueTest extends LinearOpMode {
         sleep(3251);
         mecanum.mecanumNaught();
 
-        robot.handsOn.setPosition(.45);
+        robot.skystoneBack.setPosition(.45);
         sleep(700);
 
         movedToOtherSideTwo = true;

@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
-import org.firstinspires.ftc.teamcode.motion.Hookers;
+import org.firstinspires.ftc.teamcode.motion.TrayGrabbers;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
@@ -24,7 +23,7 @@ public class RobotTelop extends LinearOpMode {
     MecanumDrive mecanum_small = new MecanumDrive();
     MecanumDrive rotate_small = new MecanumDrive();
     Kicker kicker = new Kicker();
-    Hookers hookers = new Hookers();
+    TrayGrabbers trayGrabbers = new TrayGrabbers();
     boolean speedUp = false;
 
     @Override
@@ -72,40 +71,49 @@ public class RobotTelop extends LinearOpMode {
             rotate_small.rotateSmall(
                     robot, gamepad2.right_trigger, gamepad2.left_trigger);
 
-            // handsOn = clamp controller X
-            if (robot.handsOn != null) {
+            // skystoneBack = clamp controller X
+            if (robot.skystoneBack != null) {
                 if (gamepad2.x) {
-                    robot.handsOn.setPosition(1);
+                    robot.skystoneBack.setPosition(.1085);
                 } else {
-                    robot.handsOn.setPosition(robot.MID_SERVO);
+                    robot.skystoneBack.setPosition(robot.MID_SERVO);
                 }
             }
 
-            // hookers = driver controller X
-            if (robot.hookLeft != null || robot.hookRight != null) {
-                if (gamepad1.x) {
-                    hookers.Hooker(robot, 1);
+            // skystoneBackRotator = clamp controller Y
+            if (robot.skystoneBackRotator != null) {
+                if (gamepad2.y) {
+                    robot.skystoneBackRotator.setPosition(.29);
                 } else {
-                    robot.hookRight.setPosition(-1);
-                    robot.hookLeft.setPosition(-1);
+                    robot.skystoneBackRotator.setPosition(1);
                 }
             }
 
-            // hansen = clamp controller A
-            if (robot.hansen != null) {
+            // skystoneFront = clamp controller A
+            if (robot.skystoneFront != null) {
                 if (gamepad2.a) {
-                    robot.hansen.setPosition(.075);
+                    robot.skystoneFront.setPosition(.125);
                 } else {
-                    robot.hansen.setPosition(.425);
+                    robot.skystoneFront.setPosition(robot.MID_SERVO);
                 }
             }
 
-            // hansen rotator = clamp controller B
-            if (robot.hansenRotator != null) {
+            // skystoneFront rotator = clamp controller B
+            if (robot.skystoneFrontRotator != null) {
                 if (gamepad2.b) {
-                    robot.hansenRotator.setPosition(0);
+                    robot.skystoneFrontRotator.setPosition(.29);
                 } else {
-                    robot.hansenRotator.setPosition(.4);
+                    robot.skystoneFrontRotator.setPosition(1);
+                }
+            }
+
+            // trayGrabbers = driver controller X
+            if (robot.trayGrabberLeft != null || robot.trayGrabberRight != null) {
+                if (gamepad1.x) {
+                    trayGrabbers.grabTray(robot, -1);
+                } else {
+                    robot.trayGrabberRight.setPosition(1);
+                    robot.trayGrabberLeft.setPosition(1);
                 }
             }
 

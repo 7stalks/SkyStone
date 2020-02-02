@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.media.MicrophoneInfo;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -47,18 +48,20 @@ public class RobotHardware {
     public Servo clampRotator;
     public Servo clamp;
     public Servo KickerServo;
-    public Servo handsOn;
-    public Servo hansen;
-    public Servo hansenRotator;
-    public Servo hookRight;
-    public Servo hookLeft;
+    public Servo skystoneBack;
+    public Servo skystoneFront;
+    public Servo skystoneFrontRotator;
+    public Servo skystoneBackRotator;
+    public Servo trayGrabberRight;
+    public Servo trayGrabberLeft;
 
 
     public ColorSensor colorSensor;
 //    public DistanceSensor colorDistance;
     public BNO055IMU imu;
     public DigitalChannel digitalTouchFunnel;
-    public DigitalChannel digitalTouchHansen;
+    public DigitalChannel digitalTouchSkystoneFront;
+    public DigitalChannel digitalTouchSkystoneBack;
     public Orientation angles;
     public Acceleration gravity;
 
@@ -152,22 +155,22 @@ public class RobotHardware {
 
         // Define and Initialize Motor
         try {
-            hookRight = hardwareMap.get(Servo.class, "hookerRight");
-            hookRight.setDirection(Servo.Direction.REVERSE);
-            hookRight.setPosition(-1);
-            telemetry.addData("Status", "Servo: hook right identified");    //
+            trayGrabberRight = hardwareMap.get(Servo.class, "tray_grabber_right");
+            trayGrabberRight.setDirection(Servo.Direction.REVERSE);
+            trayGrabberRight.setPosition(1);
+            telemetry.addData("Status", "Servo: tray_grabber_right identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Servo: hook right not plugged in");    //
-            hookRight = null;
+            telemetry.addData("Warning", "Servo: tray_grabber_right not plugged in");    //
+            trayGrabberRight = null;
         }
 
         try {
-            hookLeft = hardwareMap.get(Servo.class, "hookerLeft");
-            hookLeft.setPosition(-1);
-            telemetry.addData("Status", "Servo: hook left identified");    //
+            trayGrabberLeft = hardwareMap.get(Servo.class, "tray_grabber_left");
+            trayGrabberLeft.setPosition(1);
+            telemetry.addData("Status", "Servo: tray_grabber_left identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Servo: hook left not plugged in");    //
-            hookLeft = null;
+            telemetry.addData("Warning", "Servo: tray_grabber_left not plugged in");    //
+            trayGrabberLeft = null;
         }
 
         try {
@@ -252,49 +255,49 @@ public class RobotHardware {
         }
 
         try {
-            handsOn = hardwareMap.get(Servo.class, "hands_on");
-            handsOn.setPosition(MID_SERVO);
-            telemetry.addData("Status", "Servo: hands_on identified");
+            skystoneBack = hardwareMap.get(Servo.class, "skystone_back");
+            skystoneBack.setDirection(Servo.Direction.REVERSE);
+            skystoneBack.setPosition(MID_SERVO);
+            telemetry.addData("Status", "Servo: skystone_back identified");
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Servo: hands_on not plugged in");    //
-            handsOn = null;
+            telemetry.addData("Warning", "Servo: skystone_back not plugged in");    //
+            skystoneBack = null;
         }
 
         try {
-            hansen = hardwareMap.get(Servo.class, "hansen");
-            hansen.setPosition(.4275);
-            telemetry.addData("Status", "Servo: hansen identified");
+            skystoneBackRotator = hardwareMap.get(Servo.class, "skystone_back_rotator");
+            skystoneBackRotator.setPosition(1);
+            telemetry.addData("Status", "Servo: skystone_back_rotator identified");
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Servo: hansen not plugged in");
-            hansen = null;
+            telemetry.addData("Warning", "Servo: skystone_back_rotator not plugged in");    //
+            skystoneBackRotator = null;
         }
 
         try {
-            hansenRotator = hardwareMap.get(Servo.class, "hansen_rotator");
-            hansenRotator.setPosition(.7);
-            telemetry.addData("Status", "Servo: hansen identified");
+            skystoneFront = hardwareMap.get(Servo.class, "skystone_front");
+            skystoneFront.setPosition(MID_SERVO);
+            telemetry.addData("Status", "Servo: skystone_front identified");
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Servo: hansen not plugged in");
-            hansenRotator = null;
+            telemetry.addData("Warning", "Servo: skystone_front not plugged in");
+            skystoneFront = null;
+        }
+
+        try {
+            skystoneFrontRotator = hardwareMap.get(Servo.class, "skystone_front_rotator");
+            skystoneFrontRotator.setDirection(Servo.Direction.REVERSE);
+            skystoneFrontRotator.setPosition(1);
+            telemetry.addData("Status", "Servo: skystone_front_rotator identified");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Servo: skystone_front_rotator not plugged in");
+            skystoneFrontRotator = null;
         }
 
         try {
             colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
-//            colorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
             telemetry.addData("Status", "sensor: color sensor identified");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "sensor: color sensor not plugged in");    //
             colorSensor = null;
-//            colorDistance = null;
-        }
-
-
-        initVuforia(telemetry, rightCamera);
-
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTFOD(telemetry);
-        } else {
-            telemetry.addData("Warning", "Tensor Flow Object Detection not compatible");
         }
 
         try {
@@ -307,12 +310,29 @@ public class RobotHardware {
         }
 
         try {
-            digitalTouchHansen = hardwareMap.get(DigitalChannel.class, "digital_touch_hansen");
-            digitalTouchHansen.setMode(DigitalChannel.Mode.INPUT);
-            telemetry.addData("Status", "sensor: hansen touch identified");    //
+            digitalTouchSkystoneFront = hardwareMap.get(DigitalChannel.class, "digital_touch_skystone_front");
+            digitalTouchSkystoneFront.setMode(DigitalChannel.Mode.INPUT);
+            telemetry.addData("Status", "sensor: digital_touch_skystone_front touch identified");    //
         } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "sensor: hansen touch not plugged in");    //
-            digitalTouchHansen = null;
+            telemetry.addData("Warning", "sensor: digital_touch_skystone_front touch not plugged in");    //
+            digitalTouchSkystoneFront = null;
+        }
+
+        try {
+            digitalTouchSkystoneBack = hardwareMap.get(DigitalChannel.class, "digital_touch_skystone_back");
+            digitalTouchSkystoneBack.setMode(DigitalChannel.Mode.INPUT);
+            telemetry.addData("Status", "sensor: digital_touch_skystone_back touch identified");    //
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "sensor: digital_touch_skystone_back touch not plugged in");    //
+            digitalTouchSkystoneBack = null;
+        }
+
+        initVuforia(telemetry, rightCamera);
+
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTFOD(telemetry);
+        } else {
+            telemetry.addData("Warning", "Tensor Flow Object Detection not compatible");
         }
 
         telemetry.update();
