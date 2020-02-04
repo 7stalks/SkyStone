@@ -70,7 +70,8 @@ public class RedMoveBothStones extends LinearOpMode {
     // If the area of the stone is large enough, it deactivates tensor and moves to next case.
     // If it sees a skystone, then it moves to itd
     private void SkyStoneTFOD() {
-        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS - .01);
+        robot.skystoneBackRotator.setPosition(1);
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
@@ -92,17 +93,16 @@ public class RedMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Grabbing skystone");
         telemetry.update();
 
-//        mecanum.mecanumRotate(-1);
-//        sleep(17);
-//        mecanum.mecanumNaught();
+        mecanum.mecanumRotate(.8);
+        sleep(40);
+        mecanum.mecanumNaught();
 
-        // MODIFY
         mecanum.mecanumFFront(1);
-        sleep(450);
+        sleep(300);
         mecanum.mecanumNaught();
 
         while (robot.digitalTouchSkystoneBack.getState()) {
-            mecanum.mecanumFLeft(.85);
+            mecanum.mecanumFLeft(.75);
         }
         mecanum.mecanumNaught();
 
@@ -113,26 +113,12 @@ public class RedMoveBothStones extends LinearOpMode {
         sleep(400);
 
         mecanum.mecanumFRight(1);
-        sleep(671);
+        sleep(601);
         mecanum.mecanumNaught();
 
-//        // modify
-//        mecanum.mecanumFLeft(1);
-//        sleep(491);
-//        mecanum.mecanumNaught();
-//
-//        robot.skystoneBack.setPosition(1);
-//        sleep(691);
-//
-//        // modify
-//        mecanum.mecanumFRight(1);
-//        sleep(741);
-//        mecanum.mecanumNaught();
-
-        // delete?
-//        mecanum.mecanumRotate(-.8);
-//        sleep(35);
-//        mecanum.mecanumNaught();
+        mecanum.mecanumRotate(-.8);
+        sleep(30);
+        mecanum.mecanumNaught();
 
         skystoneGrabbed = true;
     }
@@ -141,16 +127,21 @@ public class RedMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Moving to other side");
         telemetry.update();
 
-        // modify
         mecanum.mecanumFullFront();
-        sleep(2450);
+        sleep(2271);
         mecanum.mecanumNaught();
-        robot.skystoneBack.setPosition(.45);
-        sleep(600);
 
-        // modify
+        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        sleep(250);
+        robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
+        sleep(75);
+
+        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        sleep(250);
+        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+
         mecanum.mecanumFullBack();
-        sleep(3569);
+        sleep(3350);
         mecanum.mecanumNaught();
 
         movedToOtherSideOne = true;
@@ -158,18 +149,35 @@ public class RedMoveBothStones extends LinearOpMode {
 
     private void grabOtherStone() {
         mecanum.mecanumRotate(-.8);
-        sleep(47);
+        sleep(15);
         mecanum.mecanumNaught();
 
-        mecanum.mecanumLeft(1);
-        sleep(683);
+        mecanum.mecanumFRight(1);
+        sleep(175);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(1);
-        sleep(700);
+        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS - .01);
+        sleep(50);
+        robot.skystoneBackRotator.setPosition(1);
+        sleep(350);
 
-        mecanum.mecanumRight(1);
-        sleep(823);
+        while (robot.digitalTouchSkystoneBack.getState()) {
+            mecanum.mecanumFLeft(.75);
+        }
+        mecanum.mecanumNaught();
+
+        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
+        sleep(400);
+
+        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        sleep(400);
+
+        mecanum.mecanumFRight(1);
+        sleep(601);
+        mecanum.mecanumNaught();
+
+        mecanum.mecanumRotate(-.8);
+        sleep(30);
         mecanum.mecanumNaught();
 
         grabbedOtherStone = true;
@@ -180,8 +188,9 @@ public class RedMoveBothStones extends LinearOpMode {
         sleep(3251);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(.45);
-        sleep(700);
+        robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
+        sleep(400);
+        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
 
         movedToOtherSideTwo = true;
     }
@@ -220,32 +229,22 @@ public class RedMoveBothStones extends LinearOpMode {
         List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
         checkForStones(updatedRecognitions);
 
-        if (HorAngle > .8) {
-
-        } else if (HorAngle < .8 && HorAngle > -.8) {
-
-        } else if (HorAngle < -.8) {
-
-        }
-
         while (opModeIsActive()) {
             kicker.KickerSet(robot, 0);
             if (!skystoneFound) {
                 SkyStoneTFOD();
             } else if (skystoneFound && !skystoneGrabbed) {
                 grabTheSkystone();
-            } else if (skystoneGrabbed) {
-                telemetry.addData("Status", "done");
-//            } else if (skystoneGrabbed && !movedToOtherSideOne) {
-//                moveToFrontAndThenBack();
-//            } else if (movedToOtherSideOne && !grabbedOtherStone) {
-//                grabOtherStone();
-//            } else if (grabbedOtherStone && !movedToOtherSideTwo) {
-//                moveToFrontButNotBack();
-//            } else if (movedToOtherSideTwo && !parked) {
-//                park();
-//            } else if (parked) {
-//                break;
+            } else if (skystoneGrabbed && !movedToOtherSideOne) {
+                moveToFrontAndThenBack();
+            } else if (movedToOtherSideOne && !grabbedOtherStone) {
+                grabOtherStone();
+            } else if (grabbedOtherStone && !movedToOtherSideTwo) {
+                moveToFrontButNotBack();
+            } else if (movedToOtherSideTwo && !parked) {
+                park();
+            } else if (parked) {
+                break;
             }
             telemetry.update();
         }

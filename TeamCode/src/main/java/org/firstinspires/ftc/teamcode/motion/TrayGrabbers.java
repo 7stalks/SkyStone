@@ -4,8 +4,8 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class TrayGrabbers {
 
-    public double OPEN = 1;
-    public double CLOSE = 0;
+    public boolean OPEN = false;
+    public boolean CLOSE = true;
 
     public void trayGrabberSetPosition(RobotHardware robot, double position) {
         robot.trayGrabberLeft.setPosition(position);

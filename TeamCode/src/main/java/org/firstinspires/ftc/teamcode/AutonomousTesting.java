@@ -31,6 +31,10 @@ public class AutonomousTesting extends LinearOpMode {
         sleep(10000);
     }
 
+    public void driveUntilRed() {
+
+    }
+
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
