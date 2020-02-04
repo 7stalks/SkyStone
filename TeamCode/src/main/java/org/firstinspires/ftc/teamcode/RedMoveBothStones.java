@@ -183,13 +183,29 @@ public class RedMoveBothStones extends LinearOpMode {
         grabbedOtherStone = true;
     }
 
+
+
     private void moveToFrontButNotBack() {
         mecanum.mecanumFullFront();
-        sleep(3251);
+        sleep(1851);
         mecanum.mecanumNaught();
 
+        while (robot.colorSensor.red() < 200) {
+            mecanum.mecanumFFront(.7);
+        }
+        mecanum.mecanumNaught();
+
+        mecanum.mecanumFFront(1);
+        sleep(1250);
+        mecanum.mecanumNaught();
+
+        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        sleep(250);
         robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
-        sleep(400);
+        sleep(75);
+
+        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        sleep(250);
         robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
 
         movedToOtherSideTwo = true;
@@ -200,7 +216,7 @@ public class RedMoveBothStones extends LinearOpMode {
         telemetry.update();
 
         mecanum.mecanumFullBack();
-        sleep(673);
+        sleep(1250);
         mecanum.mecanumNaught();
 
         parked = true;
