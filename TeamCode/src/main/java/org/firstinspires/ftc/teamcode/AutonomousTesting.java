@@ -31,12 +31,25 @@ public class AutonomousTesting extends LinearOpMode {
         sleep(10000);
     }
 
+    public void driveUntilRed() {
+        while (robot.colorSensor.red() < 200) {
+            telemetry.addData("Red", robot.colorSensor.red());
+            telemetry.addData("Blue", robot.colorSensor.blue());
+            telemetry.addData("Green", robot.colorSensor.green());
+            telemetry.addData("Light", robot.colorSensor.alpha());
+            telemetry.addData("Hue", robot.colorSensor.argb());
+            telemetry.update();
+            mecanum.mecanumFFront(.7);
+        }
+    }
+
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
         telemetry.update();
 
         waitForStart();
-        leftUntilTouch();
+        driveUntilRed();
+        mecanum.mecanumNaught();
     }
 }

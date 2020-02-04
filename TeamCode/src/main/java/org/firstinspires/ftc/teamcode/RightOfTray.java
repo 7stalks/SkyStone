@@ -30,14 +30,14 @@ public class RightOfTray extends LinearOpMode {
         sleep(frontTime);
         mecanum.mecanumNaught();
 
-        hookers.trayGrabberSetPosition(robot, hookers.OPEN);
+        hookers.trayGrabberMove(robot, hookers.OPEN);
         sleep(stayTime);
 
         mecanum.mecanumFBack(1);
         sleep(backTime);
         mecanum.mecanumNaught();
 
-        hookers.trayGrabberSetPosition(robot, hookers.CLOSE);
+        hookers.trayGrabberMove(robot, hookers.CLOSE);
         sleep(stayTime);
 
         mecanum.mecanumFRight(1);

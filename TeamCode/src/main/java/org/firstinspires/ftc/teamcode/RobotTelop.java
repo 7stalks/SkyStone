@@ -85,7 +85,7 @@ public class RobotTelop extends LinearOpMode {
                 if (gamepad2.y) {
                     robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                 } else {
-                    robot.skystoneBackRotator.setPosition(1);
+                    robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
                 }
             }
 
@@ -103,7 +103,7 @@ public class RobotTelop extends LinearOpMode {
                 if (gamepad2.b) {
                     robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                 } else {
-                    robot.skystoneFrontRotator.setPosition(1);
+                    robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
                 }
             }
 

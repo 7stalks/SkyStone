@@ -269,7 +269,7 @@ public class RobotHardware {
 
         try {
             skystoneBackRotator = hardwareMap.get(Servo.class, "skystone_back_rotator");
-            skystoneBackRotator.setPosition(1);
+            skystoneBackRotator.setPosition(0);
             telemetry.addData("Status", "Servo: skystone_back_rotator identified");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: skystone_back_rotator not plugged in");    //
@@ -288,7 +288,7 @@ public class RobotHardware {
         try {
             skystoneFrontRotator = hardwareMap.get(Servo.class, "skystone_front_rotator");
             skystoneFrontRotator.setDirection(Servo.Direction.REVERSE);
-            skystoneFrontRotator.setPosition(1);
+            skystoneFrontRotator.setPosition(0);
             telemetry.addData("Status", "Servo: skystone_front_rotator identified");
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Servo: skystone_front_rotator not plugged in");
