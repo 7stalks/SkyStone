@@ -7,14 +7,13 @@ public class BackScratcherv1 extends LinearOpMode {
     RobotHardware robot = new RobotHardware(false);
 
     int j = 0;
-    int sleepTime = 200;
+    int sleepTime = 400;
 
     public void Scratch() {
-        for (j = 0; j<=68; j = j + 1)
-        {
+        for (j = 0; j<=68; j = j + 1) {
             robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
             sleep(sleepTime);
-            robot.skystoneBack.setPosition(-robot.SKYSTONE_GRABBER_DOWN);
+            robot.skystoneBack.setPosition(robot.MID_SERVO);
             sleep(sleepTime);
         }
     }
@@ -24,8 +23,8 @@ public class BackScratcherv1 extends LinearOpMode {
             robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
             robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
             sleep(sleepTime);
-            robot.skystoneBack.setPosition(-robot.SKYSTONE_GRABBER_DOWN);
-            robot.skystoneFront.setPosition(-robot.SKYSTONE_GRABBER_DOWN);
+            robot.skystoneBack.setPosition(robot.MID_SERVO);
+            robot.skystoneFront.setPosition(robot.MID_SERVO);
             sleep(sleepTime);
         }
     }
