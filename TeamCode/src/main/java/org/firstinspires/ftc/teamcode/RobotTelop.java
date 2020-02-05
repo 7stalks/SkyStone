@@ -67,24 +67,32 @@ public class RobotTelop extends LinearOpMode {
             rotate_small.rotateSmall(
                     robot, gamepad2.right_trigger, gamepad2.left_trigger);
 
-            // skystoneBack rotator & skystoneBack = clamp controller A
+            // skystoneBack rotator & skystoneBack
+            // Grabber down = clamp controler A
+            // Grabber up = clamp controller X
             if (robot.skystoneBack != null && robot.skystoneBackRotator != null) {
                 if (gamepad2.a) {
                     robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
+                    sleep(375);
                     robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                } else {
+                } else if (gamepad2.x){
                     robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                    sleep(375);
                     robot.skystoneBack.setPosition(robot.MID_SERVO);
                 }
             }
 
             // skystoneFront rotator & skystoneFront = clamp controller Y
+            // Grabber down = clamp controller B
+            // Grabber up = clamp controller Y
             if (robot.skystoneFrontRotator != null && robot.skystoneFront != null) {
-                if (gamepad2.y) {
+                if (gamepad2.b) {
                     robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+                    sleep(375);
                     robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                } else {
+                } else if (gamepad2.y){
                     robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                    sleep(375);
                     robot.skystoneFront.setPosition(robot.MID_SERVO);
                 }
             }
