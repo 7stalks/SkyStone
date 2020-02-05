@@ -31,10 +31,6 @@ public class RobotTelop extends LinearOpMode {
 
         robot.init(hardwareMap, telemetry);
 
-        if (robot.tensorFlowEngine != null) {
-            robot.tensorFlowEngine.activate();
-        }
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -75,25 +71,20 @@ public class RobotTelop extends LinearOpMode {
             if (robot.skystoneBack != null && robot.skystoneBackRotator != null) {
                 if (gamepad2.a) {
                     robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
-                    sleep(375);
                     robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
-                    sleep(375);
                     robot.skystoneBack.setPosition(robot.MID_SERVO);
                 }
             }
-
 
             // skystoneFront rotator & skystoneFront = clamp controller Y
             if (robot.skystoneFrontRotator != null && robot.skystoneFront != null) {
                 if (gamepad2.y) {
                     robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
-                    sleep(375);
                     robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
-                    sleep(375);
                     robot.skystoneFront.setPosition(robot.MID_SERVO);
                 }
             }
@@ -132,27 +123,6 @@ public class RobotTelop extends LinearOpMode {
             if (gamepad2.right_stick_y != 0) {
                 clamp.moveClampRotator(robot, -gamepad2.right_stick_y);
             }
-
-            // tensor flow
-            if (robot.tensorFlowEngine != null) {
-                List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-        if (robot.tensorFlowEngine != null) {
-            robot.tensorFlowEngine.shutdown();
         }
     }
 }
