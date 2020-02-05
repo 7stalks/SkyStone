@@ -73,7 +73,7 @@ public class RobotTelop extends LinearOpMode {
 
             // skystoneBack = clamp controller X
             if (robot.skystoneBack != null) {
-                if (gamepad2.x) {
+                if (gamepad2.a) {
                     robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneBack.setPosition(robot.MID_SERVO);
@@ -82,16 +82,16 @@ public class RobotTelop extends LinearOpMode {
 
             // skystoneBackRotator = clamp controller Y
             if (robot.skystoneBackRotator != null) {
-                if (gamepad2.y) {
-                    robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                if (gamepad2.x) {
+                    robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
                 } else {
-                    robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
+                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                 }
             }
 
             // skystoneFront = clamp controller A
             if (robot.skystoneFront != null) {
-                if (gamepad2.a) {
+                if (gamepad2.b) {
                     robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneFront.setPosition(robot.MID_SERVO);
@@ -100,10 +100,10 @@ public class RobotTelop extends LinearOpMode {
 
             // skystoneFront rotator = clamp controller B
             if (robot.skystoneFrontRotator != null) {
-                if (gamepad2.b) {
-                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
-                } else {
+                if (gamepad2.y) {
                     robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+                } else {
+                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                 }
             }
 
