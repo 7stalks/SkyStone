@@ -71,39 +71,26 @@ public class RobotTelop extends LinearOpMode {
             rotate_small.rotateSmall(
                     robot, gamepad2.right_trigger, gamepad2.left_trigger);
 
-            // skystoneBack = clamp controller X
-            if (robot.skystoneBack != null) {
+            // skystoneBack rotator & skystoneBack = clamp controller A
+            if (robot.skystoneBack != null && robot.skystoneBackRotator != null) {
                 if (gamepad2.a) {
                     robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
+                    robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
                 } else {
+                    robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                     robot.skystoneBack.setPosition(robot.MID_SERVO);
                 }
             }
 
-            // skystoneBackRotator = clamp controller Y
-            if (robot.skystoneBackRotator != null) {
-                if (gamepad2.x) {
-                    robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
-                } else {
-                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
-                }
-            }
 
-            // skystoneFront = clamp controller A
-            if (robot.skystoneFront != null) {
-                if (gamepad2.b) {
-                    robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                } else {
-                    robot.skystoneFront.setPosition(robot.MID_SERVO);
-                }
-            }
-
-            // skystoneFront rotator = clamp controller B
-            if (robot.skystoneFrontRotator != null) {
+            // skystoneFront rotator & skystoneFront = clamp controller Y
+            if (robot.skystoneFrontRotator != null && robot.skystoneFront != null) {
                 if (gamepad2.y) {
                     robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+                    robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
                 } else {
                     robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                    robot.skystoneFront.setPosition(robot.MID_SERVO);
                 }
             }
 
