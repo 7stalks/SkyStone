@@ -7,20 +7,20 @@ public class BackScratcherv1 extends LinearOpMode {
     RobotHardware robot = new RobotHardware(false);
 
     int j = 0;
-    int sleepTime = 400;
+    int sleepTime = 500;
 
     public void Scratch() {
-        for (j = 0; j<=68; j = j + 1) {
+        for (j = 0; j <= 68; j = j + 1) {
             robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
             sleep(sleepTime);
             robot.skystoneBack.setPosition(robot.MID_SERVO);
             sleep(sleepTime);
         }
-    }
+        telemetry.addData("Back", "..scratched");
+}
 
     public void doubleScratch() {
-        for (j = 0; j<=68; j = j + 1)
-        {
+        for (j = 0; j <= 68; j = j + 1) {
             robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
             robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
             sleep(sleepTime);
@@ -28,7 +28,8 @@ public class BackScratcherv1 extends LinearOpMode {
             robot.skystoneFront.setPosition(robot.MID_SERVO);
             sleep(sleepTime);
         }
-    }
+        telemetry.addData("Back", "..scratched");
+}
 
     public void runOpMode() throws InterruptedException {
 
@@ -36,16 +37,17 @@ public class BackScratcherv1 extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-        if (gamepad1.start) {
-            Scratch();
-        }
-        if (gamepad1.guide) {
-            doubleScratch();
-        }
 
         while (opModeIsActive()) {
-            telemetry.addData("Back", "..scratched");
-                }
+
+            if (gamepad1.a) {
+                Scratch();
+            }
+            if (gamepad1.b) {
+                doubleScratch();
+            }
+
             telemetry.update();
         }
     }
+}

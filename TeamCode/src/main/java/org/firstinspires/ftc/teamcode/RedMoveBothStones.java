@@ -183,8 +183,6 @@ public class RedMoveBothStones extends LinearOpMode {
         grabbedOtherStone = true;
     }
 
-
-
     private void moveToFrontButNotBack() {
         mecanum.mecanumFullFront();
         sleep(1851);
