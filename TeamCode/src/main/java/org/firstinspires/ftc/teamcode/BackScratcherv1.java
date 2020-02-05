@@ -17,6 +17,7 @@ public class BackScratcherv1 extends LinearOpMode {
             sleep(sleepTime);
         }
     }
+
     public void doubleScratch() {
         for (j = 0; j<=68; j = j + 1)
         {
