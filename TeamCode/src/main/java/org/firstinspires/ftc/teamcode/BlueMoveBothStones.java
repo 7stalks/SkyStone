@@ -36,10 +36,6 @@ public class BlueMoveBothStones extends LinearOpMode {
     double HorAngle;
     double areaRatio;
 
-    // LINES 146, 175, and (190 is park)
-
-
-
 
     // Looks for stones and tells whether or not its a skystone
     // If it sees a skystone, it gets the horizontal angle to it
@@ -74,6 +70,8 @@ public class BlueMoveBothStones extends LinearOpMode {
     // If the area of the stone is large enough, it deactivates tensor and moves to next case.
     // If it sees a skystone, then it moves to itd
     private void SkyStoneTFOD() {
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS + .01);
+        robot.skystoneFrontRotator.setPosition(1);
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
@@ -95,28 +93,32 @@ public class BlueMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Grabbing skystone");
         telemetry.update();
 
-        // modify
-        mecanum.mecanumFFront(1);
-        sleep(313);
+        mecanum.mecanumRotate(-.8);
+        sleep(60);
         mecanum.mecanumNaught();
 
-        // modify
-        mecanum.mecanumFLeft(1);
-        sleep(491);
+        mecanum.mecanumFBack(1);
+        sleep(100);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(1);
-        sleep(691);
+        while (robot.digitalTouchSkystoneFront.getState()) {
+            mecanum.mecanumFLeft(.75);
+        }
+        mecanum.mecanumNaught();
 
-        // modify
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
+        sleep(400);
+
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
+        sleep(400);
+
         mecanum.mecanumFRight(1);
-        sleep(741);
+        sleep(601);
         mecanum.mecanumNaught();
 
-        // delete?
-//        mecanum.mecanumRotate(-.8);
-//        sleep(35);
-//        mecanum.mecanumNaught();
+        mecanum.mecanumRotate(.8);
+        sleep(30);
+        mecanum.mecanumNaught();
 
         skystoneGrabbed = true;
     }
@@ -125,45 +127,65 @@ public class BlueMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Moving to other side");
         telemetry.update();
 
-        // modify
         mecanum.mecanumFullBack();
-        sleep(2450);
+        sleep(2271);
         mecanum.mecanumNaught();
-        robot.skystoneBack.setPosition(.45);
-        sleep(600);
+
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        sleep(250);
+        robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+        sleep(75);
+
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
+        sleep(250);
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
 
         mecanum.mecanumRotate(-.8);
-        sleep(47);
+        sleep(25);
         mecanum.mecanumNaught();
 
-        // modify
-
-
-
-        // MODIFY MODIFY MODIFY
         mecanum.mecanumFullFront();
-        sleep(3000);
+        sleep(3395);
         mecanum.mecanumNaught();
 
         movedToOtherSideOne = true;
     }
 
     private void grabOtherStone() {
-
-        // NOT SURE!!!
-//        mecanum.mecanumRotate(-.8);
-//        sleep(47);
-//        mecanum.mecanumNaught();
-
-        mecanum.mecanumLeft(1);
-        sleep(683);
+        mecanum.mecanumRotate(-.8);
+        sleep(25);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(1);
-        sleep(700);
+        mecanum.mecanumFRight(1);
+        sleep(135);
+        mecanum.mecanumNaught();
 
-        mecanum.mecanumRight(1);
-        sleep(823);
+        mecanum.mecanumRotate(-.8);
+        sleep(7);
+        mecanum.mecanumNaught();
+
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS + .01);
+        sleep(50);
+        robot.skystoneFrontRotator.setPosition(1);
+        sleep(350);
+
+        while (robot.digitalTouchSkystoneFront.getState()) {
+            mecanum.mecanumFLeft(.75);
+        }
+        mecanum.mecanumNaught();
+
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
+        sleep(400);
+
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
+        sleep(400);
+
+        mecanum.mecanumFRight(1);
+        sleep(601);
+        mecanum.mecanumNaught();
+
+        mecanum.mecanumRotate(.8);
+        sleep(10);
         mecanum.mecanumNaught();
 
         grabbedOtherStone = true;
@@ -171,11 +193,26 @@ public class BlueMoveBothStones extends LinearOpMode {
 
     private void moveToFrontButNotBack() {
         mecanum.mecanumFullBack();
-        sleep(2750);
+        sleep(1851);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(.45);
-        sleep(700);
+        while (robot.colorSensor.red() < 200) {
+            mecanum.mecanumFBack(.7);
+        }
+        mecanum.mecanumNaught();
+
+        mecanum.mecanumFBack(1);
+        sleep(1250);
+        mecanum.mecanumNaught();
+
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        sleep(250);
+        robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+        sleep(75);
+
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
+        sleep(250);
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
 
         movedToOtherSideTwo = true;
     }
@@ -184,24 +221,11 @@ public class BlueMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Parking");
         telemetry.update();
 
-        // might modify?????
         mecanum.mecanumFullFront();
-        sleep(673);
+        sleep(1250);
         mecanum.mecanumNaught();
 
         parked = true;
-    }
-
-    private void setRight() {
-
-    }
-
-    private void setMiddle() {
-
-    }
-
-    private void setLeft() {
-
     }
 
     public void runOpMode() throws InterruptedException {
@@ -214,14 +238,6 @@ public class BlueMoveBothStones extends LinearOpMode {
 
         List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
         checkForStones(updatedRecognitions);
-
-        if (HorAngle > .8) {
-
-        } else if (HorAngle < .8 && HorAngle > -.8) {
-
-        } else if (HorAngle < -.8) {
-
-        }
 
         while (opModeIsActive()) {
             kicker.KickerSet(robot, 0);
