@@ -196,7 +196,7 @@ public class BlueMoveBothStones extends LinearOpMode {
         sleep(1851);
         mecanum.mecanumNaught();
 
-        while (robot.colorSensor.red() < 200) {
+        while (robot.colorSensor.blue() < 178) {
             mecanum.mecanumFBack(.7);
         }
         mecanum.mecanumNaught();
