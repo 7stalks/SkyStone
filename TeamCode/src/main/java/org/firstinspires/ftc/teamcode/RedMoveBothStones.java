@@ -101,7 +101,7 @@ public class RedMoveBothStones extends LinearOpMode {
         sleep(300);
         mecanum.mecanumNaught();
 
-        while (robot.digitalTouchSkystoneBack.getState()) {
+        while (robot.digitalTouchSkystoneBack.getState() && opModeIsActive()) {
             mecanum.mecanumFLeft(.75);
         }
         mecanum.mecanumNaught();
@@ -161,7 +161,7 @@ public class RedMoveBothStones extends LinearOpMode {
         robot.skystoneBackRotator.setPosition(1);
         sleep(350);
 
-        while (robot.digitalTouchSkystoneBack.getState()) {
+        while (robot.digitalTouchSkystoneBack.getState() && opModeIsActive()) {
             mecanum.mecanumFLeft(.75);
         }
         mecanum.mecanumNaught();
@@ -188,7 +188,7 @@ public class RedMoveBothStones extends LinearOpMode {
         sleep(1851);
         mecanum.mecanumNaught();
 
-        while (robot.colorSensor.red() < 200) {
+        while (robot.colorSensor.red() < 200 && opModeIsActive()) {
             mecanum.mecanumFFront(.7);
         }
         mecanum.mecanumNaught();
