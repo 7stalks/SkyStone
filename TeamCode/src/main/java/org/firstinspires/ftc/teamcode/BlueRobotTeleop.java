@@ -71,10 +71,10 @@ public class BlueRobotTeleop extends LinearOpMode {
             // Grabber down = clamp controler A
             // Grabber up = clamp controller X
             if (robot.skystoneBackRotator != null) {
-                if (gamepad1.x) {
+                if (gamepad1.y) {
                     robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
                     sleep(400);
-                    robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                    robot.skystoneBackRotator.setPosition(0);
                 }
             }
 
@@ -82,18 +82,22 @@ public class BlueRobotTeleop extends LinearOpMode {
             // Grabber down = clamp controller B
             // Grabber up = clamp controller Y
             if (robot.skystoneFrontRotator != null && robot.skystoneFront != null) {
-                if (gamepad2.a) {
+                if (gamepad2.y) {
+                    robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
+                    sleep(375);
+                    robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+                } else if (gamepad2.b) {
+                    robot.skystoneFront.setPosition(robot.MID_SERVO);
+                    sleep(375);
+                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                } if (gamepad2.a) {
                     robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
                     sleep(375);
                     robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                } else if (gamepad2.x){
+                } else if (gamepad2.x) {
                     robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                     sleep(375);
                     robot.skystoneFront.setPosition(robot.MID_SERVO);
-                } else if (gamepad2.a && gamepad2.x) {
-                    robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                    sleep(375);
-                    robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
                 }
             }
 
