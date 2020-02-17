@@ -19,11 +19,11 @@ public class BlueTray extends LinearOpMode {
     int frontTime = 1600;
     int backTime = 2450;
     int stayTime = 700;
-    int strafeMoveTime = 3500;
+    int strafeMoveTime = 4000;
 
     public void AutoTrayStart() {
         mecanum.mecanumFLeft(1);
-        sleep(1180);
+        sleep(1480);
         mecanum.mecanumNaught();
 
         mecanum.mecanumFFront(1);
