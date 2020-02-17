@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
-
+@Disabled
 @Autonomous(name = "RedVuforiaSinglePlaceStone")
 public class RedVuforiaSinglePlaceStone extends LinearOpMode {
 

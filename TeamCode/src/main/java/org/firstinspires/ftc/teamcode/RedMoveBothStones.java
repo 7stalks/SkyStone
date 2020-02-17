@@ -220,18 +220,6 @@ public class RedMoveBothStones extends LinearOpMode {
         parked = true;
     }
 
-    private void setRight() {
-
-    }
-
-    private void setMiddle() {
-
-    }
-
-    private void setLeft() {
-
-    }
-
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);

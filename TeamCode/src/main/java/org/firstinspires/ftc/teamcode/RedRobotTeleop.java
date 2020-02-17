@@ -79,7 +79,7 @@ public class RedRobotTeleop extends LinearOpMode {
                     robot.skystoneBack.setPosition(robot.MID_SERVO);
                     sleep(375);
                     robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
-                } if (gamepad2.a) {
+                } else if (gamepad2.a) {
                     robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
                     sleep(375);
                     robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
