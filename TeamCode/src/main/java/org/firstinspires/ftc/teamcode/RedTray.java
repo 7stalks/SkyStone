@@ -19,7 +19,7 @@ public class RedTray extends LinearOpMode {
     int frontTime = 1600;
     int backTime = 2450;
     int stayTime = 700;
-    int strafeMoveTime = 4000;
+    int strafeMoveTime = 3250;
 
     public void AutoTrayStart() {
         mecanum.mecanumFRight(1);
@@ -41,7 +41,7 @@ public class RedTray extends LinearOpMode {
         sleep(stayTime);
 
         mecanum.mecanumRotate(-1);
-        sleep(50);
+        sleep(100);
         mecanum.mecanumNaught();
 
         mecanum.mecanumFLeft(1);
