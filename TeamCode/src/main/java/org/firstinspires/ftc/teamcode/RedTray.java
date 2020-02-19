@@ -23,7 +23,7 @@ public class RedTray extends LinearOpMode {
 
     public void AutoTrayStart() {
         mecanum.mecanumFRight(1);
-        sleep(1480);
+        sleep(1080);
         mecanum.mecanumNaught();
 
         mecanum.mecanumFFront(1);
@@ -39,6 +39,10 @@ public class RedTray extends LinearOpMode {
 
         grabbers.trayGrabberMove(robot, grabbers.OPEN);
         sleep(stayTime);
+
+        mecanum.mecanumRotate(-1);
+        sleep(50);
+        mecanum.mecanumNaught();
 
         mecanum.mecanumFLeft(1);
         sleep(strafeMoveTime);

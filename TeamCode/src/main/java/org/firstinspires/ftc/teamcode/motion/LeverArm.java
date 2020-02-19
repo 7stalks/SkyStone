@@ -28,6 +28,10 @@ public class LeverArm {
         }
     }
 
+    public void newLeverArmStay(RobotHardware robot, Telemetry telemetry) {
+        robot.leverArm.setPower(0);
+    }
+
     public void moveLeverArmTest(RobotHardware robot, Telemetry telemetry, double distance) {
         telemetry.addData("Distance %.2d", distance);
         Encoder = robot.leverArm.getCurrentPosition();

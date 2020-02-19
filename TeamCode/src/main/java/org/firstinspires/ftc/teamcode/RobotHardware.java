@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.media.MicrophoneInfo;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -380,4 +381,16 @@ public class RobotHardware {
             telemetry.addData("Status", "Tensor Flow Object Detection not Initialized");
         }
     }
+
+//    public void leverInit(HardwareMap hardware_map, Telemetry telemetry) {
+//        hardwareMap = hardware_map;
+//        try {
+//            leverArm = hardwareMap.get(DcMotor.class, "lever_arm");
+//            leverArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            telemetry.addData("Status", "Motor: leverArm identified");    //
+//        } catch (IllegalArgumentException err) {
+//            telemetry.addData("Warning", "Motor: leverArm not plugged in");    //
+//            leverArm = null;
+//        }
+//    }
 }
