@@ -1,16 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Rotation;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
-import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
-import org.firstinspires.ftc.teamcode.Autonomous.SkystoneNavigation;
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
@@ -19,10 +15,10 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 import java.util.List;
 
 @Disabled
-@Autonomous(name = "RedVuforiaSinglePlaceStone")
-public class RedVuforiaSinglePlaceStone extends LinearOpMode {
+@Autonomous(name = "BlueVuforiaSinglePlaceStone")
+public class BlueVuforiaSinglePlaceStone extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    RobotHardware robot = new RobotHardware(false);
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
@@ -71,7 +67,7 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
     // Plugs in the horizontal ange from checkForStones, moves towards it
     public void moveToSkystone() {
         mecanum.mecanumNaught();
-        angularMecanum.Right(HorAngle, .65, 0);
+        angularMecanum.Left(HorAngle, .65, 0);
         sleep(30);
     }
 
@@ -96,7 +92,7 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
     // Drives forward until touch sensor is activated
     public void driveUntilTouch() {
         while (robot.digitalTouchFunnel.getState())
-            mecanum.mecanumFFront(.875);
+            mecanum.mecanumFront(.95);
         if (!robot.digitalTouchFunnel.getState()) {
             mecanum.mecanumNaught();
         }
@@ -105,15 +101,14 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
     // Grabs the skystone from the position
     public void grabSkystone() {
         nav.skystoneNavigationInit(robot);
-        //
-        mecanum.mecanumRotate(.8);
-        sleep(1950);
+        mecanum.mecanumRotate(-.8);
+        sleep(1951);
         mecanum.mecanumNaught();
         mecanum.mecanumFBack(.95);
         sleep(777);
         mecanum.mecanumNaught();
-        mecanum.mecanumFLeft(.95);
-        sleep(1100);
+        mecanum.mecanumFRight(.95);
+        sleep(1077);
         mecanum.mecanumNaught();
         driveUntilTouch();
         skystoneGrabbed = true;
@@ -121,7 +116,7 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
 
     // Provides the angle for the coordinate (-905, 1090)
     private void tangentTime(double X, double Y) {
-        robotAngle = Math.atan((-905-X)/(-1090-Y));
+        robotAngle = Math.atan((-905-X)/(1090-Y));
     }
 
     private void pictureFront() {
@@ -141,7 +136,7 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
     }
 
     public void moveToPlate1() {
-        while (nav.Y > -1137) {
+        while (nav.Y < 1090) {
             // robot is now just off of center isle.
             nav.SkystoneNavigationNoTelemetry();
             telemetry.addData("Rotation:", nav.Rotation);
@@ -149,11 +144,11 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
             telemetry.addData("My Y is", nav.Y);
             tangentTime(nav.X, nav.Y);
             telemetry.addData("Tangent angle:", robotAngle);
-            angularMecanum.Right(robotAngle, .7, 0);
+            angularMecanum.Left(robotAngle, .7, 0);
             nav.SkystoneNavigationNoTelemetry();
             telemetry.update();
         }
-        if (nav.Y <= -1137) {
+        if (nav.Y >= 1090) {
             mecanum.mecanumNaught();
             notToCornerYet = false;
             telemetry.addData("Status:", "In da corner!");
@@ -162,8 +157,8 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
     }
 
     public void actuallyMoveToPlate() {
-        mecanum.mecanumFullFront();
-        sleep(2800);
+        mecanum.mecanumFFront(1);
+        sleep(3479);
         mecanum.mecanumNaught();
         sleep(30);
         nav.SkystoneNavigationNoTelemetry();
@@ -176,13 +171,13 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
         }
         while (notToPlate) {
             if (nav.X < 910) {
-                mecanum.mecanumFront(.85);
+                mecanum.mecanumFront(.425);
                 sleep(40);
                 mecanum.mecanumNaught();
                 sleep(80);
                 nav.SkystoneNavigationNoTelemetry();
             } else if (nav.X > 950) {
-                mecanum.mecanumBack(.85);
+                mecanum.mecanumBack(.425);
                 sleep(40);
                 mecanum.mecanumNaught();
                 sleep(80);
@@ -224,6 +219,9 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
             moveToPlate1();
         }
         nav.SkystoneNavigationNoTelemetry();
+        mecanum.mecanumRotate(-.8);
+        sleep(20);
+        mecanum.mecanumNaught();
 //        mecanum.mecanumRotate(-.8);
 //        sleep(10);
 //        mecanum.mecanumNaught();
@@ -235,8 +233,8 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
         mecanum.mecanumFront(1);
         sleep(975);
         mecanum.mecanumNaught();
-        mecanum.mecanumRotate(-.8);
-        sleep(1025);
+        mecanum.mecanumRotate(.8);
+        sleep(915);
         mecanum.mecanumNaught();
         movedToPlate = true;
     }
@@ -270,7 +268,7 @@ public class RedVuforiaSinglePlaceStone extends LinearOpMode {
         robot.KickerServo.setPosition(robot.MID_SERVO);
         telemetry.addData("Status", "Moving tray");
         telemetry.update();
-        mecanum.mecanumFLeft(1);
+        mecanum.mecanumFRight(1);
         sleep(3100);
         mecanum.mecanumNaught();
         movedTray = true;

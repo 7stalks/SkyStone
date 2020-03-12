@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.oldteleops;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -6,8 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.Autonomous.AngularMecanum;
-import org.firstinspires.ftc.teamcode.Autonomous.AutonomousMecanum;
+import org.firstinspires.ftc.teamcode.autonomous.AngularMecanum;
+import org.firstinspires.ftc.teamcode.autonomous.AutonomousMecanum;
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;

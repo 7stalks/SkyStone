@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.oldteleops;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.TrayGrabbers;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
@@ -13,9 +13,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
-@Disabled
-@TeleOp(name = "RobotTeleop:)", group = "Robot")
-public class RobotTelop extends LinearOpMode {
+@TeleOp(name = "BlueRobotTeleop:)", group = "Robot")
+public class BlueRobotTeleop extends LinearOpMode {
 
     /* Declare OpMode members. */
     RobotHardware robot = new RobotHardware(false);   // Use a Pushbot's hardware
@@ -72,15 +71,11 @@ public class RobotTelop extends LinearOpMode {
             // skystoneBack rotator & skystoneBack
             // Grabber down = clamp controler A
             // Grabber up = clamp controller X
-            if (robot.skystoneBack != null && robot.skystoneBackRotator != null) {
-                if (gamepad2.a) {
+            if (robot.skystoneBackRotator != null) {
+                if (gamepad1.y) {
                     robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
-                    sleep(375);
-                    robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                } else if (gamepad2.x){
-                    robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
-                    sleep(375);
-                    robot.skystoneBack.setPosition(robot.MID_SERVO);
+                    sleep(400);
+                    robot.skystoneBackRotator.setPosition(0);
                 }
             }
 
@@ -88,11 +83,19 @@ public class RobotTelop extends LinearOpMode {
             // Grabber down = clamp controller B
             // Grabber up = clamp controller Y
             if (robot.skystoneFrontRotator != null && robot.skystoneFront != null) {
-                if (gamepad2.b) {
+                if (gamepad2.y) {
+                    robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
+                    sleep(375);
+                    robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
+                } else if (gamepad2.b) {
+                    robot.skystoneFront.setPosition(robot.MID_SERVO);
+                    sleep(375);
+                    robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+                } if (gamepad2.a) {
                     robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
                     sleep(375);
                     robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN);
-                } else if (gamepad2.y){
+                } else if (gamepad2.x) {
                     robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
                     sleep(375);
                     robot.skystoneFront.setPosition(robot.MID_SERVO);

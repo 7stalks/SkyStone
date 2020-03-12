@@ -1,7 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.RobotHardware;
+
 @Autonomous (name = "ForIfYouNeedToRelax")
 public class BackScratcherv1 extends LinearOpMode {
     RobotHardware robot = new RobotHardware(false);
