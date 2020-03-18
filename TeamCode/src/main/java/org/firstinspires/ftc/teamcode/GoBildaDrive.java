@@ -36,7 +36,7 @@ public class GoBildaDrive {
         }
     }
 
-    public void dpadDrive(boolean right, boolean up, boolean left, boolean down) {
+    public void dpadMove(boolean right, boolean up, boolean left, boolean down) {
         if (right) {
             robot.RightFront.setPower(-1);
             robot.RightBack.setPower(1);
