@@ -1,16 +1,13 @@
 package org.firstinspires.ftc.teamcode.motion;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-
-import java.util.List;
 @TeleOp(name="RobotTeleop2", group="Robot")
 public class RobotTeleop2 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot = new RobotHardware(false);   // Use a Pushbot's hardware
+    OldRobotHardware robot = new OldRobotHardware(false);   // Use a Pushbot's hardware
     MecanumDrive mecanum_drive = new MecanumDrive();
 
 

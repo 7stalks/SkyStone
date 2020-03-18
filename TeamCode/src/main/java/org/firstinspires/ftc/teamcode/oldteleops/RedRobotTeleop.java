@@ -3,21 +3,18 @@ package org.firstinspires.ftc.teamcode.oldteleops;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.Clamp;
 import org.firstinspires.ftc.teamcode.motion.TrayGrabbers;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
-import java.util.List;
-
 @TeleOp(name = "RedRobotTeleop:)", group = "Robot")
 public class RedRobotTeleop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot = new RobotHardware(false);   // Use a Pushbot's hardware
+    OldRobotHardware robot = new OldRobotHardware(false);   // Use a Pushbot's hardware
     LeverArm lever_arm = new LeverArm();
     Clamp clamp = new Clamp();
     MecanumDrive mecanum_drive = new MecanumDrive();

@@ -4,13 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 @Autonomous(name = "AngularMecanumTest")
 @Disabled
 public class AngularMecanumTest extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    OldRobotHardware robot = new OldRobotHardware(false);
     AngularMecanum angularMecanum = new AngularMecanum(robot, telemetry);
 
     public void runOpMode() throws InterruptedException {

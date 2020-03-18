@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.autonomous.AngularMecanum;
 import org.firstinspires.ftc.teamcode.autonomous.AutonomousMecanum;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class TfodTest extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    OldRobotHardware robot = new OldRobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
     AngularMecanum angularMecanum = new AngularMecanum(robot, telemetry);

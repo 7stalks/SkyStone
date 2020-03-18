@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 public class Forwards extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    OldRobotHardware robot = new OldRobotHardware(true);
     SkystoneNavigation nav = new SkystoneNavigation();
     MecanumDrive meca = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, meca);

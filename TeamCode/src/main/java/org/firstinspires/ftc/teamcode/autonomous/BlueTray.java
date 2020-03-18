@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.TrayGrabbers;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 @Autonomous(name = "BlueTray")
 public class BlueTray extends LinearOpMode {
-    RobotHardware robot = new RobotHardware(false);
+    OldRobotHardware robot = new OldRobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
     Kicker kicker = new Kicker();

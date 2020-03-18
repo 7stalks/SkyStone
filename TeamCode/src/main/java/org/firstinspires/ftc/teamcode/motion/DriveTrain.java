@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.motion;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 public class DriveTrain {
 
-    public void drive_train(RobotHardware robot, double leftStickX, double leftStickY, double rightStickX) {
+    public void drive_train(OldRobotHardware robot, double leftStickX, double leftStickY, double rightStickX) {
 
         if (leftStickX > .4 || leftStickX < -.4) {
             robot.LeftFront.setPower(leftStickX/2);

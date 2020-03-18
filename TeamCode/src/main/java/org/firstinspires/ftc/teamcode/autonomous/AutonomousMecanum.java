@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 public class AutonomousMecanum {
 
-    RobotHardware robot;
+    OldRobotHardware robot;
     Telemetry telemetry;
     MecanumDrive mecanum_drive;
 
-    public AutonomousMecanum(RobotHardware robob, Telemetry telemetryhard, MecanumDrive mecanumFly) {
+    public AutonomousMecanum(OldRobotHardware robob, Telemetry telemetryhard, MecanumDrive mecanumFly) {
         robot = robob;
         telemetry = telemetryhard;
         mecanum_drive = mecanumFly;

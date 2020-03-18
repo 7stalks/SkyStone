@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables; //
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class SkystoneNavigation {
     public VuforiaTrackables targetsSkyStone;
 
     // Omitted the "this." from robot.vuforia.loadTrackablesFromAsset("Skystone");
-    public void skystoneNavigationInit(RobotHardware robot) {
+    public void skystoneNavigationInit(OldRobotHardware robot) {
 
         targetsSkyStone = robot.vuforia.loadTrackablesFromAsset("Skystone");
 

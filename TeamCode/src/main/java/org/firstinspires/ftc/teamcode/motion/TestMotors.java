@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.motion;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 
     @TeleOp(name = "Test", group = "Robot")
     public class TestMotors extends LinearOpMode {
-        RobotHardware robot = new RobotHardware(true);
+        OldRobotHardware robot = new OldRobotHardware(true);
 
         @Override
         public void runOpMode() {

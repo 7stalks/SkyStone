@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.motion;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 public class Clamp {
 
-    public void setClamp(RobotHardware robot, boolean open, boolean close) {
+    public void setClamp(OldRobotHardware robot, boolean open, boolean close) {
         if (robot.clamp == null ) {
             return;
         }
@@ -17,7 +17,7 @@ public class Clamp {
         }
     }
 
-    public void moveClampRotator(RobotHardware robot, double clamp_rotator_set) {
+    public void moveClampRotator(OldRobotHardware robot, double clamp_rotator_set) {
         if (robot.clampRotator == null ) {
             return;
         }

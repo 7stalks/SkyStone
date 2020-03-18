@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 @TeleOp(name = "OdometryTests")
 public class OdometryTests extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    OldRobotHardware robot = new OldRobotHardware(false);
     MecanumDrive mecanumDrive = new MecanumDrive();
     AutonomousMecanum auto = new AutonomousMecanum(robot, telemetry, mecanumDrive);
 

@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 @TeleOp(name="TANK")
 @Disabled
 
 public class Tank extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    OldRobotHardware robot = new OldRobotHardware(true);
 
     public void tankDrive(double left,double right) throws InterruptedException {
         if (gamepad1.left_stick_y >= .1 || gamepad1.left_stick_y <= -.1) {

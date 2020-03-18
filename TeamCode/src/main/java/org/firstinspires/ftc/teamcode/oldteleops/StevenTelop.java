@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class StevenTelop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot      = new RobotHardware(false);   // Use a Pushbot's hardware
+    OldRobotHardware robot      = new OldRobotHardware(false);   // Use a Pushbot's hardware
     int counter       = 0;                     // Servo mid position
 
     @Override

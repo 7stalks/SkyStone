@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 public class AngularMecanum {
 
-    RobotHardware robot;
+    OldRobotHardware robot;
     Telemetry telemetry;
     double robobAngle;
 
-    public AngularMecanum(RobotHardware robob, Telemetry telemetryhard) {
+    public AngularMecanum(OldRobotHardware robob, Telemetry telemetryhard) {
         robot = robob;
         telemetry = telemetryhard;
     }

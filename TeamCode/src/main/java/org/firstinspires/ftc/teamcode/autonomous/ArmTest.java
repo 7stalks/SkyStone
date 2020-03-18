@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 @TeleOp(name="ArmTest")
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.motion.LeverArm;
 
 public class ArmTest extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    OldRobotHardware robot = new OldRobotHardware(false);
     LeverArm lever_arm = new LeverArm();
     double armPosition;
     public DcMotor leverArm;

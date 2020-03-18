@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.motion;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 public class LeverArm {
 
@@ -9,7 +9,7 @@ public class LeverArm {
     int wanted;
     int Encoder;
 
-    public void leverArmStay(RobotHardware robot, Telemetry telemetry) {
+    public void leverArmStay(OldRobotHardware robot, Telemetry telemetry) {
         if (robot.leverArm == null){
             return;
         }
@@ -28,11 +28,11 @@ public class LeverArm {
         }
     }
 
-    public void newLeverArmStay(RobotHardware robot, Telemetry telemetry) {
+    public void newLeverArmStay(OldRobotHardware robot, Telemetry telemetry) {
         robot.leverArm.setPower(0);
     }
 
-    public void moveLeverArmTest(RobotHardware robot, Telemetry telemetry, double distance) {
+    public void moveLeverArmTest(OldRobotHardware robot, Telemetry telemetry, double distance) {
         telemetry.addData("Distance %.2d", distance);
         Encoder = robot.leverArm.getCurrentPosition();
         telemetry.addData("Encoder %.2d", Encoder);
@@ -40,7 +40,7 @@ public class LeverArm {
         telemetry.update();
     }
 
-    public void moveLeverArm(RobotHardware robot, Telemetry telemetry, double distance){
+    public void moveLeverArm(OldRobotHardware robot, Telemetry telemetry, double distance){
 
         if (robot.leverArm == null) {
             return;

@@ -4,15 +4,14 @@ package org.firstinspires.ftc.teamcode.oldteleops;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-        import org.firstinspires.ftc.robotcore.external.Telemetry;
-        import org.firstinspires.ftc.teamcode.RobotHardware;
+        import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 @TeleOp(name="GerritTelop")
 @Disabled
 
 public class GerritTelop extends LinearOpMode {
 
-    RobotHardware robot      = new RobotHardware(true);   // Use a Pushbot's hardware
+    OldRobotHardware robot      = new OldRobotHardware(true);   // Use a Pushbot's hardware
 
     @Override
     public void runOpMode() {

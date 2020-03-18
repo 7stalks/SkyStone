@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 
 @TeleOp(name = "PermeetTelop")
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.motion.Kicker;
 
 public class PermeetTelop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    OldRobotHardware robot = new OldRobotHardware(true);
     Kicker kicker = new Kicker();
 
     @Override

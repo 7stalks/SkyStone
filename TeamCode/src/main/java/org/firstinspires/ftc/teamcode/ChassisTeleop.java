@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 @TeleOp(name = "Chassis Teleop", group = "Robot")
 public class ChassisTeleop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(false);
+    OldRobotHardware robot = new OldRobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     boolean speedUp = true;
 

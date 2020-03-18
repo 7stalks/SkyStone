@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 @TeleOp(name = "Color Sensor")
 @Disabled
 
 public class CSensorTelop extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    OldRobotHardware robot = new OldRobotHardware(true);
 
     @Override
     public void runOpMode() {

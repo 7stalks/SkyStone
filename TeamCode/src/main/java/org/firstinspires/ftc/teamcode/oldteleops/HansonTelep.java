@@ -6,14 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 @TeleOp(name = "HansonTelep")
 @Disabled
 
 public class HansonTelep extends LinearOpMode {
 
-    RobotHardware robot = new RobotHardware(true);
+    OldRobotHardware robot = new OldRobotHardware(true);
     I2cAddr address = new I2cAddr(2);
     int red;
     int blue;

@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.motion;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.OldRobotHardware;
 
 
 public class MecanumDrive {
@@ -10,7 +9,7 @@ public class MecanumDrive {
     double robotAngle;
     double speedVal = 1.0;
 
-    public void rotateSmall (RobotHardware robot, float rotRight, float rotLeft) {
+    public void rotateSmall (OldRobotHardware robot, float rotRight, float rotLeft) {
             if (rotRight >= .2) {
                 robot.RightFront.setPower(robot.smallRot);
                 robot.RightBack.setPower(robot.smallRot);
@@ -39,7 +38,7 @@ public class MecanumDrive {
 
         // nailed it
 
-    public void mecanumSmall (RobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
+    public void mecanumSmall (OldRobotHardware robot, boolean smallUp, boolean smallRight, boolean smallDown, boolean smallLeft) {
         if ((smallUp) || (smallRight) || (smallDown) || (smallLeft)){
             if (smallUp) {
                 robot.RightFront.setPower(-robot.smallMove);
@@ -89,7 +88,7 @@ public class MecanumDrive {
             }
         }
     }
-    private void mecanumMove(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
+    private void mecanumMove(Telemetry telemetry, OldRobotHardware robot, double leftStickY, double leftStickX, double rightStickX,
                              boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft, double speedVal) {
 
         double r = Math.hypot (leftStickX, leftStickY);
@@ -159,12 +158,12 @@ public class MecanumDrive {
         }
     }
 
-    public void mecanumDrive(Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX, boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft) {
+    public void mecanumDrive(Telemetry telemetry, OldRobotHardware robot, double leftStickY, double leftStickX, double rightStickX, boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft) {
         speedVal = .5;
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, fullUp, fullRight, fullDown, fullLeft, speedVal);
     }
 
-    public void mecanumDriveFast (Telemetry telemetry, RobotHardware robot, double leftStickY, double leftStickX, double rightStickX, boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft) {
+    public void mecanumDriveFast (Telemetry telemetry, OldRobotHardware robot, double leftStickY, double leftStickX, double rightStickX, boolean fullUp, boolean fullRight, boolean fullDown, boolean fullLeft) {
         speedVal = 1.0;
         mecanumMove(telemetry, robot, leftStickY, leftStickX, rightStickX, fullUp, fullRight, fullDown, fullLeft, speedVal);
     }
