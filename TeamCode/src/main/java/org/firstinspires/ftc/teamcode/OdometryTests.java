@@ -14,9 +14,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 @TeleOp(name = "OdometryTests")
 public class OdometryTests extends LinearOpMode {
 
-    OldRobotHardware robot = new OldRobotHardware(false);
-    MecanumDrive mecanumDrive = new MecanumDrive();
-    AutonomousMecanum auto = new AutonomousMecanum(robot, telemetry, mecanumDrive);
+    RobotHardware robot = new RobotHardware();
+    GoBildaDrive drive = new GoBildaDrive(robot);
 
     BNO055IMU imu;
 
@@ -28,7 +27,7 @@ public class OdometryTests extends LinearOpMode {
 
         hardwareMap = hardware_map;
 
-        // Left odometry wheel initialization
+        // left odometry wheel initialization
         try {
             OLeft = hardwareMap.get(DcMotor.class, "o_left");
             OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -39,7 +38,7 @@ public class OdometryTests extends LinearOpMode {
             OLeft = null;
         }
 
-        // Right odometry wheel initialization
+        // right odometry wheel initialization
         try {
             ORight = hardwareMap.get(DcMotor.class, "o_right");
             ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -50,7 +49,7 @@ public class OdometryTests extends LinearOpMode {
             ORight = null;
         }
 
-        // Middle odometry wheel initialization
+        // middle odometry wheel initialization
         try {
             OMiddle = hardwareMap.get(DcMotor.class, "o_middle");
             OMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -62,34 +61,49 @@ public class OdometryTests extends LinearOpMode {
         }
     }
 
+    public void initImu(HardwareMap hardware_map, Telemetry telemetry) {
+        try {
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+            parameters.loggingEnabled = true;
+            parameters.loggingTag = "IMU";
+            parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+            imu = hardware_map.get(BNO055IMU.class, "imu");
+            imu.initialize(parameters);
+
+            telemetry.addData("Good", "Imu initialized");
+        } catch (IllegalArgumentException err) {
+            telemetry.addData("Warning", "Imu not initialized");
+        }
+    }
+
+    @Override
     public void runOpMode() throws InterruptedException {
 
-        // init odometry and mecanum drive
+        // init odometry, imu, and mecanum drive
         initOdometry(hardwareMap, telemetry);
+        initImu(hardwareMap, telemetry);
         robot.initMecanum(hardwareMap, telemetry);
+        telemetry.update();
 
-        //// init the imu
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-
+        // obtain the heading (is this 0 degrees? test it please)
         double angle = imu.getAngularOrientation().firstAngle;
-        ////
+        telemetry.addData("ANGLE", angle);
+        telemetry.addData("Status", "Waiting for start");
+        telemetry.update();
 
         waitForStart();
 
-        // ONLY WORKS IF angle IS LESS THAN 270
+        // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
         if (gamepad1.a) {
             while (angle < (angle + 90)) {
-
+                drive.circlepadMove(0, 0, .5);
+                angle = imu.getAngularOrientation().firstAngle;
             }
+            drive.stop();
         }
     }
 }

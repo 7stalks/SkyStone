@@ -20,7 +20,7 @@ public class ChassisTeleop extends LinearOpMode {
         // Insert anything to be iterated in a loop
         while (opModeIsActive()) {
             // Does the circle pad movements and dpad drive (one or the other)
-            // - Gives priority to dpad move because it's after and the power values will trump the
+            // Gives priority to dpad move because it's after and the power values will trump the
             // circle pad ones
             gobilda.circlepadMove(gamepad1.left_stick_y, gamepad1.left_stick_x,
                     gamepad1.right_stick_x);

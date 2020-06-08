@@ -59,4 +59,11 @@ public class GoBildaDrive {
             robot.LeftBack.setPower(-1);
         }
     }
+
+    public void stop() {
+        robot.RightFront.setPower(0);
+        robot.RightBack.setPower(0);
+        robot.LeftFront.setPower(0);
+        robot.LeftBack.setPower(0);
+    }
 }
