@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.autonomous.AutonomousMecanum;
-import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 @TeleOp(name = "OdometryTests")
 public class OdometryTests extends LinearOpMode {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.skystone_autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.motion.TrayGrabbers;
 import org.firstinspires.ftc.teamcode.motion.Kicker;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
-@Autonomous(name = "RedTray")
-public class RedTray extends LinearOpMode {
+@Autonomous(name = "BlueTray")
+public class BlueTray extends LinearOpMode {
     OldRobotHardware robot = new OldRobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
     AutonomousMecanum mecanum = new AutonomousMecanum(robot, telemetry, mecanum_drive);
@@ -19,11 +19,11 @@ public class RedTray extends LinearOpMode {
     int frontTime = 1600;
     int backTime = 2450;
     int stayTime = 700;
-    int strafeMoveTime = 3250;
+    int strafeMoveTime = 4000;
 
     public void AutoTrayStart() {
-        mecanum.mecanumFRight(1);
-        sleep(1080);
+        mecanum.mecanumFLeft(1);
+        sleep(1480);
         mecanum.mecanumNaught();
 
         mecanum.mecanumFFront(1);
@@ -40,11 +40,7 @@ public class RedTray extends LinearOpMode {
         grabbers.trayGrabberMove(robot, grabbers.OPEN);
         sleep(stayTime);
 
-        mecanum.mecanumRotate(-1);
-        sleep(100);
-        mecanum.mecanumNaught();
-
-        mecanum.mecanumFLeft(1);
+        mecanum.mecanumFRight(1);
         sleep(strafeMoveTime);
         mecanum.mecanumNaught();
     }

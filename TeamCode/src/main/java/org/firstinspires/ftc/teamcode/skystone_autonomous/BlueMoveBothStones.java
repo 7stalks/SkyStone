@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.skystone_autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
 import java.util.List;
 
-@Autonomous(name = "RedMoveBothStones")
-public class RedMoveBothStones extends LinearOpMode {
+@Autonomous(name = "BlueMoveBothStones")
+public class BlueMoveBothStones extends LinearOpMode {
 
     OldRobotHardware robot = new OldRobotHardware(false);
     MecanumDrive mecanum_drive = new MecanumDrive();
@@ -68,8 +68,8 @@ public class RedMoveBothStones extends LinearOpMode {
     // If the area of the stone is large enough, it deactivates tensor and moves to next case.
     // If it sees a skystone, then it moves to itd
     private void SkyStoneTFOD() {
-        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS - .01);
-        robot.skystoneBackRotator.setPosition(1);
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS + .01);
+        robot.skystoneFrontRotator.setPosition(1);
         if (robot.tensorFlowEngine != null) {
             List<Recognition> updatedRecognitions = robot.tensorFlowEngine.getUpdatedRecognitions();
             checkForStones(updatedRecognitions);
@@ -91,30 +91,30 @@ public class RedMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Grabbing skystone");
         telemetry.update();
 
-        mecanum.mecanumRotate(.8);
-        sleep(40);
+        mecanum.mecanumRotate(-.8);
+        sleep(60);
         mecanum.mecanumNaught();
 
-        mecanum.mecanumFFront(1);
-        sleep(300);
+        mecanum.mecanumFBack(1);
+        sleep(100);
         mecanum.mecanumNaught();
 
-        while (robot.digitalTouchSkystoneBack.getState() && opModeIsActive()) {
+        while (robot.digitalTouchSkystoneFront.getState() && opModeIsActive()) {
             mecanum.mecanumFLeft(.75);
         }
         mecanum.mecanumNaught();
 
-        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
         sleep(400);
 
-        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
         sleep(400);
 
         mecanum.mecanumFRight(1);
         sleep(601);
         mecanum.mecanumNaught();
 
-        mecanum.mecanumRotate(-.8);
+        mecanum.mecanumRotate(.8);
         sleep(30);
         mecanum.mecanumNaught();
 
@@ -125,21 +125,25 @@ public class RedMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Moving to other side");
         telemetry.update();
 
-        mecanum.mecanumFullFront();
+        mecanum.mecanumFullBack();
         sleep(2271);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
         sleep(250);
-        robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
+        robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
         sleep(75);
 
-        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
         sleep(250);
-        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
 
-        mecanum.mecanumFullBack();
-        sleep(3350);
+        mecanum.mecanumRotate(-.8);
+        sleep(25);
+        mecanum.mecanumNaught();
+
+        mecanum.mecanumFullFront();
+        sleep(3395);
         mecanum.mecanumNaught();
 
         movedToOtherSideOne = true;
@@ -147,62 +151,66 @@ public class RedMoveBothStones extends LinearOpMode {
 
     private void grabOtherStone() {
         mecanum.mecanumRotate(-.8);
-        sleep(15);
+        sleep(25);
         mecanum.mecanumNaught();
 
         mecanum.mecanumFRight(1);
-        sleep(175);
+        sleep(135);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS - .01);
+        mecanum.mecanumRotate(-.8);
+        sleep(7);
+        mecanum.mecanumNaught();
+
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS + .01);
         sleep(50);
-        robot.skystoneBackRotator.setPosition(1);
+        robot.skystoneFrontRotator.setPosition(1);
         sleep(350);
 
-        while (robot.digitalTouchSkystoneBack.getState() && opModeIsActive()) {
+        while (robot.digitalTouchSkystoneFront.getState() && opModeIsActive()) {
             mecanum.mecanumFLeft(.75);
         }
         mecanum.mecanumNaught();
 
-        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN - .01);
         sleep(400);
 
-        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
         sleep(400);
 
         mecanum.mecanumFRight(1);
         sleep(601);
         mecanum.mecanumNaught();
 
-        mecanum.mecanumRotate(-.8);
-        sleep(30);
+        mecanum.mecanumRotate(.8);
+        sleep(10);
         mecanum.mecanumNaught();
 
         grabbedOtherStone = true;
     }
 
     private void moveToFrontButNotBack() {
-        mecanum.mecanumFullFront();
+        mecanum.mecanumFullBack();
         sleep(1851);
         mecanum.mecanumNaught();
 
-        while (robot.colorSensor.red() < 200 && opModeIsActive()) {
-            mecanum.mecanumFFront(.7);
+        while ((robot.colorSensor.blue() < 178) && opModeIsActive()) {
+            mecanum.mecanumFBack(.7);
         }
         mecanum.mecanumNaught();
 
-        mecanum.mecanumFFront(1);
+        mecanum.mecanumFBack(1);
         sleep(1250);
         mecanum.mecanumNaught();
 
-        robot.skystoneBack.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
+        robot.skystoneFront.setPosition(robot.SKYSTONE_GRABBER_DOWN_AUTONOMOUS);
         sleep(250);
-        robot.skystoneBackRotator.setPosition(robot.MID_SERVO);
+        robot.skystoneFrontRotator.setPosition(robot.MID_SERVO);
         sleep(75);
 
-        robot.skystoneBack.setPosition(robot.MID_SERVO);
+        robot.skystoneFront.setPosition(robot.MID_SERVO);
         sleep(250);
-        robot.skystoneBackRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
+        robot.skystoneFrontRotator.setPosition(robot.SKYSTONE_ROTATOR_DOWN);
 
         movedToOtherSideTwo = true;
     }
@@ -211,7 +219,7 @@ public class RedMoveBothStones extends LinearOpMode {
         telemetry.addData("Status", "Parking");
         telemetry.update();
 
-        mecanum.mecanumFullBack();
+        mecanum.mecanumFullFront();
         sleep(1250);
         mecanum.mecanumNaught();
 

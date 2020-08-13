@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.autonomous.AngularMecanum;
-import org.firstinspires.ftc.teamcode.autonomous.AutonomousMecanum;
+import org.firstinspires.ftc.teamcode.skystone_autonomous.AngularMecanum;
+import org.firstinspires.ftc.teamcode.skystone_autonomous.AutonomousMecanum;
 import org.firstinspires.ftc.teamcode.OldRobotHardware;
 import org.firstinspires.ftc.teamcode.motion.MecanumDrive;
 
