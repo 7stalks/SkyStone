@@ -95,14 +95,18 @@ public class OdometryTests extends LinearOpMode {
 
         waitForStart();
 
-        // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
-        if (gamepad1.a) {
-            while (angle < (angle + 90)) {
-                drive.circlepadMove(0, 0, .5);
-                angle = imu.getAngularOrientation().firstAngle;
+        while (opModeIsActive()) {
+            // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
+            if (gamepad1.a) {
+                double initialAngle = imu.getAngularOrientation().firstAngle;
+                while (angle < (initialAngle + 90) && opModeIsActive()) {
+                    drive.circlepadMove(1, 0, .5);
+                    angle = imu.getAngularOrientation().firstAngle;
+                    telemetry.addData("ANGLE", angle);
+                    telemetry.update();
+                }
+                drive.stop();
             }
-            drive.stop();
         }
     }
 }
-

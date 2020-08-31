@@ -11,18 +11,18 @@ public class GoBildaDrive {
     }
 
     // for the circle pad movement (rotation and strafing 360 degrees)
+    // The Y is inverted (up gives -1, down gives 1). Input the raw stick movement,
+    // the method corrects it
     public void circlepadMove(double leftStickY, double leftStickX, double rightStickX) {
-
-        if (leftStickX < robot.stickThres && leftStickY < robot.stickThres) {
+        double correctedLeftStickY = -leftStickY;
+        if (Math.abs(leftStickX) < robot.stickThres && Math.abs(correctedLeftStickY) < robot.stickThres
+                && Math.abs(rightStickX) < robot.stickThres) {
             // Make sure that the circle pad sticks don't accidentally move the robot
-            robot.RightFront.setPower(0);
-            robot.RightBack.setPower(0);
-            robot.LeftFront.setPower(0);
-            robot.LeftBack.setPower(0);
+            stop();
         } else {
             // Create the magnitude (or radius, r) and angle of the sticks
-            double r = Math.hypot(leftStickX, leftStickY);
-            double robotAngle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
+            double r = Math.hypot(leftStickX, correctedLeftStickY);
+            double robotAngle = Math.atan2(correctedLeftStickY, leftStickX) - (Math.PI / 4);
 
             // Set power to the motors corresponding to the angle and magnitude
             final double RFront = r * Math.cos(robotAngle) + rightStickX;
@@ -65,5 +65,19 @@ public class GoBildaDrive {
         robot.RightBack.setPower(0);
         robot.LeftFront.setPower(0);
         robot.LeftBack.setPower(0);
+    }
+
+    public void motorTest(boolean up, boolean right, boolean down, boolean left) {
+        if (up) {
+            robot.RightFront.setPower(1);
+        } else if (right) {
+            robot.RightBack.setPower(1);
+        } else if (down) {
+            robot.LeftBack.setPower(1);
+        } else if (left) {
+            robot.LeftFront.setPower(1);
+        } else {
+            stop();
+        }
     }
 }
