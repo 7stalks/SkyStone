@@ -78,6 +78,26 @@ public class OdometryTests extends LinearOpMode {
         }
     }
 
+    private void testImu() {
+        // (goes before waitForStart())
+        // obtain the heading (is this 0 degrees? test it please)
+        double angle = imu.getAngularOrientation().firstAngle;
+        telemetry.addData("ANGLE", angle);
+
+        // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
+        if (gamepad1.a) {
+            double initialAngle = imu.getAngularOrientation().firstAngle;
+            while (angle < (initialAngle + 90) && opModeIsActive()) {
+                drive.circlepadMove(1, 0, .5);
+                angle = imu.getAngularOrientation().firstAngle;
+                telemetry.addData("ANGLE", angle);
+                telemetry.update();
+            }
+            drive.stop();
+        }
+
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -87,26 +107,13 @@ public class OdometryTests extends LinearOpMode {
         robot.initMecanum(hardwareMap, telemetry);
         telemetry.update();
 
-        // obtain the heading (is this 0 degrees? test it please)
-        double angle = imu.getAngularOrientation().firstAngle;
-        telemetry.addData("ANGLE", angle);
         telemetry.addData("Status", "Waiting for start");
         telemetry.update();
 
         waitForStart();
 
         while (opModeIsActive()) {
-            // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
-            if (gamepad1.a) {
-                double initialAngle = imu.getAngularOrientation().firstAngle;
-                while (angle < (initialAngle + 90) && opModeIsActive()) {
-                    drive.circlepadMove(1, 0, .5);
-                    angle = imu.getAngularOrientation().firstAngle;
-                    telemetry.addData("ANGLE", angle);
-                    telemetry.update();
-                }
-                drive.stop();
-            }
+            testImu();
         }
     }
 }
