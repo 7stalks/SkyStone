@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OrientationSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -27,9 +28,9 @@ public class OdometryTests extends LinearOpMode {
 
         // left odometry wheel initialization
         try {
-            OLeft = hardwareMap.get(DcMotor.class, "o_left");
+            OLeft = hardwareMap.get(DcMotor.class, "left_front");
             OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            OLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            OLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Good", "o_left identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_left not plugged in");    //
@@ -38,9 +39,9 @@ public class OdometryTests extends LinearOpMode {
 
         // right odometry wheel initialization
         try {
-            ORight = hardwareMap.get(DcMotor.class, "o_right");
+            ORight = hardwareMap.get(DcMotor.class, "right_back");
             ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            ORight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            ORight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Good", "o_right identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_right not plugged in");    //
@@ -49,9 +50,9 @@ public class OdometryTests extends LinearOpMode {
 
         // middle odometry wheel initialization
         try {
-            OMiddle = hardwareMap.get(DcMotor.class, "o_middle");
+            OMiddle = hardwareMap.get(DcMotor.class, "left_back");
             OMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            OMiddle.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            OMiddle.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Good", "o_middle identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_middle not plugged in");    //
@@ -95,7 +96,6 @@ public class OdometryTests extends LinearOpMode {
             }
             drive.stop();
         }
-
     }
 
     @Override
@@ -111,10 +111,22 @@ public class OdometryTests extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+        int i = 0;
 
         while (opModeIsActive()) {
-            testImu();
+            drive.circlepadMove(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            drive.dpadMove(gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left,
+                    gamepad1.dpad_down);
+
+            telemetry.addData("OLeft", OLeft.getCurrentPosition());
+            telemetry.addData("OMiddle", OMiddle.getCurrentPosition());
+            telemetry.addData("ORight", ORight.getCurrentPosition());
+            telemetry.addData("timer", i);
+            telemetry.update();
+            i++;
+            if (i == 10000) {
+                i = 0;
+            }
         }
     }
 }
-

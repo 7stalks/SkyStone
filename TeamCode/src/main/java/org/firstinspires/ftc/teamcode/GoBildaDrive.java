@@ -25,10 +25,10 @@ public class GoBildaDrive {
             double robotAngle = Math.atan2(correctedLeftStickY, leftStickX) - (Math.PI / 4);
 
             // Set power to the motors corresponding to the angle and magnitude
-            final double RFront = r * Math.cos(robotAngle) + rightStickX;
-            final double RBack = r * Math.sin(robotAngle) + rightStickX;
-            final double LFront = r * Math.sin(robotAngle) - rightStickX;
-            final double LBack = r * Math.cos(robotAngle) - rightStickX;
+            final double RFront = r * Math.cos(robotAngle) - rightStickX;
+            final double RBack = r * Math.sin(robotAngle) - rightStickX;
+            final double LFront = r * Math.sin(robotAngle) + rightStickX;
+            final double LBack = r * Math.cos(robotAngle) + rightStickX;
             robot.RightFront.setPower(RFront);
             robot.RightBack.setPower(RBack);
             robot.LeftFront.setPower(LFront);
