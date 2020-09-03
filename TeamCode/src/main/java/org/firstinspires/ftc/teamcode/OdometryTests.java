@@ -5,6 +5,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OrientationSensor;
 
@@ -31,6 +32,7 @@ public class OdometryTests extends LinearOpMode {
             OLeft = hardwareMap.get(DcMotor.class, "left_front");
             OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             OLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            OLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             telemetry.addData("Good", "o_left identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_left not plugged in");    //
@@ -42,6 +44,7 @@ public class OdometryTests extends LinearOpMode {
             ORight = hardwareMap.get(DcMotor.class, "right_back");
             ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             ORight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            ORight.setDirection(DcMotorSimple.Direction.REVERSE);
             telemetry.addData("Good", "o_right identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_right not plugged in");    //
@@ -53,6 +56,7 @@ public class OdometryTests extends LinearOpMode {
             OMiddle = hardwareMap.get(DcMotor.class, "left_back");
             OMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             OMiddle.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            OMiddle.setDirection(DcMotorSimple.Direction.REVERSE);
             telemetry.addData("Good", "o_middle identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_middle not plugged in");    //
