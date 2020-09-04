@@ -11,13 +11,14 @@ public class GoBildaDrive {
     }
 
     // for the circle pad movement (rotation and strafing 360 degrees)
-    // The Y is inverted (up gives -1, down gives 1). Input the raw stick movement,
-    // the method corrects it
     public void circlepadMove(double leftStickY, double leftStickX, double rightStickX) {
+
+        // The Y is inverted (up gives -1, down gives 1). This fixes that
         double correctedLeftStickY = -leftStickY;
+
+        // Make sure that the circle pad sticks don't accidentally move the robot
         if (Math.abs(leftStickX) < robot.stickThres && Math.abs(correctedLeftStickY) < robot.stickThres
                 && Math.abs(rightStickX) < robot.stickThres) {
-            // Make sure that the circle pad sticks don't accidentally move the robot
             stop();
         } else {
             // Create the magnitude (or radius, r) and angle of the sticks
@@ -36,6 +37,7 @@ public class GoBildaDrive {
         }
     }
 
+    // Allows for faster directional movements. CirclepadMove doesn't allow full speed
     public void dpadMove(boolean right, boolean up, boolean left, boolean down) {
         if (right) {
             robot.RightFront.setPower(-1);
@@ -67,6 +69,7 @@ public class GoBildaDrive {
         robot.LeftBack.setPower(0);
     }
 
+    // Test one motor at a time
     public void motorTest(boolean up, boolean right, boolean down, boolean left) {
         if (up) {
             robot.RightFront.setPower(1);

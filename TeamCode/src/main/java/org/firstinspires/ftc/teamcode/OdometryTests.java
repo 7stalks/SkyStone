@@ -17,84 +17,18 @@ public class OdometryTests extends LinearOpMode {
     RobotHardware robot = new RobotHardware();
     GoBildaDrive drive = new GoBildaDrive(robot);
 
-    BNO055IMU imu;
-
-    public DcMotor OLeft;
-    public DcMotor ORight;
-    public DcMotor OMiddle;
-
-    public void initOdometry(HardwareMap hardware_map, Telemetry telemetry){
-
-        hardwareMap = hardware_map;
-
-        // left odometry wheel initialization
-        try {
-            OLeft = hardwareMap.get(DcMotor.class, "left_front");
-            OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            OLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            OLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-            telemetry.addData("Good", "o_left identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Odometry: o_left not plugged in");    //
-            OLeft = null;
-        }
-
-        // right odometry wheel initialization
-        try {
-            ORight = hardwareMap.get(DcMotor.class, "right_back");
-            ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            ORight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            ORight.setDirection(DcMotorSimple.Direction.REVERSE);
-            telemetry.addData("Good", "o_right identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Odometry: o_right not plugged in");    //
-            ORight = null;
-        }
-
-        // middle odometry wheel initialization
-        try {
-            OMiddle = hardwareMap.get(DcMotor.class, "left_back");
-            OMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            OMiddle.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            OMiddle.setDirection(DcMotorSimple.Direction.REVERSE);
-            telemetry.addData("Good", "o_middle identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Odometry: o_middle not plugged in");    //
-            OMiddle = null;
-        }
-    }
-
-    public void initImu(HardwareMap hardware_map, Telemetry telemetry) {
-        try {
-            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-            parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-            parameters.loggingEnabled = true;
-            parameters.loggingTag = "IMU";
-            parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-            imu = hardware_map.get(BNO055IMU.class, "imu");
-            imu.initialize(parameters);
-
-            telemetry.addData("Good", "Imu initialized");
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Imu not initialized");
-        }
-    }
-
     private void testImu() {
         // (goes before waitForStart())
         // obtain the heading (is this 0 degrees? test it please)
-        double angle = imu.getAngularOrientation().firstAngle;
+        double angle = robot.imu.getAngularOrientation().firstAngle;
         telemetry.addData("ANGLE", angle);
 
         // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
         if (gamepad1.a) {
-            double initialAngle = imu.getAngularOrientation().firstAngle;
+            double initialAngle = robot.imu.getAngularOrientation().firstAngle;
             while (angle < (initialAngle + 90) && opModeIsActive()) {
                 drive.circlepadMove(1, 0, .5);
-                angle = imu.getAngularOrientation().firstAngle;
+                angle = robot.imu.getAngularOrientation().firstAngle;
                 telemetry.addData("ANGLE", angle);
                 telemetry.update();
             }
@@ -105,10 +39,8 @@ public class OdometryTests extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        // init odometry, imu, and mecanum drive
-        initOdometry(hardwareMap, telemetry);
-        initImu(hardwareMap, telemetry);
-        robot.initMecanum(hardwareMap, telemetry);
+        // init robot
+        robot.init(hardwareMap, telemetry);
         telemetry.update();
 
         telemetry.addData("Status", "Waiting for start");
@@ -122,9 +54,9 @@ public class OdometryTests extends LinearOpMode {
             drive.dpadMove(gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left,
                     gamepad1.dpad_down);
 
-            telemetry.addData("OLeft", OLeft.getCurrentPosition());
-            telemetry.addData("OMiddle", OMiddle.getCurrentPosition());
-            telemetry.addData("ORight", ORight.getCurrentPosition());
+            telemetry.addData("OLeft", robot.OLeft.getCurrentPosition());
+            telemetry.addData("OMiddle", robot.OMiddle.getCurrentPosition());
+            telemetry.addData("ORight", robot.ORight.getCurrentPosition());
             telemetry.addData("timer", i);
             telemetry.update();
             i++;
