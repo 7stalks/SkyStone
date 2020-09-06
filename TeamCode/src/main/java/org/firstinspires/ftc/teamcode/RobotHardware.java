@@ -36,9 +36,9 @@ public class RobotHardware {
         // Mecanum motors initialization
         try {
             LeftFront = hardwareMap.get(DcMotor.class, "left_front");
-            OLeft = LeftFront;
             LeftFront.setDirection(DcMotor.Direction.FORWARD);
             LeftFront.setPower(0);
+            LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: left_front identified");    //
         } catch (IllegalArgumentException err) {
@@ -49,6 +49,7 @@ public class RobotHardware {
             RightFront = hardwareMap.get(DcMotor.class, "right_front");
             RightFront.setDirection(DcMotor.Direction.REVERSE);
             RightFront.setPower(0);
+            RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: right_front identified");    //
         } catch (IllegalArgumentException err) {
@@ -57,9 +58,9 @@ public class RobotHardware {
         }
         try {
             LeftBack = hardwareMap.get(DcMotor.class, "left_back");
-            OMiddle = LeftBack;
             LeftBack.setDirection(DcMotor.Direction.FORWARD);
             LeftBack.setPower(0);
+            LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: left_back identified");    //
         } catch (IllegalArgumentException err) {
@@ -68,15 +69,19 @@ public class RobotHardware {
         }
         try {
             RightBack = hardwareMap.get(DcMotor.class, "right_back");
-            ORight = RightBack;
             RightBack.setDirection(DcMotor.Direction.REVERSE);
             RightBack.setPower(0);
+            RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             RightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telemetry.addData("Status", "Motor: right_back identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Motor: right_back not plugged in");    //
             RightBack = null;
         }
+
+        ORight = RightBack;
+        OLeft = LeftFront;
+        OMiddle = LeftBack;
 
 //        // Odometry initialization
 //        try {
