@@ -26,9 +26,9 @@ public class Odometry {
     // Finds the delta and turns it to mm, Sort of a 2-in-1
     // TODO add encoderOverMm
     private double[] odometryInfoToDeltaIn(double[] odometryInfo) {
-        double deltaOLeft = (odometryInfo[0] - lastIterationOdometryInfo[0]) / encoderCountOverIn;
+        double deltaOLeft = (-(odometryInfo[0]) - lastIterationOdometryInfo[0]) / encoderCountOverIn;
         double deltaORight = (odometryInfo[1] - lastIterationOdometryInfo[1]) / encoderCountOverIn;
-        double deltaOMiddle = (odometryInfo[2] - lastIterationOdometryInfo[2]) / encoderCountOverIn;
+        double deltaOMiddle = (-(odometryInfo[2]) - lastIterationOdometryInfo[2]) / encoderCountOverIn;
         // woooooaahhh. copies last odometryinfo onto lastiterodometryinfo
         System.arraycopy(odometryInfo, 0, lastIterationOdometryInfo, 0, 3);
         return new double[]{deltaOLeft, deltaORight, deltaOMiddle};

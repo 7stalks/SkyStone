@@ -12,7 +12,7 @@ public class MecanumTeleop extends LinearOpMode {
     @Override
     // Insert anything to be done as soon as INIT is pressed
     public void runOpMode() {
-        robot.initMecanum(hardwareMap, telemetry);
+        robot.init(hardwareMap, telemetry);
         telemetry.setMsTransmissionInterval(1);
         int i = 1;
 
