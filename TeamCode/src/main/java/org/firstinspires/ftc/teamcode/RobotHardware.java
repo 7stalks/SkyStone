@@ -90,7 +90,7 @@ public class RobotHardware {
             ORight = hardwareMap.get(DcMotor.class, "right_back");
             ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             ORight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            ORight.setDirection(DcMotorSimple.Direction.REVERSE);
+            ORight.setDirection(DcMotorSimple.Direction.FORWARD);
             telemetry.addData("Good", "o_right identified");    //
         } catch (IllegalArgumentException err) {
             telemetry.addData("Warning", "Odometry: o_right not plugged in");    //

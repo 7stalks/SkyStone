@@ -44,8 +44,8 @@ public class OdometryTests extends LinearOpMode {
 
         // init robot
         robot.init(hardwareMap, telemetry);
-        telemetry.update();
 
+        telemetry.setMsTransmissionInterval(2);
         telemetry.addData("Status", "Waiting for start");
         telemetry.update();
 
@@ -59,8 +59,9 @@ public class OdometryTests extends LinearOpMode {
                     gamepad1.dpad_down);
 
 
+            // TODO change from 0 to robot.OMiddle,getCurrentPosition()
             odometryInfo = new double[]{robot.OLeft.getCurrentPosition(), robot.ORight.getCurrentPosition(),
-                    robot.OMiddle.getCurrentPosition()};
+                    0};
             robotPosition = odometry.getPosition(robotPosition, odometryInfo, telemetry);
 
             telemetry.addData("OLeft", odometryInfo[0]);
@@ -73,8 +74,7 @@ public class OdometryTests extends LinearOpMode {
 
             if (gamepad1.a) {
                 drive.stop();
-                while (!gamepad1.b) {
-                    telemetry.addLine("this is blank lololol");
+                while (!gamepad1.b && opModeIsActive()) {
                 }
             }
         }
