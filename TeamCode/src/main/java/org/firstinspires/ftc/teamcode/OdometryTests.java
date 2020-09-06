@@ -16,6 +16,9 @@ public class OdometryTests extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware();
     GoBildaDrive drive = new GoBildaDrive(robot);
+    Odometry odometry = new Odometry();
+
+    double[] odometryInfo;
 
     private void testImu() {
         // (goes before waitForStart())
@@ -46,22 +49,33 @@ public class OdometryTests extends LinearOpMode {
         telemetry.addData("Status", "Waiting for start");
         telemetry.update();
 
+        double[] robotPosition = {0, 0, 0};
+
         waitForStart();
-        int i = 0;
 
         while (opModeIsActive()) {
             drive.circlepadMove(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
             drive.dpadMove(gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left,
                     gamepad1.dpad_down);
 
-            telemetry.addData("OLeft", robot.OLeft.getCurrentPosition());
-            telemetry.addData("OMiddle", robot.OMiddle.getCurrentPosition());
-            telemetry.addData("ORight", robot.ORight.getCurrentPosition());
-            telemetry.addData("timer", i);
+
+            odometryInfo = new double[]{robot.OLeft.getCurrentPosition(), robot.ORight.getCurrentPosition(),
+                    robot.OMiddle.getCurrentPosition()};
+            robotPosition = odometry.getPosition(robotPosition, odometryInfo, telemetry);
+
+            telemetry.addData("OLeft", odometryInfo[0]);
+            telemetry.addData("OMiddle", odometryInfo[2]);
+            telemetry.addData("ORight", odometryInfo[1]);
+            telemetry.addData("X", robotPosition[0]);
+            telemetry.addData("Y", robotPosition[1]);
+            telemetry.addData("Theta", robotPosition[2]);
             telemetry.update();
-            i++;
-            if (i == 10000) {
-                i = 0;
+
+            if (gamepad1.a) {
+                drive.stop();
+                while (!gamepad1.b) {
+                    telemetry.addLine("this is blank lololol");
+                }
             }
         }
     }
