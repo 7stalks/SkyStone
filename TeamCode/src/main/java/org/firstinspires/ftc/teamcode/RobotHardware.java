@@ -36,6 +36,7 @@ public class RobotHardware {
         // Mecanum motors initialization
         try {
             LeftFront = hardwareMap.get(DcMotor.class, "left_front");
+            OLeft = LeftFront;
             LeftFront.setDirection(DcMotor.Direction.FORWARD);
             LeftFront.setPower(0);
             LeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -56,6 +57,7 @@ public class RobotHardware {
         }
         try {
             LeftBack = hardwareMap.get(DcMotor.class, "left_back");
+            OMiddle = LeftBack;
             LeftBack.setDirection(DcMotor.Direction.FORWARD);
             LeftBack.setPower(0);
             LeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -66,6 +68,7 @@ public class RobotHardware {
         }
         try {
             RightBack = hardwareMap.get(DcMotor.class, "right_back");
+            ORight = RightBack;
             RightBack.setDirection(DcMotor.Direction.REVERSE);
             RightBack.setPower(0);
             RightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -75,37 +78,37 @@ public class RobotHardware {
             RightBack = null;
         }
 
-        // Odometry initialization
-        try {
-            OLeft = hardwareMap.get(DcMotor.class, "left_front");
-            OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            OLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            OLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-            telemetry.addData("Good", "o_left identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Odometry: o_left not plugged in");    //
-            OLeft = null;
-        }
-        try {
-            ORight = hardwareMap.get(DcMotor.class, "right_back");
-            ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            ORight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            ORight.setDirection(DcMotorSimple.Direction.FORWARD);
-            telemetry.addData("Good", "o_right identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Odometry: o_right not plugged in");    //
-            ORight = null;
-        }
-        try {
-            OMiddle = hardwareMap.get(DcMotor.class, "left_back");
-            OMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            OMiddle.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            OMiddle.setDirection(DcMotorSimple.Direction.REVERSE);
-            telemetry.addData("Good", "o_middle identified");    //
-        } catch (IllegalArgumentException err) {
-            telemetry.addData("Warning", "Odometry: o_middle not plugged in");    //
-            OMiddle = null;
-        }
+//        // Odometry initialization
+//        try {
+//            OLeft = hardwareMap.get(DcMotor.class, "left_front");
+//            OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            OLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            OLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+//            telemetry.addData("Good", "o_left identified");    //
+//        } catch (IllegalArgumentException err) {
+//            telemetry.addData("Warning", "Odometry: o_left not plugged in");    //
+//            OLeft = null;
+//        }
+//        try {
+//            ORight = hardwareMap.get(DcMotor.class, "right_back");
+//            ORight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            ORight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            ORight.setDirection(DcMotorSimple.Direction.FORWARD);
+//            telemetry.addData("Good", "o_right identified");    //
+//        } catch (IllegalArgumentException err) {
+//            telemetry.addData("Warning", "Odometry: o_right not plugged in");    //
+//            ORight = null;
+//        }
+//        try {
+//            OMiddle = hardwareMap.get(DcMotor.class, "left_back");
+//            OMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            OMiddle.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            OMiddle.setDirection(DcMotorSimple.Direction.REVERSE);
+//            telemetry.addData("Good", "o_middle identified");    //
+//        } catch (IllegalArgumentException err) {
+//            telemetry.addData("Warning", "Odometry: o_middle not plugged in");    //
+//            OMiddle = null;
+//        }
 
         // Init the IMU/Gyro
         try {
