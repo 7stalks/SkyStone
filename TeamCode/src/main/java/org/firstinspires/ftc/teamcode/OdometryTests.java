@@ -29,6 +29,7 @@ public class OdometryTests extends LinearOpMode {
         // ONLY WORKS IF angle IS LESS THAN 270 TEST THIS
         if (gamepad1.a) {
             double initialAngle = robot.imu.getAngularOrientation().firstAngle;
+
             while (angle < (initialAngle + 90) && opModeIsActive()) {
                 drive.circlepadMove(1, 0, .5);
                 angle = robot.imu.getAngularOrientation().firstAngle;
@@ -38,6 +39,7 @@ public class OdometryTests extends LinearOpMode {
             drive.stop();
         }
     }
+
 
     @Override
     public void runOpMode() throws InterruptedException {
