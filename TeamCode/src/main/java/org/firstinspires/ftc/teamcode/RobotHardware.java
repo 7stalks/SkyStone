@@ -90,7 +90,6 @@ public class RobotHardware {
 //        // Odometry initialization
 //        try {
 //            OLeft = hardwareMap.get(DcMotor.class, "left_front");
-
 //            OLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //            OLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //            OLeft.setDirection(DcMotorSimple.Direction.REVERSE);
