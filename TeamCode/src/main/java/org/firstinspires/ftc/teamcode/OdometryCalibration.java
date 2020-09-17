@@ -10,7 +10,7 @@ public class OdometryCalibration extends LinearOpMode {
     RobotHardware robot = new RobotHardware();
     GoBildaDrive drive = new GoBildaDrive(robot);
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
 
         robot.init(hardwareMap, telemetry);
 
@@ -24,22 +24,14 @@ public class OdometryCalibration extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            double initAng = robot.imu.getAngularOrientation().firstAngle;
-            while (angle < (initAng + 90)) {
+        while (angle < 90 && opModeIsActive()) {
 
                 robot.RightFront.setPower(slowpower);
                 robot.LeftFront.setPower(-slowpower);
                 robot.RightBack.setPower(slowpower);
                 robot.LeftFront.setPower(-slowpower);
 
-                // left, right, mid, angle
-                double[] odometryInfo = {robot.OLeft.getCurrentPosition(), robot.ORight.getCurrentPosition(), robot.OMiddle.getCurrentPosition()};
-
-                telemetry.addData("Right Odometer", odometryInfo[0]);
-                telemetry.addData("Left Odometer", odometryInfo[1]);
-                telemetry.addData("Middle Odometer", odometryInfo[2]);
-                telemetry.addData("Angle", angle);
+                telemetry.addData("IMU Angle", angle);
                 telemetry.update();
 
                 angle = robot.imu.getAngularOrientation().firstAngle;
@@ -48,5 +40,3 @@ public class OdometryCalibration extends LinearOpMode {
 
         }
     }
-
-}
