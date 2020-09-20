@@ -22,7 +22,7 @@ public class OdometryCalibration extends LinearOpMode {
 
     // Text files to write the values to -- stored in robot controller Internal Storage\First\Settings
     File wheelBaseSeparationFile = AppUtil.getInstance().getSettingsFile("wheelBaseSeparation.txt");
-    File horizonatalTickOffsetFile = AppUtil.getInstance().getSettingsFile("horizontalTickOffset.txt");
+    File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile("horizontalTickOffset.txt");
 
     double encoderCountsPerIn = 307.699557;
 
@@ -78,7 +78,7 @@ public class OdometryCalibration extends LinearOpMode {
         while(opModeIsActive()) {
             telemetry.addData("Odometry Calibration Status", "Calibration Success");
             telemetry.addData("Wheel Base Separation", wheelBaseSeparation);
-            telemetry.addData("Horizontal Encoder Offset", horizontalTickOffset);
+            telemetry.addData("Horizontal Encoder Offset", horizontalTickOffsetFile);
             telemetry.addData("IMU angle", angle);
             telemetry.addData("Left Position", robot.OLeft.getCurrentPosition());
             telemetry.addData("Right Position", robot.ORight.getCurrentPosition());
