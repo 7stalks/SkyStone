@@ -12,7 +12,7 @@ public class RobotHardware {
 
     private HardwareMap hardwareMap = null;
 
-    // Mecanum motors
+    // Drive motors
     public DcMotor LeftFront;
     public DcMotor RightFront;
     public DcMotor LeftBack;
@@ -27,7 +27,8 @@ public class RobotHardware {
     BNO055IMU imu;
 
 
-    final public double stickThres = .2;
+    final public double stickThres = 0.2;
+    final public double PIVOT_SPEED = 0.5;
 
     // This will be used on robotTeleop. Inits everything
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
