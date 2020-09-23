@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OrientationSensor;
+import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -60,18 +61,23 @@ public class OdometryTests extends LinearOpMode {
             drive.dpadMove(gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left,
                     gamepad1.dpad_down);
 
-
-            // TODO change from 0 to robot.OMiddle,getCurrentPosition()
             odometryInfo = new double[]{robot.OLeft.getCurrentPosition(), robot.ORight.getCurrentPosition(),
-                    0};
+                    robot.OMiddle.getCurrentPosition()};
             robotPosition = odometry.getPosition(robotPosition, odometryInfo, telemetry);
-
+            RobotLog.vv("Odemetry", "Im here");
+            RobotLog.vv("Odemetry", "Im here");
+            RobotLog.vv("Odemetry", "Im here");
+            RobotLog.vv("Odemetry", "Im here");
+            RobotLog.vv("Odemetry", "Im here");
             telemetry.addData("OLeft", odometryInfo[0]);
             telemetry.addData("OMiddle", odometryInfo[2]);
             telemetry.addData("ORight", odometryInfo[1]);
             telemetry.addData("X", robotPosition[0]);
             telemetry.addData("Y", robotPosition[1]);
             telemetry.addData("Theta", robotPosition[2]);
+            telemetry.addData("DeltaLeft", robotPosition[3]);
+            telemetry.addData("DeltaRight", robotPosition[4]);
+            telemetry.addData("deltatheta", robotPosition[5]);
             telemetry.update();
 
             if (gamepad1.a) {

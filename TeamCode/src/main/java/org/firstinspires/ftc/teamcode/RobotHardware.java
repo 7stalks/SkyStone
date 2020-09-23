@@ -27,7 +27,7 @@ public class RobotHardware {
     BNO055IMU imu;
 
 
-    final public double stickThres = 0.2;
+    final public double stickThres = 0.05;
     final public double PIVOT_SPEED = 0.5;
 
     // This will be used on robotTeleop. Inits everything
@@ -84,8 +84,8 @@ public class RobotHardware {
             RightBack = null;
         }
 
-        ORight = RightBack;
-        OLeft = LeftFront;
+        ORight = RightFront;
+        OLeft = RightBack;
         OMiddle = LeftBack;
 
 //        // Odometry initialization

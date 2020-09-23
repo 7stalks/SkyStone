@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Odometry {
-    
+
     OdometryCalibration calibration = new OdometryCalibration();
-    
+
     // length from left to right odometers
     // TODO add  for length from l to r odometer and change encoderOverMm
     double L = 15.625;
@@ -26,9 +26,9 @@ public class Odometry {
     // Finds the delta and turns it to mm, Sort of a 2-in-1
     // TODO add encoderOverMm
     private double[] odometryInfoToDeltaIn(double[] odometryInfo) {
-        double deltaOLeft = (-(odometryInfo[0]) - lastIterationOdometryInfo[0]) / calibration.encoderCountsPerIn;
+        double deltaOLeft = -((odometryInfo[0]) - lastIterationOdometryInfo[0]) / calibration.encoderCountsPerIn;
         double deltaORight = (odometryInfo[1] - lastIterationOdometryInfo[1]) / calibration.encoderCountsPerIn;
-        double deltaOMiddle = (-(odometryInfo[2]) - lastIterationOdometryInfo[2]) / calibration.encoderCountsPerIn;
+        double deltaOMiddle = (odometryInfo[2] - lastIterationOdometryInfo[2]) / calibration.encoderCountsPerIn;
         // woooooaahhh. copies last odometryinfo onto lastiterodometryinfo
         System.arraycopy(odometryInfo, 0, lastIterationOdometryInfo, 0, 3);
         return new double[]{deltaOLeft, deltaORight, deltaOMiddle};
@@ -48,23 +48,23 @@ public class Odometry {
         double oldX = oldPosition[0];
         double oldY = oldPosition[1];
         double oldTheta = oldPosition[2];
-//        telemetry.addData("Old X, Y, theta", oldPosition);
 
         // get the changes (deltas) in distances/theta
         // deltaDistances has all 3 odometers (L, R, M)
         double[] deltaDistances = odometryInfoToDeltaIn(odometryInfo);
         double deltaTheta = getDeltaTheta(deltaDistances[0], deltaDistances[1]);
-//        telemetry.addData("delta distances (L, R, M)", deltaDistances);
-//        telemetry.addData("deltaTheta", deltaTheta);
 
         // do the calculations
+        double displayedTheta = deltaTheta + oldTheta;
+        if (displayedTheta > (2*Math.PI)) {
+            displayedTheta = displayedTheta - (2*Math.PI);
+        } else if (displayedTheta < -(2*Math.PI)) {
+            displayedTheta = displayedTheta + (2*Math.PI);
+        }
         double h = getHypOrDistance(deltaDistances[0], deltaDistances[1], deltaTheta);
-        double deltaX = h * Math.cos((deltaTheta / 2) + oldTheta);
-        double deltaY = h * Math.sin((deltaTheta / 2) + oldTheta);
-//        telemetry.addData("h", h);
-//        telemetry.addData("delta X", deltaX);
-//        telemetry.addData("delta Y", deltaY);
+        double deltaX = (h * Math.sin(displayedTheta) + (deltaDistances[2] * Math.cos(displayedTheta)));
+        double deltaY = (h * Math.cos(displayedTheta) - (deltaDistances[2] * Math.sin(displayedTheta)));
 
-        return new double[]{deltaX + oldX, deltaY + oldY, deltaTheta + oldTheta};
+        return new double[]{deltaX + oldX, deltaY + oldY, displayedTheta, deltaDistances[0], deltaDistances[1], deltaTheta};
     }
 }
