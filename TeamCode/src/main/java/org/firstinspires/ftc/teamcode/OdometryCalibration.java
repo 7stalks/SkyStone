@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
 import java.io.File;
@@ -29,31 +32,42 @@ public class OdometryCalibration extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
 
-        double angle = robot.imu.getAngularOrientation().firstAngle;
-
         robot.init(hardwareMap, telemetry);
+        double angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
         telemetry.setMsTransmissionInterval(2);
         telemetry.addData("Status", "Waiting to be started");
         telemetry.update();
         waitForStart();
 
-        while (angle < 90 && opModeIsActive()) {
+//        while (opModeIsActive()) {
+//            angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+//            telemetry.addData("angle", angle);
+//            telemetry.update();
+//        }
 
-                robot.RightFront.setPower(robot.PIVOT_SPEED);
-                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
-                robot.RightBack.setPower(robot.PIVOT_SPEED);
-                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
-                if (angle < 60) {
-                    drive.circlepadMove(robot.PIVOT_SPEED, 0, 0);
+//        telemetry.addData("angle", angle);
+//        telemetry.addData("is imu calibrated", robot.imu.isSystemCalibrated());
+//        telemetry.update();
+//        sleep(10000);
+
+        double angleInit = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        while (angle < (angleInit + 90) && opModeIsActive()) {
+
+//                robot.RightFront.setPower(robot.PIVOT_SPEED);
+//                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
+//                robot.RightBack.setPower(robot.PIVOT_SPEED);
+//                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
+                if (angle < (angleInit + 60)) {
+                    drive.circlepadMove(0, 0, robot.PIVOT_SPEED);
                 } else {
-                    drive.circlepadMove(robot.PIVOT_SPEED/2, 0, 0);
+                    drive.circlepadMove(0, 0, robot.PIVOT_SPEED/2);
                 }
 
                 telemetry.addData("IMU Angle", angle);
                 telemetry.update();
 
-                angle = robot.imu.getAngularOrientation().firstAngle;
+                angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             }
         drive.stop();
         timer.reset();
@@ -65,20 +79,23 @@ public class OdometryCalibration extends LinearOpMode {
 
         //Encoder difference (leftEncoder - rightEncoder)
 
-        double encoderDifference = Math.abs(robot.OLeft.getCurrentPosition()) -
+        double encoderDifference = Math.abs(robot.OLeft.getCurrentPosition()) +
                 Math.abs(robot.ORight.getCurrentPosition() );
-        double verticalEncoderTickOffsetPerDegree = encoderDifference/angle;
+        double verticalEncoderTickOffsetPerDegree = encoderDifference/(angle-angleInit);
         double wheelBaseSeparation = (2*90*verticalEncoderTickOffsetPerDegree) / (Math.PI * encoderCountsPerIn);
 
-        horizontalTickOffset = robot.OMiddle.getCurrentPosition()/Math.toRadians(angle);
+        horizontalTickOffset = robot.OMiddle.getCurrentPosition()/Math.toRadians(robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
 
         // Write constants to the text files
-        ReadWriteFile.writeFile(wheelBaseSeparationFile, String.valueOf(horizontalTickOffset));
+        ReadWriteFile.writeFile(wheelBaseSeparationFile, String.valueOf(wheelBaseSeparation));
+        ReadWriteFile.writeFile(horizontalTickOffsetFile, String.valueOf(horizontalTickOffset));
 
         while(opModeIsActive()) {
             telemetry.addData("Odometry Calibration Status", "Calibration Success");
             telemetry.addData("Wheel Base Separation", wheelBaseSeparation);
-            telemetry.addData("Horizontal Encoder Offset", horizontalTickOffsetFile);
+            telemetry.addData("base separation location", wheelBaseSeparationFile);
+            telemetry.addData("Horizontal Encoder Offset", horizontalTickOffset);
+            telemetry.addData("offset file locationm", horizontalTickOffsetFile);
             telemetry.addData("IMU angle", angle);
             telemetry.addData("Left Position", robot.OLeft.getCurrentPosition());
             telemetry.addData("Right Position", robot.ORight.getCurrentPosition());
