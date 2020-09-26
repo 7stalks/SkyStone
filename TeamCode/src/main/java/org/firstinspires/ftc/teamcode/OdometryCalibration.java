@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,80 +31,81 @@ public class OdometryCalibration extends LinearOpMode {
     double encoderCountsPerIn = 307.699557;
 
     @Override
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, telemetry);
-        double angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
-        telemetry.setMsTransmissionInterval(2);
+        //// MAKES THE IMU WORK UPSIDE DOWN BY ASSIGNING BYTES TO REGISTER
+        byte AXIS_MAP_SIGN_BYTE = 0x1; //This is what to write to the AXIS_MAP_SIGN register to negate the z axis
+        //Need to be in CONFIG mode to write to registers
+        robot.imu.write8(BNO055IMU.Register.OPR_MODE, BNO055IMU.SensorMode.CONFIG.bVal & 0x0F);
+        sleep(100); //Changing modes requires a delay before doing anything
+        //Write to the AXIS_MAP_SIGN register
+        robot.imu.write8(BNO055IMU.Register.AXIS_MAP_SIGN, AXIS_MAP_SIGN_BYTE & 0x0F);
+        //Need to change back into the IMU mode to use the gyro
+        robot.imu.write8(BNO055IMU.Register.OPR_MODE, BNO055IMU.SensorMode.IMU.bVal & 0x0F);
+        sleep(100); //Changing modes again requires a delay
+
+
+        double angle = robot.imu.getAngularOrientation().firstAngle;
+        telemetry.addData("angle", angle);
+
+        telemetry.setMsTransmissionInterval(10);
         telemetry.addData("Status", "Waiting to be started");
         telemetry.update();
         waitForStart();
 
-//        while (opModeIsActive()) {
-//            angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-//            telemetry.addData("angle", angle);
-//            telemetry.update();
-//        }
-
-//        telemetry.addData("angle", angle);
-//        telemetry.addData("is imu calibrated", robot.imu.isSystemCalibrated());
-//        telemetry.update();
-//        sleep(10000);
-
-        double angleInit = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        while (angle < (angleInit + 90) && opModeIsActive()) {
+        while (angle < 90 && opModeIsActive()) {
 
 //                robot.RightFront.setPower(robot.PIVOT_SPEED);
 //                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
 //                robot.RightBack.setPower(robot.PIVOT_SPEED);
 //                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
-                if (angle < (angleInit + 60)) {
-                    drive.circlepadMove(0, 0, robot.PIVOT_SPEED);
-                } else {
-                    drive.circlepadMove(0, 0, robot.PIVOT_SPEED/2);
-                }
-
-                telemetry.addData("IMU Angle", angle);
-                telemetry.update();
-
-                angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            if (angle < 60) {
+                drive.circlepadMove(0, 0, robot.PIVOT_SPEED);
+            } else {
+                drive.circlepadMove(0, 0, robot.PIVOT_SPEED / 2);
             }
-        drive.stop();
-        timer.reset();
-        while(timer.milliseconds() < 1000 && opModeIsActive() ) {
+
+            angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+
             telemetry.addData("IMU Angle", angle);
             telemetry.update();
-            }
+        }
+        drive.stop();
+        timer.reset();
         // Record IMU and encoder values to calculate the constants
+        while (timer.milliseconds() < 1000 && opModeIsActive()) {
+            telemetry.addData("IMU Angle", angle);
+            telemetry.update();
+        }
 
         //Encoder difference (leftEncoder - rightEncoder)
-
         double encoderDifference = Math.abs(robot.OLeft.getCurrentPosition()) +
-                Math.abs(robot.ORight.getCurrentPosition() );
-        double verticalEncoderTickOffsetPerDegree = encoderDifference/(angle-angleInit);
-        double wheelBaseSeparation = (2*90*verticalEncoderTickOffsetPerDegree) / (Math.PI * encoderCountsPerIn);
+                Math.abs(robot.ORight.getCurrentPosition());
+        double verticalEncoderTickOffsetPerDegree = encoderDifference / angle;
+        double wheelBaseSeparation = (2 * 90 * verticalEncoderTickOffsetPerDegree) / (Math.PI * encoderCountsPerIn);
 
-        horizontalTickOffset = robot.OMiddle.getCurrentPosition()/Math.toRadians(robot.imu.getAngularOrientation(AxesReference.INTRINSIC.reverse(), AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        horizontalTickOffset = (robot.OMiddle.getCurrentPosition() / (Math.toRadians(robot.imu.getAngularOrientation().firstAngle)));
 
         // Write constants to the text files
         ReadWriteFile.writeFile(wheelBaseSeparationFile, String.valueOf(wheelBaseSeparation));
         ReadWriteFile.writeFile(horizontalTickOffsetFile, String.valueOf(horizontalTickOffset));
 
-        while(opModeIsActive()) {
+        // Telemetry
+        while (opModeIsActive()) {
             telemetry.addData("Odometry Calibration Status", "Calibration Success");
             telemetry.addData("Wheel Base Separation", wheelBaseSeparation);
             telemetry.addData("base separation location", wheelBaseSeparationFile);
             telemetry.addData("Horizontal Encoder Offset", horizontalTickOffset);
             telemetry.addData("offset file locationm", horizontalTickOffsetFile);
             telemetry.addData("IMU angle", angle);
+            telemetry.addData("NEW IMY ANGLE LOOK HERE", robot.imu.getAngularOrientation().firstAngle);
             telemetry.addData("Left Position", robot.OLeft.getCurrentPosition());
             telemetry.addData("Right Position", robot.ORight.getCurrentPosition());
             telemetry.addData("Middle Position", robot.OMiddle.getCurrentPosition());
 
             telemetry.update();
         }
-
-
-        }
     }
+}

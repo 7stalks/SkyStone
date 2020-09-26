@@ -28,7 +28,7 @@ public class RobotHardware {
 
 
     final public double stickThres = 0.05;
-    final public double PIVOT_SPEED = 0.5;
+    final public double PIVOT_SPEED = -0.5;
 
     // This will be used on robotTeleop. Inits everything
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -122,6 +122,8 @@ public class RobotHardware {
 
         // Init the IMU/Gyro
         try {
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+
             BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
             parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
             parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -130,8 +132,8 @@ public class RobotHardware {
             parameters.loggingTag = "IMU";
             parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-            imu = hardwareMap.get(BNO055IMU.class, "imu");
             imu.initialize(parameters);
+
 
             telemetry.addData("Good", "Imu initialized");
         } catch (IllegalArgumentException err) {
