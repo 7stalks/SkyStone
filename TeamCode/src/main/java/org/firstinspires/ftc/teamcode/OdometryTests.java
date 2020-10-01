@@ -64,11 +64,6 @@ public class OdometryTests extends LinearOpMode {
             odometryInfo = new double[]{robot.OLeft.getCurrentPosition(), robot.ORight.getCurrentPosition(),
                     robot.OMiddle.getCurrentPosition()};
             robotPosition = odometry.getPosition(robotPosition, odometryInfo, telemetry);
-            RobotLog.vv("Odemetry", "Im here");
-            RobotLog.vv("Odemetry", "Im here");
-            RobotLog.vv("Odemetry", "Im here");
-            RobotLog.vv("Odemetry", "Im here");
-            RobotLog.vv("Odemetry", "Im here");
             telemetry.addData("OLeft", odometryInfo[0]);
             telemetry.addData("OMiddle", odometryInfo[2]);
             telemetry.addData("ORight", odometryInfo[1]);
@@ -78,13 +73,14 @@ public class OdometryTests extends LinearOpMode {
             telemetry.addData("DeltaLeft", robotPosition[3]);
             telemetry.addData("DeltaRight", robotPosition[4]);
             telemetry.addData("deltatheta", robotPosition[5]);
+            telemetry.addData("hor change", odometry.horizontalChange);
             telemetry.update();
 
-            if (gamepad1.a) {
-                drive.stop();
-                while (!gamepad1.b && opModeIsActive()) {
-                }
-            }
+//            if (gamepad1.a) {
+//                drive.stop();
+//                while (!gamepad1.b && opModeIsActive()) {
+//                }
+//            }
         }
     }
 }

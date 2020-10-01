@@ -1,20 +1,30 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ReadWriteFile;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+
+import java.io.File;
 
 public class Odometry {
 
     OdometryCalibration calibration = new OdometryCalibration();
+    public double horizontalChange = 0;
 
     // length from left to right odometers
     // TODO add  for length from l to r odometer and change encoderOverMm
-    double L = 15.625;
     double[] lastIterationOdometryInfo = {0, 0, 0};
+    private File wheelBaseSeparationFile = AppUtil.getInstance().getSettingsFile("wheelBaseSeparation.txt");
+    private File horizontalTickOffsetFile = AppUtil.getInstance().getSettingsFile("horizontalTickOffset.txt");
+
+    public double robotEncoderWheelDistance = Double.parseDouble(ReadWriteFile.readFile(wheelBaseSeparationFile).trim());// * calibration.encoderCountsPerIn;
+    public double horizontalEncoderTickPerDegreeOffset = Double.parseDouble(ReadWriteFile.readFile(horizontalTickOffsetFile).trim());
 
     // Gets the h used in the odometry calculation
     private double getHypOrDistance(double leftDistance, double rightDistance, double deltaTheta) {
         if (deltaTheta != 0) {
-            double r = (leftDistance / deltaTheta) + (L / 2);
+            double r = (leftDistance / deltaTheta) + (robotEncoderWheelDistance / 2);
             return ((r * Math.sin(deltaTheta)) / Math.cos(deltaTheta / 2));
         } else {
             // returns the distance travelled, averages L and R just to be accurate.
@@ -36,7 +46,7 @@ public class Odometry {
 
     // this one is self explanatory. the change in theta
     private double getDeltaTheta(double leftDistance, double rightDistance) {
-        return (rightDistance - leftDistance) / L;
+        return (rightDistance - leftDistance) / robotEncoderWheelDistance;
     }
 
     // The main method. Will return the new (x, y) position. Feed it the old (x, y) position
@@ -61,9 +71,10 @@ public class Odometry {
         } else if (displayedTheta < -(2*Math.PI)) {
             displayedTheta = displayedTheta + (2*Math.PI);
         }
+        double horizontalChange = deltaDistances[2] - (horizontalEncoderTickPerDegreeOffset*deltaTheta);
         double h = getHypOrDistance(deltaDistances[0], deltaDistances[1], deltaTheta);
-        double deltaX = (h * Math.sin(displayedTheta) + (deltaDistances[2] * Math.cos(displayedTheta)));
-        double deltaY = (h * Math.cos(displayedTheta) - (deltaDistances[2] * Math.sin(displayedTheta)));
+        double deltaX = (h * Math.sin(displayedTheta) + (horizontalChange * Math.cos(displayedTheta)));
+        double deltaY = (h * Math.cos(displayedTheta) - (horizontalChange * Math.sin(displayedTheta)));
 
         return new double[]{deltaX + oldX, deltaY + oldY, displayedTheta, deltaDistances[0], deltaDistances[1], deltaTheta};
     }

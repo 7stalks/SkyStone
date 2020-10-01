@@ -35,7 +35,7 @@ public class OdometryCalibration extends LinearOpMode {
 
         robot.init(hardwareMap, telemetry);
 
-        //// MAKES THE IMU WORK UPSIDE DOWN BY ASSIGNING BYTES TO REGISTER
+        //// Makes the imu work upside down by assigning bytes to the register
         byte AXIS_MAP_SIGN_BYTE = 0x1; //This is what to write to the AXIS_MAP_SIGN register to negate the z axis
         //Need to be in CONFIG mode to write to registers
         robot.imu.write8(BNO055IMU.Register.OPR_MODE, BNO055IMU.SensorMode.CONFIG.bVal & 0x0F);
@@ -56,11 +56,6 @@ public class OdometryCalibration extends LinearOpMode {
         waitForStart();
 
         while (angle < 90 && opModeIsActive()) {
-
-//                robot.RightFront.setPower(robot.PIVOT_SPEED);
-//                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
-//                robot.RightBack.setPower(robot.PIVOT_SPEED);
-//                robot.LeftFront.setPower(-robot.PIVOT_SPEED);
             if (angle < 60) {
                 drive.circlepadMove(0, 0, robot.PIVOT_SPEED);
             } else {
@@ -86,7 +81,7 @@ public class OdometryCalibration extends LinearOpMode {
         double verticalEncoderTickOffsetPerDegree = encoderDifference / angle;
         double wheelBaseSeparation = (2 * 90 * verticalEncoderTickOffsetPerDegree) / (Math.PI * encoderCountsPerIn);
 
-        horizontalTickOffset = (robot.OMiddle.getCurrentPosition() / (Math.toRadians(robot.imu.getAngularOrientation().firstAngle)));
+        horizontalTickOffset = ((robot.OMiddle.getCurrentPosition()) / (Math.toRadians(robot.imu.getAngularOrientation().firstAngle)));
 
         // Write constants to the text files
         ReadWriteFile.writeFile(wheelBaseSeparationFile, String.valueOf(wheelBaseSeparation));
