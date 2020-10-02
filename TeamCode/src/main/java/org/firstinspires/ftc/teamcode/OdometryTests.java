@@ -73,7 +73,7 @@ public class OdometryTests extends LinearOpMode {
             telemetry.addData("DeltaLeft", robotPosition[3]);
             telemetry.addData("DeltaRight", robotPosition[4]);
             telemetry.addData("deltatheta", robotPosition[5]);
-            telemetry.addData("hor change", odometry.horizontalChange);
+            telemetry.addData("hor change", robotPosition[6]);
             telemetry.update();
 
 //            if (gamepad1.a) {
