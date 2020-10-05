@@ -23,18 +23,17 @@ public class Odometry {
 
     // Gets the h used in the odometry calculation
     private double getHypOrDistance(double leftDistance, double rightDistance, double deltaTheta) {
-//        if (deltaTheta != 0) {
-//            double r = (leftDistance / deltaTheta) + (robotEncoderWheelDistance / 2);
-//            return ((r * Math.sin(deltaTheta)) / Math.cos(deltaTheta / 2));
-//        } else {
-//            // returns the distance travelled, averages L and R just to be accurate.
+        if (deltaTheta != 0) {
+            double r = (leftDistance / deltaTheta) + (robotEncoderWheelDistance / 2);
+            return ((r * Math.sin(deltaTheta)) / Math.cos(deltaTheta / 2));
+        } else {
+            // returns the distance travelled, averages L and R just to be accurate.
             return (leftDistance + rightDistance) / 2;
-//        }
+        }
     }
 
     // Changes raw odometry info into useful changes in distance
-    // Finds the delta and turns it to mm, Sort of a 2-in-1
-    // TODO add encoderOverMm
+    // Finds the delta and turns it to in, Sort of a 2-in-1
     private double[] odometryInfoToDeltaIn(double[] odometryInfo) {
         double deltaOLeft = -((odometryInfo[0]) - lastIterationOdometryInfo[0]) / calibration.encoderCountsPerIn;
         double deltaORight = (odometryInfo[1] - lastIterationOdometryInfo[1]) / calibration.encoderCountsPerIn;
@@ -71,7 +70,7 @@ public class Odometry {
         } else if (displayedTheta < -(2*Math.PI)) {
             displayedTheta = displayedTheta + (2*Math.PI);
         }
-        double horizontalChange = deltaDistances[2];// - (horizontalEncoderTickPerDegreeOffset*deltaTheta);
+        double horizontalChange = deltaDistances[2] - (horizontalEncoderTickPerDegreeOffset*deltaTheta);
         double h = getHypOrDistance(deltaDistances[0], deltaDistances[1], deltaTheta);
         double deltaX = (h * Math.sin(displayedTheta) + (horizontalChange * Math.cos(displayedTheta)));
         double deltaY = (h * Math.cos(displayedTheta) - (horizontalChange * Math.sin(displayedTheta)));
@@ -79,3 +78,9 @@ public class Odometry {
         return new double[]{deltaX + oldX, deltaY + oldY, displayedTheta, deltaDistances[0], deltaDistances[1], deltaTheta, horizontalChange};
     }
 }
+//TODO: explain the code in cleaner fashion
+
+
+// more accurate encoder information (odometryInfoToDeltaIn???)
+// !have to account for the horizontal encoder moving when spinning. this is the reason for the offset
+//// per degree thingy, but NEED TO IMPLEMENT CORRECTLY!!!!!!!! AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
