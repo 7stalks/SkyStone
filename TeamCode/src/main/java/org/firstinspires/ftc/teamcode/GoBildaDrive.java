@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 public class GoBildaDrive {
 
     // introduce variables and members
@@ -11,18 +13,16 @@ public class GoBildaDrive {
     }
 
     // for the circle pad movement (rotation and strafing 360 degrees)
-    // The Y is inverted (up gives -1, down gives 1). Input the raw stick movement,
-    // the method corrects it
     public void circlepadMove(double leftStickY, double leftStickX, double rightStickX) {
-        double correctedLeftStickY = -leftStickY;
-        if (Math.abs(leftStickX) < robot.stickThres && Math.abs(correctedLeftStickY) < robot.stickThres
+
+        // Make sure that the circle pad sticks don't accidentally move the robot
+        if (Math.abs(leftStickX) < robot.stickThres && Math.abs(leftStickY) < robot.stickThres
                 && Math.abs(rightStickX) < robot.stickThres) {
-            // Make sure that the circle pad sticks don't accidentally move the robot
             stop();
         } else {
             // Create the magnitude (or radius, r) and angle of the sticks
-            double r = Math.hypot(leftStickX, correctedLeftStickY);
-            double robotAngle = Math.atan2(correctedLeftStickY, leftStickX) - (Math.PI / 4);
+            double r = Math.hypot(leftStickX, leftStickY);
+            double robotAngle = Math.atan2(leftStickY, leftStickX) - (Math.PI / 4);
 
             // Set power to the motors corresponding to the angle and magnitude
             final double RFront = r * Math.cos(robotAngle) + rightStickX;
@@ -36,22 +36,23 @@ public class GoBildaDrive {
         }
     }
 
+    // Allows for faster directional movements. CirclepadMove doesn't allow full speed
     public void dpadMove(boolean right, boolean up, boolean left, boolean down) {
         if (right) {
-            robot.RightFront.setPower(-1);
-            robot.RightBack.setPower(1);
-            robot.LeftFront.setPower(1);
-            robot.LeftBack.setPower(-1);
+            robot.RightFront.setPower(1);
+            robot.RightBack.setPower(-1);
+            robot.LeftFront.setPower(-1);
+            robot.LeftBack.setPower(1);
         } else if (up) {
             robot.RightFront.setPower(1);
             robot.RightBack.setPower(1);
             robot.LeftFront.setPower(1);
             robot.LeftBack.setPower(1);
         } else if (left) {
-            robot.RightFront.setPower(1);
-            robot.RightBack.setPower(-1);
-            robot.LeftFront.setPower(-1);
-            robot.LeftBack.setPower(1);
+            robot.RightFront.setPower(-1);
+            robot.RightBack.setPower(1);
+            robot.LeftFront.setPower(1);
+            robot.LeftBack.setPower(-1);
         } else if (down) {
             robot.RightFront.setPower(-1);
             robot.RightBack.setPower(-1);
@@ -67,6 +68,7 @@ public class GoBildaDrive {
         robot.LeftBack.setPower(0);
     }
 
+    // Test one motor at a time
     public void motorTest(boolean up, boolean right, boolean down, boolean left) {
         if (up) {
             robot.RightFront.setPower(1);

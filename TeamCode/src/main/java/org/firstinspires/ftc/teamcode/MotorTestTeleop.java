@@ -12,7 +12,7 @@ public class MotorTestTeleop extends LinearOpMode {
     @Override
     // Insert anything to be done as soon as INIT is pressed
     public void runOpMode() {
-        robot.initMecanum(hardwareMap, telemetry);
+        robot.init(hardwareMap, telemetry);
 
         // Insert anything to be done as soon as START is hit before the while loop
         waitForStart();
